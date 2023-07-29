@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"greenwelfare/auth"
+	"greenwelfare/contact"
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
@@ -26,8 +27,13 @@ func main() {
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 	userHandler := handler.NewUserHandler(userService, authService)
+	// contact
+	contactRepository := contact.NewRepository(db)
+	contactService := contact.NewService(contactRepository)
+	contactHandler := handler.NewContactHandler(contactService)
 
 	db.AutoMigrate(&user.User{})
+	db.AutoMigrate(&contact.Contact{})
 
 	// fmt.Println("Database Connection Success")
 
@@ -37,6 +43,8 @@ func main() {
 	api.POST("/login", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailabilty)
 	api.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
+	// contact
+	router.POST("/contact", contactHandler.SubmitContactForm)
 
 	router.Run(":8080")
 }
