@@ -1,10 +1,11 @@
 package ecopedia
 
 type EcopediaInput struct {
-	Judul     string `form:"judul" binding:"required"`
-	Subjudul  string `form:"subjudul"`
-	Deskripsi string `form:"deskripsi" rbinding:"equired"`
-	Gambar    string `form:"file_name" `
-	Srcgambar string `form:"src_gambar"`
-	Referensi string `json:"referensi" binding:"required"`
+	ID        string `json:"id"`
+	Judul     string `json:"judul" binding:"required"`
+	Subjudul  string `json:"subjudul"`
+	Deskripsi string `json:"deskripsi" binding:"required"`
+	Gambar    string `form:"filegambar" `
+	Srcgambar string `json:"src_gambar"`
+	Referensi string `json:"referensi"`
 }
