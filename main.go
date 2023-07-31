@@ -3,7 +3,11 @@ package main
 import (
 	"fmt"
 	"greenwelfare/auth"
+<<<<<<< HEAD
 	"greenwelfare/ecopedia"
+=======
+	"greenwelfare/contact"
+>>>>>>> 0680b8e5ae27a768708ed0a201d5f517f90d385b
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
@@ -27,9 +31,17 @@ func main() {
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 	userHandler := handler.NewUserHandler(userService, authService)
+	// contact
+	contactRepository := contact.NewRepository(db)
+	contactService := contact.NewService(contactRepository)
+	contactHandler := handler.NewContactHandler(contactService)
 
 	db.AutoMigrate(&user.User{})
+<<<<<<< HEAD
 	db.AutoMigrate(&ecopedia.Ecopedia{})
+=======
+	db.AutoMigrate(&contact.Contact{})
+>>>>>>> 0680b8e5ae27a768708ed0a201d5f517f90d385b
 
 	// fmt.Println("Database Connection Success")
 
@@ -39,6 +51,8 @@ func main() {
 	api.POST("/login", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailabilty)
 	api.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
+	// contact
+	router.POST("/contact", contactHandler.SubmitContactForm)
 
 	ecopediaRepository := ecopedia.NewRepository(db)
 	ecopediaService := ecopedia.NewService(ecopediaRepository)
