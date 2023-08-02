@@ -6,9 +6,8 @@ import (
 
 type Repository interface {
 	Submit(contact_submission Contact) (Contact, error)
+	FindAll() ([]Contact, error)
 	FindById(ID int) (Contact, error)
-	FIndByName(Name string) (Contact, error)
-	FindByEmail(Email string) (Contact, error)
 	Delete(contact_submission Contact) (Contact, error)
 }
 
@@ -22,6 +21,16 @@ func NewRepository(db *gorm.DB) *repository {
 
 func (r *repository) Submit(contact_submission Contact) (Contact, error) {
 	err := r.db.Create(&contact_submission).Error
+
+	if err != nil {
+		return contact_submission, err
+	}
+	return contact_submission, nil
+}
+
+func (r *repository) FindAll() ([]Contact, error) {
+	var contact_submission []Contact
+	err := r.db.Find(&contact_submission).Error
 
 	if err != nil {
 		return contact_submission, err

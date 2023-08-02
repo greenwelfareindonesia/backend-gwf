@@ -47,6 +47,9 @@ func main() {
 	api.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
 	// contact
 	router.POST("/contact", contactHandler.SubmitContactForm)
+	router.GET("/contact", contactHandler.GetContactSubmissionsHandler)
+	router.GET("/contact/:id", contactHandler.GetContactSubmissionHandler)
+	router.DELETE("/contact/:id", contactHandler.DeleteContactSubmissionHandler)
 
 	ecopediaRepository := ecopedia.NewRepository(db)
 	ecopediaService := ecopedia.NewService(ecopediaRepository)
