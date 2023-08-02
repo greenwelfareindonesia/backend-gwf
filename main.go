@@ -3,11 +3,8 @@ package main
 import (
 	"fmt"
 	"greenwelfare/auth"
-<<<<<<< HEAD
-	"greenwelfare/ecopedia"
-=======
 	"greenwelfare/contact"
->>>>>>> 0680b8e5ae27a768708ed0a201d5f517f90d385b
+	"greenwelfare/ecopedia"
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
@@ -37,11 +34,8 @@ func main() {
 	contactHandler := handler.NewContactHandler(contactService)
 
 	db.AutoMigrate(&user.User{})
-<<<<<<< HEAD
 	db.AutoMigrate(&ecopedia.Ecopedia{})
-=======
 	db.AutoMigrate(&contact.Contact{})
->>>>>>> 0680b8e5ae27a768708ed0a201d5f517f90d385b
 
 	// fmt.Println("Database Connection Success")
 
