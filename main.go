@@ -3,11 +3,8 @@ package main
 import (
 	"fmt"
 	"greenwelfare/auth"
-<<<<<<< HEAD
-	"greenwelfare/ecopedia"
-=======
 	"greenwelfare/contact"
->>>>>>> 0680b8e5ae27a768708ed0a201d5f517f90d385b
+	"greenwelfare/ecopedia"
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
@@ -22,7 +19,7 @@ import (
 )
 
 func main() {
-	dsn := "root:@tcp(127.0.0.1:3306)/greenwelfare?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:@tcp(127.0.0.1:3306)/tes?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Db Connestion Error")
@@ -37,11 +34,9 @@ func main() {
 	contactHandler := handler.NewContactHandler(contactService)
 
 	db.AutoMigrate(&user.User{})
-<<<<<<< HEAD
-	db.AutoMigrate(&ecopedia.Ecopedia{})
-=======
 	db.AutoMigrate(&contact.Contact{})
->>>>>>> 0680b8e5ae27a768708ed0a201d5f517f90d385b
+	db.AutoMigrate(&ecopedia.Ecopedia{})
+
 
 	// fmt.Println("Database Connection Success")
 
@@ -59,8 +54,8 @@ func main() {
 	ecopediaHandler := handler.NewEcopediaHandler(ecopediaService)
 
 	eco := router.Group("/eco")
-	eco.GET("/ecopedias/:id", ecopediaHandler.GetEcopediaHandler)
-	eco.GET("/ecopedias", ecopediaHandler.GetEcopediasHandler)
+	// eco.GET("/ecopedias/:id", ecopediaHandler.GetEcopediaHandler)
+	eco.GET("/ecopedias", ecopediaHandler.GetAllEcopedia)
 	eco.POST("/create", ecopediaHandler.PostEcopediaHandler)
 
 	router.Run(":8080")

@@ -1,15 +1,15 @@
 package ecopedia
 
-import (
-	"gorm.io/gorm"
-)
+import "time"
 
 type Ecopedia struct {
-	gorm.Model
+	ID        int 
 	Judul     string
 	Subjudul  string
 	Deskripsi string
 	Gambar    string
 	Srcgambar string
 	Referensi string
+	CreatedAt time.Time
+    UpdatedAt time.Time 
 }

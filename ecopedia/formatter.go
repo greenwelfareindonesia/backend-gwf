@@ -1,10 +1,10 @@
 package ecopedia
 
 type EcopediaFormatter struct {
-	Judul     string `json:"judul"`
-	Subjudul  string `json: "subjudul`
-	Deskripsi string `json: "deskripsi"`
-	Gambar    string `form: "gambar"`
-	Srcgambar string `json: "srcgambar"`
-	Referensi string `json: "referensi"`
+	Judul     string `form:"judul"`
+	Subjudul  string `form:"subjudul"`
+	Deskripsi string `form:"deskripsi"`
+	Gambar    string `form:"gambar"`
+	Srcgambar string `form:"srcgambar"`
+	Referensi string `form:"referensi"`
 }

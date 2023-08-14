@@ -1,9 +1,9 @@
 package ecopedia
 
 type Service interface {
-	FindAll() ([]Ecopedia, error)
+	GetAllEcopedia(input int) ([]Ecopedia, error)
 	FindById(id int) (Ecopedia, error)
-	CreateEcopedia(ecopedia EcopediaInput) (Ecopedia, error)
+	CreateEcopedia(ecopedia EcopediaInput, FileName string) (Ecopedia, error)
 }
 
 type service struct {
@@ -14,23 +14,26 @@ func NewService(repository Repository) *service {
 	return &service{repository}
 }
 
-func (s *service) FindAll() ([]Ecopedia, error) {
+func (s *service) GetAllEcopedia(input int) ([]Ecopedia, error) {
 	ecopedias, err := s.repository.FindAll()
-	return ecopedias, err
-	// return s.repository.FindAll(Ecopedia{})
+	if err != nil {
+		return ecopedias, err
+	}
+	return ecopedias, nil
 }
 
 func (s *service) FindById(id int) (Ecopedia, error) {
 	return s.repository.FindById(id)
 }
 
-func (s *service) CreateEcopedia(ecopedia EcopediaInput) (Ecopedia, error) {
+func (s *service) CreateEcopedia(ecopedia EcopediaInput, FileName string) (Ecopedia, error) {
 	newEcopedia := Ecopedia{}
 
 	newEcopedia.Judul = ecopedia.Judul
 	newEcopedia.Subjudul = ecopedia.Subjudul
 	newEcopedia.Deskripsi = ecopedia.Deskripsi
-	newEcopedia.Gambar = ecopedia.Gambar
+	// newEcopedia.Gambar = ecopedia.Gambar
+	newEcopedia.Gambar = FileName
 	newEcopedia.Srcgambar = ecopedia.Srcgambar
 	newEcopedia.Referensi = ecopedia.Referensi
 
