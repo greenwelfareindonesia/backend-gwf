@@ -6,6 +6,7 @@ type Repository interface {
 	FindAll() ([]Ecopedia, error)
 	FindById(id int) (Ecopedia, error)
 	Create(ecopedia Ecopedia) (Ecopedia, error)
+	DeleteEcopedia(ecopedia Ecopedia) (Ecopedia, error)
 }
 
 type repository struct {
@@ -14,6 +15,14 @@ type repository struct {
 
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
+}
+
+func (r *repository) DeleteEcopedia(ecopedia Ecopedia) (Ecopedia, error){
+	err := r.db.Delete(&ecopedia).Error
+	if err != nil {
+		return ecopedia, err
+	}
+	return ecopedia, nil
 }
 
 func (r *repository) FindAll() ([]Ecopedia, error) {
@@ -41,6 +50,8 @@ func (r *repository) Create(ecopedia Ecopedia) (Ecopedia, error) {
 	}
 	return ecopedia, nil
 }
+
+
 
 // func (r *repository) Create(ecopedia Ecopedia) (Ecopedia, error) {
 // 	err := r.db.Create(&ecopedia).Error

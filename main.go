@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"greenwelfare/artikel"
 	"greenwelfare/auth"
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
@@ -36,6 +37,8 @@ func main() {
 	db.AutoMigrate(&user.User{})
 	db.AutoMigrate(&contact.Contact{})
 	db.AutoMigrate(&ecopedia.Ecopedia{})
+	db.AutoMigrate(&artikel.Artikel{})
+
 
 
 	// fmt.Println("Database Connection Success")
@@ -57,6 +60,20 @@ func main() {
 	// eco.GET("/ecopedias/:id", ecopediaHandler.GetEcopediaHandler)
 	eco.GET("/ecopedias", ecopediaHandler.GetAllEcopedia)
 	eco.POST("/create", ecopediaHandler.PostEcopediaHandler)
+	eco.GET("/ecopedias/:id", ecopediaHandler.GetEcopediaByID)
+	eco.DELETE("/delete/:id", ecopediaHandler.DeleteEcopedia)
+
+
+	artikelRepository := artikel.NewRepository(db)
+	artikelService := artikel.NewService(artikelRepository)
+	artikelHandler := handler.NewArtikelHandler(artikelService)
+
+	apiArtikel := router.Group("/artikel")
+	apiArtikel.POST("/", artikelHandler.CreateArtikel)
+	apiArtikel.GET("/", artikelHandler.GetAllArtikel)
+	apiArtikel.DELETE("/delete/:id", artikelHandler.DeleteArtikel)
+	apiArtikel.GET("/:id", artikelHandler.GetOneArtikel)
+
 
 	router.Run(":8080")
 }

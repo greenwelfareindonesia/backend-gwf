@@ -10,6 +10,7 @@ type Service interface {
 	GetContactSubmissionByName(Name string) (Contact, error)
 	GetContactSubmissionByEmail(Email string) (Contact, error)
 	DeleteContactSubmission(ID int) (Contact, error)
+	
 }
 
 type service struct {

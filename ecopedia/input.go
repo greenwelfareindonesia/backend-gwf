@@ -7,3 +7,7 @@ type EcopediaInput struct {
 	Srcgambar string `form:"src_gambar"`
 	Referensi string `form:"referensi"`
 }
+
+type EcopediaID struct {
+	ID int `uri:"id" binding:"required"`
+}
