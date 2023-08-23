@@ -6,6 +6,7 @@ import (
 	"greenwelfare/auth"
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
+	"greenwelfare/event"
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
@@ -37,6 +38,8 @@ func main() {
 	db.AutoMigrate(&user.User{})
 	db.AutoMigrate(&ecopedia.Ecopedia{})
 	db.AutoMigrate(&contact.Contact{})
+	db.AutoMigrate(&event.Event{})
+
 
 	// fmt.Println("Database Connection Success")
 
@@ -74,6 +77,15 @@ func main() {
 	apiArtikel.DELETE("/delete/:id", artikelHandler.DeleteArtikel)
 	apiArtikel.GET("/:id", artikelHandler.GetOneArtikel)
 
+	eventRepository := event.NewRepository(db)
+	eventService := event.NewService(eventRepository)
+	eventHandler := handler.NewEventHandler(eventService)
+
+	apiEvent := router.Group("/event")
+	apiEvent.POST("/", eventHandler.CreateEvent)
+	apiEvent.GET("/", eventHandler.GetAllEvent)
+	apiEvent.DELETE("/delete/:id", eventHandler.DeleteEvent)
+	apiEvent.GET("/:id", eventHandler.GetOneEvent)
 
 	router.Run(":8080")
 }
