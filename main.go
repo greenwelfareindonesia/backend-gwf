@@ -35,11 +35,8 @@ func main() {
 	contactHandler := handler.NewContactHandler(contactService)
 
 	db.AutoMigrate(&user.User{})
-	db.AutoMigrate(&contact.Contact{})
 	db.AutoMigrate(&ecopedia.Ecopedia{})
-	db.AutoMigrate(&artikel.Artikel{})
-
-
+	db.AutoMigrate(&contact.Contact{})
 
 	// fmt.Println("Database Connection Success")
 
@@ -51,6 +48,9 @@ func main() {
 	api.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
 	// contact
 	router.POST("/contact", contactHandler.SubmitContactForm)
+	router.GET("/contact", contactHandler.GetContactSubmissionsHandler)
+	router.GET("/contact/:id", contactHandler.GetContactSubmissionHandler)
+	router.DELETE("/contact/:id", contactHandler.DeleteContactSubmissionHandler)
 
 	ecopediaRepository := ecopedia.NewRepository(db)
 	ecopediaService := ecopedia.NewService(ecopediaRepository)

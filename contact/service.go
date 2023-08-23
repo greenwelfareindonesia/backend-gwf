@@ -6,9 +6,8 @@ import (
 
 type Service interface {
 	SubmitContactSubmission(input ContactSubmissionInput) (Contact, error)
+	GetAllContactSubmission() ([]Contact, error)
 	GetContactSubmissionById(ID int) (Contact, error)
-	GetContactSubmissionByName(Name string) (Contact, error)
-	GetContactSubmissionByEmail(Email string) (Contact, error)
 	DeleteContactSubmission(ID int) (Contact, error)
 	
 }
@@ -36,6 +35,11 @@ func (s *service) SubmitContactSubmission(input ContactSubmissionInput) (Contact
 	return newContactSubmission, nil
 }
 
+func (s *service) GetAllContactSubmission() ([]Contact, error) {
+	contact_submissions, err := s.repository.FindAll()
+	return contact_submissions, err
+}
+
 func (s *service) GetContactSubmissionById(ID int) (Contact, error) {
 	contact_submission, err := s.repository.FindById(ID)
 
@@ -45,26 +49,6 @@ func (s *service) GetContactSubmissionById(ID int) (Contact, error) {
 
 	if contact_submission.ID == 0 {
 		return contact_submission, errors.New("contact_submission Not Found With That ID")
-	}
-
-	return contact_submission, nil
-}
-
-func (s *service) GetContactSubmissionByName(Name string) (Contact, error) {
-	contact_submission, err := s.repository.FIndByName(Name)
-
-	if err != nil {
-		return contact_submission, err
-	}
-
-	return contact_submission, nil
-}
-
-func (s *service) GetContactSubmissionByEmail(Email string) (Contact, error) {
-	contact_submission, err := s.repository.FindByEmail(Email)
-
-	if err != nil {
-		return contact_submission, err
 	}
 
 	return contact_submission, nil
