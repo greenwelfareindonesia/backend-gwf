@@ -50,6 +50,7 @@ func main() {
 	api.POST("/email_checkers", userHandler.CheckEmailAvailabilty)
 	api.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
 	// contact
+	
 	router.POST("/contact", contactHandler.SubmitContactForm)
 	router.GET("/contact", contactHandler.GetContactSubmissionsHandler)
 	router.GET("/contact/:id", contactHandler.GetContactSubmissionHandler)

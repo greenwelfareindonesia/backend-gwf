@@ -1,8 +1,11 @@
 package handler
 
 import (
+	"fmt"
 	"greenwelfare/contact"
+	"greenwelfare/email"
 	"greenwelfare/helper"
+
 	"net/http"
 	"strconv"
 
@@ -19,8 +22,10 @@ func NewContactHandler(contactService contact.Service) *contactHandler {
 
 func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 	var input contact.ContactSubmissionInput
+	
 
 	err := c.ShouldBindJSON(&input)
+	// fmt.Println(err)
 	if err != nil {
 		errors := helper.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errors}
@@ -31,10 +36,22 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 
 	newContactSubmission, err := h.contactService.SubmitContactSubmission(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, nil)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, "nil")
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+
+	// emailBody := "Terima kasih atas pesan Anda. Kami akan segera menghubungi Anda."
+	err = email.SendEmail("raihanalfarisi2@gmail.com", input.Subject, input.Name, input.Email, input.Message)
+	if err != nil {
+    // Handle kesalahan pengiriman email di sini.
+    // Mungkin menampilkan pesan kesalahan kepada pengguna atau mencatatnya.
+	fmt.Println("Error sending email:", err)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, "nilll")
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	
 	formatter := contact.FormatterContact(newContactSubmission)
 	response := helper.APIresponse(http.StatusOK, formatter)
 	c.JSON(http.StatusOK, response)

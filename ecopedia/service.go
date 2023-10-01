@@ -1,5 +1,7 @@
 package ecopedia
 
+import "errors"
+
 type Service interface {
 	GetAllEcopedia(input int) ([]Ecopedia, error)
 	GetEcopediaByID(id int) (Ecopedia, error)
@@ -39,7 +41,7 @@ func (s *service) GetAllEcopedia(input int) ([]Ecopedia, error) {
 func (s *service) GetEcopediaByID(id int) (Ecopedia, error) {
 	ecopedias, err := s.repository.FindById(id)
 	if err != nil {
-		return ecopedias, err
+		return ecopedias, errors.New("found nothing")
 	}
 	return ecopedias, nil
 }
