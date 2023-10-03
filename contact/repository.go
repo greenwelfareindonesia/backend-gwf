@@ -30,6 +30,7 @@ func (r *repository) Submit(contact_submission Contact) (Contact, error) {
 
 func (r *repository) FindAll() ([]Contact, error) {
 	var contact_submission []Contact
+
 	err := r.db.Find(&contact_submission).Error
 
 	if err != nil {
