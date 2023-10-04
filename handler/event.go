@@ -74,93 +74,26 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 
 }
 
-func (h *eventHandler) UpdateEvent (c *gin.Context){
+func (h *eventHandler) CreateEvent(c *gin.Context) {
 	file, _ := c.FormFile("file")
-	src,err:=file.Open()
-	defer	src.Close()
-	if err!=nil{
-		fmt.Printf("error when open file %v",err)
+	src, err := file.Open()
+	defer src.Close()
+	if err != nil {
+		fmt.Printf("error when open file %v", err)
 	}
-	
-	buf:=bytes.NewBuffer(nil)
+
+	buf := bytes.NewBuffer(nil)
 	if _, err := io.Copy(buf, src); err != nil {
-		fmt.Printf("error read file %v",err)
-		return 
-	}	
-
-	img,err:=imagekits.Base64toEncode(buf.Bytes())
-	if err!=nil{
-		fmt.Println("error reading image %v",err)
-	}
-
-	fmt.Println("image base 64 format : %v",img)
-
-	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
-	if err != nil {
-		// Tangani jika terjadi kesalahan saat upload gambar
-		// Misalnya, Anda dapat mengembalikan respon error ke klien jika diperlukan
-		response := helper.APIresponse(http.StatusInternalServerError, "Failed to upload image")
-		c.JSON(http.StatusInternalServerError, response)
+		fmt.Printf("error read file %v", err)
 		return
 	}
 
-	var inputID event.GetEvent
-
-	err = c.ShouldBindUri(&inputID)
+	img, err := imagekits.Base64toEncode(buf.Bytes())
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
+		fmt.Println("error reading image %v", err)
 	}
 
-	var input event.CreateEvents
-
-	err = c.ShouldBind(&input)
-
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	event, err := h.eventService.UpdateEvent(inputID,input, imageKitURL)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	response := helper.APIresponse(http.StatusOK, event)
-	c.JSON(http.StatusOK, response)
-
-}
-
-func (h *eventHandler) CreateEvent (c *gin.Context){
-	file, _ := c.FormFile("file")
-	src,err:=file.Open()
-	defer	src.Close()
-	if err!=nil{
-		fmt.Printf("error when open file %v",err)
-	}
-	
-	buf:=bytes.NewBuffer(nil)
-	if _, err := io.Copy(buf, src); err != nil {
-		fmt.Printf("error read file %v",err)
-		return 
-	}	
-
-	img,err:=imagekits.Base64toEncode(buf.Bytes())
-	if err!=nil{
-		fmt.Println("error reading image %v",err)
-	}
-
-	fmt.Println("image base 64 format : %v",img)
+	fmt.Println("image base 64 format : %v", img)
 
 	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
 	if err != nil {
@@ -203,8 +136,7 @@ func (h *eventHandler) CreateEvent (c *gin.Context){
 	c.JSON(http.StatusOK, response)
 }
 
-
-func (h *eventHandler) GetAllEvent(c *gin.Context){
+func (h *eventHandler) GetAllEvent(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
 	newBerita, err := h.eventService.GetAllEvent(input)

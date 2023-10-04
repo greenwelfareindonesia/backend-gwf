@@ -10,4 +10,4 @@ type EcopediaInput struct {
 
 type EcopediaID struct {
 	ID int `uri:"id" binding:"required"`
-}
+}	

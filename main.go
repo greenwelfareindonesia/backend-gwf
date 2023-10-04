@@ -10,6 +10,7 @@ import (
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
+	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
 	"log"
 	"net/http"
@@ -47,6 +48,7 @@ func main() {
 	db.AutoMigrate(&event.Event{})
 	db.AutoMigrate(&artikel.Artikel{})
 	db.AutoMigrate(&workshop.Workshop{})
+	db.AutoMigrate(&veganguide.Veganguide{})
 
 	// fmt.Println("Database Connection Success")
 
@@ -103,8 +105,6 @@ func main() {
 	apiEvent.GET("/", eventHandler.GetAllEvent)
 	apiEvent.DELETE("/delete/:id", eventHandler.DeleteEvent)
 	apiEvent.GET("/:id", eventHandler.GetOneEvent)
-	apiEvent.PUT("update/:id", eventHandler.UpdateEvent)
-
 
 	router.Run(":8080")
 }
