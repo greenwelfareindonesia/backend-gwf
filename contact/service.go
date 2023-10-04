@@ -9,7 +9,6 @@ type Service interface {
 	GetAllContactSubmission() ([]Contact, error)
 	GetContactSubmissionById(ID int) (Contact, error)
 	DeleteContactSubmission(ID int) (Contact, error)
-	
 }
 
 type service struct {
@@ -37,7 +36,10 @@ func (s *service) SubmitContactSubmission(input ContactSubmissionInput) (Contact
 
 func (s *service) GetAllContactSubmission() ([]Contact, error) {
 	contact_submissions, err := s.repository.FindAll()
-	return contact_submissions, err
+	if err != nil {
+		return contact_submissions, err
+	}
+	return contact_submissions, nil
 }
 
 func (s *service) GetContactSubmissionById(ID int) (Contact, error) {

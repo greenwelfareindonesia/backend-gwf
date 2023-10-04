@@ -11,6 +11,7 @@ import (
 	"greenwelfare/helper"
 	"greenwelfare/user"
 	"greenwelfare/veganguide"
+	"greenwelfare/workshop"
 	"log"
 	"net/http"
 	"strings"
@@ -35,10 +36,15 @@ func main() {
 	contactRepository := contact.NewRepository(db)
 	contactService := contact.NewService(contactRepository)
 	contactHandler := handler.NewContactHandler(contactService)
+	// Workshop
+	workshopRepository := workshop.NewRepository(db)
+	workshopService := workshop.NewService(workshopRepository)
+	workshopHandler := handler.NewWorkshopHandler(workshopService)
 
 	db.AutoMigrate(&user.User{})
 	db.AutoMigrate(&ecopedia.Ecopedia{})
 	db.AutoMigrate(&contact.Contact{})
+	db.AutoMigrate(&workshop.Workshop{})
 	db.AutoMigrate(&event.Event{})
 	db.AutoMigrate(&veganguide.Veganguide{})
 
@@ -51,10 +57,17 @@ func main() {
 	api.POST("/email_checkers", userHandler.CheckEmailAvailabilty)
 	api.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
 	// contact
+	
 	router.POST("/contact", contactHandler.SubmitContactForm)
 	router.GET("/contact", contactHandler.GetContactSubmissionsHandler)
 	router.GET("/contact/:id", contactHandler.GetContactSubmissionHandler)
 	router.DELETE("/contact/:id", contactHandler.DeleteContactSubmissionHandler)
+	// workshop
+	router.POST("/workshop", workshopHandler.CreateWorkshop)
+	router.GET("/workshop", workshopHandler.GetAllWorkshop)
+	router.GET("/workshop/:id", workshopHandler.GetOneWorkshop)
+	router.PUT("/workshop/:id", workshopHandler.UpdateWorkshop)
+	router.DELETE("/workshop/:id", workshopHandler.DeleteWorkshop)
 
 	ecopediaRepository := ecopedia.NewRepository(db)
 	ecopediaService := ecopedia.NewService(ecopediaRepository)
