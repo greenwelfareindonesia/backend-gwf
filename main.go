@@ -105,6 +105,8 @@ func main() {
 	apiEvent.GET("/", eventHandler.GetAllEvent)
 	apiEvent.DELETE("/delete/:id", eventHandler.DeleteEvent)
 	apiEvent.GET("/:id", eventHandler.GetOneEvent)
+	apiEvent.PUT("update/:id", eventHandler.UpdateEvent)
+
 
 	router.Run(":8080")
 }
