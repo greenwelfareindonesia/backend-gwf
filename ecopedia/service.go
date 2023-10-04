@@ -7,6 +7,7 @@ type Service interface {
 	GetEcopediaByID(id int) (Ecopedia, error)
 	CreateEcopedia(ecopedia EcopediaInput, FileName string) (Ecopedia, error)
 	DeleteEcopedia(ID int) (Ecopedia, error)
+	UpdateEcopedia (getIdEcopedia EcopediaID, input EcopediaInput, FileName string) (Ecopedia, error)
 }
 
 type service struct {
@@ -29,6 +30,27 @@ func (s *service) DeleteEcopedia(ID int) (Ecopedia, error) {
 	}
 	return ecopedia, nil
 }
+
+func (s *service) UpdateEcopedia (getIdEcopedia EcopediaID, input EcopediaInput, FileName string) (Ecopedia, error) {
+	ecopedia, err := s.repository.FindById(getIdEcopedia.ID)
+	if err != nil { 
+		return ecopedia, nil
+	}
+
+	ecopedia.Judul = input.Judul
+	ecopedia.Subjudul = input.Subjudul
+	ecopedia.Deskripsi = input.Deskripsi
+	ecopedia.Gambar = FileName
+	ecopedia.Srcgambar = input.Srcgambar
+	ecopedia.Referensi = input.Referensi
+
+	newEcopedia, err := s.repository.Update(ecopedia)
+	if err != nil {
+		return newEcopedia, err
+	}
+	return newEcopedia, nil
+}
+
 
 func (s *service) GetAllEcopedia(input int) ([]Ecopedia, error) {
 	ecopedias, err := s.repository.FindAll()

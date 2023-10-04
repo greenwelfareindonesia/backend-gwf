@@ -45,6 +45,8 @@ func main() {
 	db.AutoMigrate(&contact.Contact{})
 	db.AutoMigrate(&workshop.Workshop{})
 	db.AutoMigrate(&event.Event{})
+	db.AutoMigrate(&artikel.Artikel{})
+	db.AutoMigrate(&workshop.Workshop{})
 
 	// fmt.Println("Database Connection Success")
 
@@ -77,6 +79,8 @@ func main() {
 	eco.POST("/create", ecopediaHandler.PostEcopediaHandler)
 	eco.GET("/ecopedias/:id", ecopediaHandler.GetEcopediaByID)
 	eco.DELETE("/delete/:id", ecopediaHandler.DeleteEcopedia)
+	eco.PUT("/update/:id", ecopediaHandler.UpdateEcopedia)
+
 
 	artikelRepository := artikel.NewRepository(db)
 	artikelService := artikel.NewService(artikelRepository)
@@ -87,6 +91,8 @@ func main() {
 	apiArtikel.GET("/", artikelHandler.GetAllArtikel)
 	apiArtikel.DELETE("/delete/:id", artikelHandler.DeleteArtikel)
 	apiArtikel.GET("/:id", artikelHandler.GetOneArtikel)
+	apiArtikel.PUT("/update/:id", artikelHandler.UpdateArtikel)
+
 
 	eventRepository := event.NewRepository(db)
 	eventService := event.NewService(eventRepository)
@@ -97,6 +103,8 @@ func main() {
 	apiEvent.GET("/", eventHandler.GetAllEvent)
 	apiEvent.DELETE("/delete/:id", eventHandler.DeleteEvent)
 	apiEvent.GET("/:id", eventHandler.GetOneEvent)
+	apiEvent.PUT("update/:id", eventHandler.UpdateEvent)
+
 
 	router.Run(":8080")
 }

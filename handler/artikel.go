@@ -74,6 +74,42 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 
 }
 
+func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
+	var inputID artikel.GetArtikel
+
+	var input artikel.CreateArtikel
+
+	err := c.ShouldBindUri(&inputID)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	err = c.ShouldBind(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	artikel, err := h.artikelService.UpdateArtikel(input, inputID)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	
+	response := helper.APIresponse(http.StatusOK, artikel)
+	c.JSON(http.StatusOK, response)
+}
+
 func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()

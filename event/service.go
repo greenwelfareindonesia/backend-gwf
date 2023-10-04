@@ -5,6 +5,7 @@ type Service interface {
 	GetAllEvent(input int) ([]Event, error)
 	DeleteEvent(ID int) (Event, error)
 	GetOneEvent(ID int) (Event, error)
+	UpdateEvent(inputID GetEvent, input CreateEvents, FileLocation string) (Event, error)
 }
 
 type service struct {
@@ -56,4 +57,22 @@ func (s *service) CreateEvent(input CreateEvents, fileLocation string) (Event, e
 		return newBerita, err
 	}
 	return newBerita, nil
+}
+
+func (s *service) UpdateEvent(inputID GetEvent, input CreateEvents, FileLocation string) (Event, error) {
+	event, err := s.repository.FindById(inputID.ID)
+	if err != nil {
+		return event, err
+	}
+
+	event.Judul = input.Judul
+	event.EventMessage = input.EventMessage
+	event.FileName = FileLocation
+
+	newEvent, err := s.repository.Update(event)
+	if err != nil {
+		return newEvent, err
+	}
+	return newEvent, nil
+
 }

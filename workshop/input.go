@@ -2,7 +2,6 @@ package workshop
 
 type CreateWorkshop struct {
 	Title  string `json:"title" binding:"required"`
-	Image  string `json:"image" binding:"required"`
 	Desc   string `json:"desc" binding:"required"`
 	Date   string `json:"date" binding:"required"`
 	Url    string `json:"url" binding:"required"`

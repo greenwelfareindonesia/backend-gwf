@@ -5,6 +5,7 @@ type Service interface {
 	GetAllArtikel(input int) ([]Artikel, error)
 	DeleteArtikel(ID int) (Artikel, error)
 	GetOneArtikel(ID int) (Artikel, error)
+	UpdateArtikel(input CreateArtikel, getIdArtikel GetArtikel) (Artikel, error)
 }
 
 type service struct {
@@ -21,6 +22,23 @@ func (s *service) GetOneArtikel(ID int) (Artikel, error) {
 		return berita, err
 	}
 	return berita, nil
+}
+
+func (s *service) UpdateArtikel(input CreateArtikel, getIdArtikel GetArtikel) (Artikel, error) {
+	artikel, err := s.repository.FindById(getIdArtikel.ID)
+	if err != nil {
+		return artikel, err
+	}
+	artikel.FullName = input.FullName
+	artikel.Email = input.Email
+	artikel.Topic = input.Topic
+	artikel.ArtikelMessage = input.ArtikelMessage
+
+	newArtikel, err := s.repository.Update(artikel)
+	if err != nil {
+		return newArtikel, err
+	}
+	return newArtikel, nil
 }
 
 func (s *service) DeleteArtikel(ID int) (Artikel, error) {
