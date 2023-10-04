@@ -10,6 +10,7 @@ import (
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
+	"greenwelfare/veganguide"
 	"log"
 	"net/http"
 	"strings"
@@ -21,7 +22,7 @@ import (
 )
 
 func main() {
-	dsn := "root:@tcp(127.0.0.1:3306)/tes?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:@tcp(127.0.0.1:3306)/greenwelfare?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Db Connestion Error")
@@ -39,7 +40,7 @@ func main() {
 	db.AutoMigrate(&ecopedia.Ecopedia{})
 	db.AutoMigrate(&contact.Contact{})
 	db.AutoMigrate(&event.Event{})
-
+	db.AutoMigrate(&veganguide.Veganguide{})
 
 	// fmt.Println("Database Connection Success")
 
@@ -66,7 +67,6 @@ func main() {
 	eco.GET("/ecopedias/:id", ecopediaHandler.GetEcopediaByID)
 	eco.DELETE("/delete/:id", ecopediaHandler.DeleteEcopedia)
 
-
 	artikelRepository := artikel.NewRepository(db)
 	artikelService := artikel.NewService(artikelRepository)
 	artikelHandler := handler.NewArtikelHandler(artikelService)
@@ -86,6 +86,16 @@ func main() {
 	apiEvent.GET("/", eventHandler.GetAllEvent)
 	apiEvent.DELETE("/delete/:id", eventHandler.DeleteEvent)
 	apiEvent.GET("/:id", eventHandler.GetOneEvent)
+
+	veganguideRepository := veganguide.NewRepository(db)
+	veganguideService := veganguide.NewService(veganguideRepository)
+	veganguideHandler := handler.NewVeganguideHandler(veganguideService)
+
+	veganguide := router.Group("/veganguide")
+	veganguide.GET("/veganguides", veganguideHandler.GetAllVeganguide)
+	veganguide.POST("/createveganguides", veganguideHandler.PostVeganguideHandler)
+	veganguide.GET("/veganguides/:id", veganguideHandler.GetVeganguideByID)
+	veganguide.DELETE("/deleteveganguides/:id", veganguideHandler.DeleteVeganguide)
 
 	router.Run(":8080")
 }
