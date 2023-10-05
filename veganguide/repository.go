@@ -82,5 +82,4 @@ func (r *repository) Update(veganguide Veganguide) (Veganguide, error) {
 	}
 
 	return veganguide, nil
-
 }

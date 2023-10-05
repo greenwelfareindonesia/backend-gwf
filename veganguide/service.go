@@ -5,6 +5,7 @@ type Service interface {
 	GetVeganguideByID(id int) (Veganguide, error)
 	CreateVeganguide(veganguide VeganguideInput, FileName string) (Veganguide, error)
 	DeleteVeganguide(ID int) (Veganguide, error)
+	UpdateVeganguide(inputID VeganguideID, input VeganguideInput, FileName string) (Veganguide, error)
 }
 
 type service struct {
@@ -50,7 +51,6 @@ func (s *service) CreateVeganguide(veganguide VeganguideInput, FileName string) 
 	newVeganguide.Judul = veganguide.Judul
 	newVeganguide.Deskripsi = veganguide.Deskripsi
 	newVeganguide.Body = veganguide.Body
-	// newVeganguide.Gambar = veganguide.Gambar
 	newVeganguide.Gambar = FileName
 
 	saveVeganGuide, err := s.repository.Create(newVeganguide)
@@ -59,4 +59,22 @@ func (s *service) CreateVeganguide(veganguide VeganguideInput, FileName string) 
 		return saveVeganGuide, err
 	}
 	return saveVeganGuide, nil
+}
+
+func (s *service) UpdateVeganguide(inputID VeganguideID, input VeganguideInput, FileName string) (Veganguide, error) {
+	veganguide, err := s.repository.FindById(inputID.ID)
+	if err != nil {
+		return veganguide, err
+	}
+
+	veganguide.Judul = input.Judul
+	veganguide.Deskripsi = input.Deskripsi
+	veganguide.Body = input.Body
+	veganguide.Gambar = FileName
+
+	newVeganguide, err := s.repository.Update(veganguide)
+	if err != nil {
+		return newVeganguide, err
+	}
+	return newVeganguide, nil
 }

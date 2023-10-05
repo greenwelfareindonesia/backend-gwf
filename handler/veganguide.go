@@ -168,3 +168,66 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 	response := helper.APIresponse(http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
 }
+
+func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
+	file, _ := c.FormFile("file")
+	src, err := file.Open()
+	defer src.Close()
+	if err != nil {
+		fmt.Printf("error when open file %v", err)
+	}
+
+	buf := bytes.NewBuffer(nil)
+	if _, err := io.Copy(buf, src); err != nil {
+		fmt.Printf("error read file %v", err)
+		return
+	}
+
+	img, err := imagekits.Base64toEncode(buf.Bytes())
+	if err != nil {
+		fmt.Println("error reading image %v", err)
+	}
+
+	fmt.Println("image base 64 format : %v", img)
+
+	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
+	if err != nil {
+		// Tangani jika terjadi kesalahan saat upload gambar
+		// Misalnya, Anda dapat mengembalikan respon error ke klien jika diperlukan
+		response := helper.APIresponse(http.StatusInternalServerError, "Failed to upload image")
+		c.JSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	var inputID veganguide.VeganguideID
+	err = c.ShouldBindUri(&inputID)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	var input veganguide.VeganguideInput
+	err = c.ShouldBind(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	veganguide, err := h.veganguideService.UpdateVeganguide(inputID, input, imageKitURL)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.APIresponse(http.StatusOK, veganguide)
+	c.JSON(http.StatusOK, response)
+}
