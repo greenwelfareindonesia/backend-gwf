@@ -10,7 +10,6 @@ type CreateWorkshop struct {
 
 type UpdateWorkshop struct {
 	Title  string `json:"title"`
-	Image  string `json:"image"`
 	Desc   string `json:"desc"`
 	Date   string `json:"date"`
 	Url    string `json:"url"`

@@ -1,11 +1,11 @@
 package workshop
 
 type Service interface {
-	CreateWorkshop(input CreateWorkshop, fileLocation string) (Workshop, error) // belum ngerti input gambar
+	CreateWorkshop(input CreateWorkshop, fileLocation string) (Workshop, error)
 	GetAllWorkshop(input int) ([]Workshop, error)
 	GetOneWorkshop(ID int) (Workshop, error)
-	UpdateWorkshop(ID int, input UpdateWorkshop) (Workshop, error)
 	DeleteWorkshop(ID int) (Workshop, error)
+	UpdateWorkshop(getIdWorkshop GetWorkshop, input CreateWorkshop, fileLocation string) (Workshop, error)
 }
 
 type service struct {
@@ -20,7 +20,6 @@ func (s *service) CreateWorkshop(input CreateWorkshop, fileLocation string) (Wor
 	createWorkshop := Workshop{}
 
 	createWorkshop.Title = input.Title
-	// createWorkshop.Image = input.Image // belum ngerti input gambar
 	createWorkshop.Image = fileLocation
 	createWorkshop.Desc = input.Desc
 	createWorkshop.Date = input.Date
@@ -50,42 +49,27 @@ func (s *service) GetOneWorkshop(ID int) (Workshop, error) {
 	return workshop, nil
 }
 
-func (s *service) UpdateWorkshop(ID int, input UpdateWorkshop) (Workshop, error) {
-	existingWorkshop, err := s.repository.FindById(ID)
+func (s *service) UpdateWorkshop(getIdWorkshop GetWorkshop, input CreateWorkshop, fileLocation string) (Workshop, error) {
+	workshop, err := s.repository.FindById(getIdWorkshop.ID)
 	if err != nil {
-		return existingWorkshop, err
+		return workshop, err
 	}
 
-	// Update the fields of the existing workshop with the new values
-	if input.Title != "" {
-		existingWorkshop.Title = input.Title
-	}
-	if input.Image != "" {
-		existingWorkshop.Image = input.Image
-	}
-	if input.Desc != "" {
-		existingWorkshop.Desc = input.Desc
-	}
-	// if !input.Date.IsZero() {
-	// 	existingWorkshop.Date = input.Date
-	// }
-	if input.Date != "" {
-		existingWorkshop.Date = input.Date
-	}
-	if input.Url != "" {
-		existingWorkshop.Url = input.Url
-	}
-	if input.IsOpen != existingWorkshop.IsOpen {
-		existingWorkshop.IsOpen = input.IsOpen
-	}
+	// Update the workshop properties with the new values
+	workshop.Title = input.Title
+	workshop.Image = fileLocation
+	workshop.Desc = input.Desc
+	workshop.Date = input.Date
+	workshop.Url = input.Url
+	workshop.IsOpen = input.IsOpen
 
-	// Save the updated workshop to the repository
-	updatedWorkshop, err := s.repository.Update(existingWorkshop)
+	// Update the workshop in the repository
+	newWorkshop, err := s.repository.Update(workshop)
 	if err != nil {
-		return updatedWorkshop, err
+		return workshop, err
 	}
 
-	return updatedWorkshop, nil
+	return newWorkshop, nil
 }
 
 func (s *service) DeleteWorkshop(ID int) (Workshop, error) {

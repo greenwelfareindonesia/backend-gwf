@@ -7,6 +7,7 @@ type Repository interface {
 	FindById(id int) (Veganguide, error)
 	Create(veganguide Veganguide) (Veganguide, error)
 	DeleteVeganguide(veganguide Veganguide) (Veganguide, error)
+	Update(veganguide Veganguide) (Veganguide, error)
 }
 
 type repository struct {
@@ -73,3 +74,13 @@ func (r *repository) Create(veganguide Veganguide) (Veganguide, error) {
 // 	err := r.db.Find(&ecopedia, id).Error
 // 	return ecopedia, err
 // }
+
+func (r *repository) Update(veganguide Veganguide) (Veganguide, error) {
+	err := r.db.Save(&veganguide).Error
+	if err != nil {
+		return veganguide, err
+	}
+
+	return veganguide, nil
+
+}

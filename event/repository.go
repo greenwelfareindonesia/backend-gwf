@@ -77,9 +77,7 @@ func (r *repository) Update(karya Event) (Event, error) {
 	if err != nil {
 		return karya, err
 	}
-
 	return karya, nil
-
 }
 
 func (r *repository) Delete(karya Event) (Event, error) {
