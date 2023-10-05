@@ -32,17 +32,18 @@ func main() {
 
 	// Auto Migration
 	db.AutoMigrate(&user.User{})
+	db.AutoMigrate(&artikel.Artikel{})
 	db.AutoMigrate(&ecopedia.Ecopedia{})
 	db.AutoMigrate(&contact.Contact{})
 	db.AutoMigrate(&workshop.Workshop{})
 	db.AutoMigrate(&event.Event{})
-	db.AutoMigrate(&artikel.Artikel{})
 	db.AutoMigrate(&workshop.Workshop{})
 	db.AutoMigrate(&veganguide.Veganguide{})
 
 	// fmt.Println("Database Connection Success") //
 
 	router := gin.Default()
+	api := router.Group("/api") // penggunaan contoh: http://localhost:8080/api/user/login
 
 	// user
 	userRepository := user.NewRepository(db)
@@ -50,80 +51,83 @@ func main() {
 	authService := auth.NewService()
 	userHandler := handler.NewUserHandler(userService, authService)
 	//--//
-	api := router.Group("/users")
-	api.POST("/register", userHandler.RegisterUser)
-	api.POST("/login", userHandler.Login)
-	api.POST("/email_checkers", userHandler.CheckEmailAvailabilty)
-	api.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
-	api.PUT("/:id", userHandler.UpdateUser)
+	user := api.Group("/user")
+	user.POST("/register", userHandler.RegisterUser)
+	user.POST("/login", userHandler.Login)
+	user.POST("/email_checkers", userHandler.CheckEmailAvailabilty)
+	user.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
+	user.PUT("/:id", userHandler.UpdateUser)
 
 	// contact
 	contactRepository := contact.NewRepository(db)
 	contactService := contact.NewService(contactRepository)
 	contactHandler := handler.NewContactHandler(contactService)
 	//--//
-	router.POST("/contact", contactHandler.SubmitContactForm)
-	router.GET("/contact", contactHandler.GetContactSubmissionsHandler)
-	router.GET("/contact/:id", contactHandler.GetContactSubmissionHandler)
-	router.DELETE("/contact/:id", contactHandler.DeleteContactSubmissionHandler)
+	con := api.Group("/contact")
+	con.POST("/", contactHandler.SubmitContactForm)
+	con.GET("/", contactHandler.GetContactSubmissionsHandler)
+	con.GET("/:id", contactHandler.GetContactSubmissionHandler)
+	con.DELETE("/:id", contactHandler.DeleteContactSubmissionHandler)
 
 	// workshop
 	workshopRepository := workshop.NewRepository(db)
 	workshopService := workshop.NewService(workshopRepository)
-	//--//
 	workshopHandler := handler.NewWorkshopHandler(workshopService)
-	router.POST("/workshop", workshopHandler.CreateWorkshop)
-	router.GET("/workshop", workshopHandler.GetAllWorkshop)
-	router.GET("/workshop/:id", workshopHandler.GetOneWorkshop)
-	router.PUT("/workshop/:id", workshopHandler.UpdateWorkshop)
-	router.DELETE("/workshop/:id", workshopHandler.DeleteWorkshop)
+	//--//
+	work := api.Group("/workshop")
+	work.POST("/", workshopHandler.CreateWorkshop)
+	work.GET("/", workshopHandler.GetAllWorkshop)
+	work.GET("/:id", workshopHandler.GetOneWorkshop)
+	work.PUT("/:id", workshopHandler.UpdateWorkshop)
+	work.DELETE("/:id", workshopHandler.DeleteWorkshop)
 
 	// ecopedia
 	ecopediaRepository := ecopedia.NewRepository(db)
 	ecopediaService := ecopedia.NewService(ecopediaRepository)
 	ecopediaHandler := handler.NewEcopediaHandler(ecopediaService)
-	//--//
-	eco := router.Group("/eco")
-	eco.GET("/ecopedias", ecopediaHandler.GetAllEcopedia)
-	eco.POST("/create", ecopediaHandler.PostEcopediaHandler)
-	eco.GET("/ecopedias/:id", ecopediaHandler.GetEcopediaByID)
-	eco.DELETE("/delete/:id", ecopediaHandler.DeleteEcopedia)
-	eco.PUT("/update/:id", ecopediaHandler.UpdateEcopedia)
+	//--/
+	eco := api.Group("/ecopedia")
+	eco.POST("/", ecopediaHandler.PostEcopediaHandler)
+	eco.GET("/", ecopediaHandler.GetAllEcopedia)
+	eco.GET("/:id", ecopediaHandler.GetEcopediaByID)
+	eco.PUT("/:id", ecopediaHandler.UpdateEcopedia)
+	eco.DELETE("/:id", ecopediaHandler.DeleteEcopedia)
 
 	// artikel
 	artikelRepository := artikel.NewRepository(db)
 	artikelService := artikel.NewService(artikelRepository)
 	artikelHandler := handler.NewArtikelHandler(artikelService)
 	//--//
-	apiArtikel := router.Group("/artikel")
-	apiArtikel.POST("/", artikelHandler.CreateArtikel)
-	apiArtikel.GET("/", artikelHandler.GetAllArtikel)
-	apiArtikel.DELETE("/delete/:id", artikelHandler.DeleteArtikel)
-	apiArtikel.GET("/:id", artikelHandler.GetOneArtikel)
-	apiArtikel.PUT("/update/:id", artikelHandler.UpdateArtikel)
+	art := api.Group("/artikel")
+	art.POST("/", artikelHandler.CreateArtikel)
+	art.GET("/", artikelHandler.GetAllArtikel)
+	art.GET("/:id", artikelHandler.GetOneArtikel)
+	art.PUT("/:id", artikelHandler.UpdateArtikel)
+	art.DELETE("/:id", artikelHandler.DeleteArtikel)
 
 	// event
 	eventRepository := event.NewRepository(db)
 	eventService := event.NewService(eventRepository)
 	eventHandler := handler.NewEventHandler(eventService)
 	//--//
-	apiEvent := router.Group("/event")
-	apiEvent.POST("/", eventHandler.CreateEvent)
-	apiEvent.GET("/", eventHandler.GetAllEvent)
-	apiEvent.DELETE("/delete/:id", eventHandler.DeleteEvent)
-	apiEvent.GET("/:id", eventHandler.GetOneEvent)
-	apiEvent.PUT("update/:id", eventHandler.UpdateEvent)
+	eve := router.Group("/event")
+	eve.POST("/", eventHandler.CreateEvent)
+	eve.GET("/", eventHandler.GetAllEvent)
+	eve.GET("/:id", eventHandler.GetOneEvent)
+	eve.PUT(":id", eventHandler.UpdateEvent)
+	eve.DELETE("/:id", eventHandler.DeleteEvent)
 
 	// veganguide
 	veganguideRepository := veganguide.NewRepository(db)
 	veganguideService := veganguide.NewService(veganguideRepository)
 	veganguideHandler := handler.NewVeganguideHandler(veganguideService)
 	//--//
-	router.POST("/veganguide", veganguideHandler.PostVeganguideHandler)
-	router.GET("/veganguide", veganguideHandler.GetAllVeganguide)
-	router.GET("/veganguide/:id", veganguideHandler.GetVeganguideByID)
-	router.PUT("/veganguide/:id", veganguideHandler.UpdateVeganguide)
-	router.DELETE("/veganguide/:id", veganguideHandler.DeleteVeganguide)
+	veg := router.Group("/veganguide")
+	veg.POST("/", veganguideHandler.PostVeganguideHandler)
+	veg.GET("/", veganguideHandler.GetAllVeganguide)
+	veg.GET("/:id", veganguideHandler.GetVeganguideByID)
+	veg.PUT("/:id", veganguideHandler.UpdateVeganguide)
+	veg.DELETE("/:id", veganguideHandler.DeleteVeganguide)
 
 	// Port
 	router.Run(":8080")
