@@ -123,3 +123,39 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 	response := helper.APIresponse(http.StatusOK, formatter)
 	c.JSON(http.StatusOK, response)
 }
+
+func (h *userHandler) UpdateUser(c *gin.Context) {
+	var inputID user.IdUser
+
+	var input user.UpdateUserInput
+
+	err := c.ShouldBindUri(&inputID)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	err = c.ShouldBind(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	user, err := h.userService.UpdateUser(inputID, input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.APIresponse(http.StatusOK, user)
+	c.JSON(http.StatusOK, response)
+}

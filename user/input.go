@@ -18,3 +18,13 @@ type CheckEmailInput struct {
 type DeletedUser struct {
 	ID int `uri:"id" binding:"required"`
 }
+
+type IdUser struct {
+	ID int `uri:"id" binding:"required"`
+}
+
+type UpdateUserInput struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}

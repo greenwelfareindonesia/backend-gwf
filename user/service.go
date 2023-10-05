@@ -13,6 +13,7 @@ type Service interface {
 	GetUserByid(ID int) (User, error)
 	DeleteUser(ID int) (User, error)
 	// SaveAvatar(ID int, fileLocation string) (User, error)
+	UpdateUser(InputID IdUser, input UpdateUserInput) (User, error)
 }
 
 type service struct {
@@ -124,3 +125,24 @@ func (s *service) GetUserByid(ID int) (User, error) {
 
 // 	return updatedUser, nil
 // }
+
+func (s *service) UpdateUser(InputID IdUser, input UpdateUserInput) (User, error) {
+	user, err := s.repository.FindById(InputID.ID)
+	if err != nil {
+		return user, err
+	}
+	user.Username = input.Username
+	user.Email = input.Email
+	user.Password = input.Password
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.MinCost)
+	if err != nil {
+		return user, err
+	}
+	user.Password = string(passwordHash)
+
+	newUser, err := s.repository.Update(user)
+	if err != nil {
+		return newUser, err
+	}
+	return newUser, nil
+}
