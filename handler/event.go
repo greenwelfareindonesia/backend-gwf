@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/event"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
@@ -16,10 +17,11 @@ import (
 
 type eventHandler struct {
 	eventService event.Service
+	endpointService endpointcount.StatisticsService
 }
 
-func NewEventHandler(eventService event.Service) *eventHandler {
-	return &eventHandler{eventService}
+func NewEventHandler(eventService event.Service, endpointService endpointcount.StatisticsService) *eventHandler {
+	return &eventHandler{eventService, endpointService}
 }
 
 func (h *eventHandler) DeleteEvent(c *gin.Context) {
@@ -69,6 +71,16 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 		return
 
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetByIDEvent /Event/GetByIDEvent", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+    }
+
 	response := helper.APIresponse(http.StatusOK, newDel)
 	c.JSON(http.StatusOK, response)
 
@@ -210,6 +222,16 @@ func (h *eventHandler) GetAllEvent(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetAllEvent /Event/GetAllEvent", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+    }
+
 	response := helper.APIresponse(http.StatusOK, newBerita)
 	c.JSON(http.StatusOK, response)
 }

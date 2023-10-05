@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
 	"greenwelfare/veganguide"
@@ -16,10 +17,11 @@ import (
 
 type veganguideHandler struct {
 	veganguideService veganguide.Service
+	endpointService endpointcount.StatisticsService
 }
 
-func NewVeganguideHandler(veganguideService veganguide.Service) *veganguideHandler {
-	return &veganguideHandler{veganguideService}
+func NewVeganguideHandler(veganguideService veganguide.Service, endpointService endpointcount.StatisticsService) *veganguideHandler {
+	return &veganguideHandler{veganguideService, endpointService}
 }
 
 func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
@@ -68,6 +70,16 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetByIDVeganguide /Veganguide/GetByIDVeganguide", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+    }
+
 	response := helper.APIresponse(http.StatusOK, (data))
 	c.JSON(http.StatusOK, response)
 
@@ -84,6 +96,16 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetAllVeganguide /Veganguide/GetAllVeganguide", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+    }
+
 	response := helper.APIresponse(http.StatusOK, (data))
 	c.JSON(http.StatusOK, response)
 }

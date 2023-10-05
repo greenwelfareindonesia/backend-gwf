@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"greenwelfare/ecopedia"
+	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
 	"io"
@@ -16,10 +17,11 @@ import (
 
 type ecopediaHandler struct {
 	ecopediaService ecopedia.Service
+	endpointService endpointcount.StatisticsService
 }
 
-func NewEcopediaHandler(ecopediaService ecopedia.Service) *ecopediaHandler {
-	return &ecopediaHandler{ecopediaService}
+func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpointcount.StatisticsService) *ecopediaHandler {
+	return &ecopediaHandler{ecopediaService, endpointService}
 }
 
 
@@ -69,6 +71,16 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetByIDEcopedia /Ecopedia/GetByIDEcopedia", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	
 	response := helper.APIresponse(http.StatusOK, (data))
 	c.JSON(http.StatusOK, response)
 
@@ -85,6 +97,16 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetAllEcopedia /Ecopedia/GetAllEcopedia", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
 	response := helper.APIresponse(http.StatusOK, (data))
 	c.JSON(http.StatusOK, response)
 }
