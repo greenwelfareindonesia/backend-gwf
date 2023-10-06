@@ -6,6 +6,7 @@ import (
 	"greenwelfare/auth"
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
+	"greenwelfare/endpointCount"
 	"greenwelfare/event"
 	"greenwelfare/feedback"
 	"greenwelfare/handler"
@@ -41,19 +42,27 @@ func main() {
 	db.AutoMigrate(&workshop.Workshop{})
 	db.AutoMigrate(&veganguide.Veganguide{})
 	db.AutoMigrate(&feedback.Feedback{})
+	db.AutoMigrate(&endpointcount.Statistics{})
+
 
 	// fmt.Println("Database Connection Success") //
 
 	router := gin.Default()
-	api := router.Group("/api") // penggunaan contoh: http://localhost:8080/api/user/login
+	// api := router.Group("/api") // penggunaan contoh: http://localhost:8080/api/user/login
 
 	// user
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 	userHandler := handler.NewUserHandler(userService, authService)
+
+	statisticsRepository := endpointcount.NewStatisticsRepository(db)
+	// Inisialisasi service
+	statisticsService := endpointcount.NewStatisticsService(statisticsRepository)
+	// Inisialisasi handler
+	statisticsHandler := handler.NewStatisticsHandler(statisticsService)
 	//--//
-	user := api.Group("/user")
+	user := router.Group("/user")
 	user.POST("/register", userHandler.RegisterUser)
 	user.POST("/login", userHandler.Login)
 	user.POST("/email_checkers", userHandler.CheckEmailAvailabilty)
@@ -65,7 +74,7 @@ func main() {
 	contactService := contact.NewService(contactRepository)
 	contactHandler := handler.NewContactHandler(contactService)
 	//--//
-	con := api.Group("/contact")
+	con := router.Group("/contact")
 	con.POST("/", contactHandler.SubmitContactForm)
 	con.GET("/", contactHandler.GetContactSubmissionsHandler)
 	con.GET("/:id", contactHandler.GetContactSubmissionHandler)
@@ -74,9 +83,9 @@ func main() {
 	// workshop
 	workshopRepository := workshop.NewRepository(db)
 	workshopService := workshop.NewService(workshopRepository)
-	workshopHandler := handler.NewWorkshopHandler(workshopService)
+	workshopHandler := handler.NewWorkshopHandler(workshopService, statisticsService)
 	//--//
-	work := api.Group("/workshop")
+	work := router.Group("/workshop")
 	work.POST("/", workshopHandler.CreateWorkshop)
 	work.GET("/", workshopHandler.GetAllWorkshop)
 	work.GET("/:id", workshopHandler.GetOneWorkshop)
@@ -86,9 +95,9 @@ func main() {
 	// ecopedia
 	ecopediaRepository := ecopedia.NewRepository(db)
 	ecopediaService := ecopedia.NewService(ecopediaRepository)
-	ecopediaHandler := handler.NewEcopediaHandler(ecopediaService)
+	ecopediaHandler := handler.NewEcopediaHandler(ecopediaService, statisticsService)
 	//--/
-	eco := api.Group("/ecopedia")
+	eco := router.Group("/ecopedia")
 	eco.POST("/", ecopediaHandler.PostEcopediaHandler)
 	eco.GET("/", ecopediaHandler.GetAllEcopedia)
 	eco.GET("/:id", ecopediaHandler.GetEcopediaByID)
@@ -98,9 +107,9 @@ func main() {
 	// artikel
 	artikelRepository := artikel.NewRepository(db)
 	artikelService := artikel.NewService(artikelRepository)
-	artikelHandler := handler.NewArtikelHandler(artikelService)
+	artikelHandler := handler.NewArtikelHandler(artikelService, statisticsService)
 	//--//
-	art := api.Group("/artikel")
+	art := router.Group("/artikel")
 	art.POST("/", artikelHandler.CreateArtikel)
 	art.GET("/", artikelHandler.GetAllArtikel)
 	art.GET("/:id", artikelHandler.GetOneArtikel)
@@ -110,7 +119,7 @@ func main() {
 	// event
 	eventRepository := event.NewRepository(db)
 	eventService := event.NewService(eventRepository)
-	eventHandler := handler.NewEventHandler(eventService)
+	eventHandler := handler.NewEventHandler(eventService, statisticsService)
 	//--//
 	eve := router.Group("/event")
 	eve.POST("/", eventHandler.CreateEvent)
@@ -122,7 +131,7 @@ func main() {
 	// veganguide
 	veganguideRepository := veganguide.NewRepository(db)
 	veganguideService := veganguide.NewService(veganguideRepository)
-	veganguideHandler := handler.NewVeganguideHandler(veganguideService)
+	veganguideHandler := handler.NewVeganguideHandler(veganguideService, statisticsService)
 	//--//
 	veg := router.Group("/veganguide")
 	veg.POST("/", veganguideHandler.PostVeganguideHandler)
@@ -142,6 +151,7 @@ func main() {
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
 	fee.PUT("/:id", feedbackHandler.UpdateFeedback)
 	fee.DELETE("/:id", feedbackHandler.DeleteFeedback)
+	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
 
 	// Port
 	router.Run(":8080")

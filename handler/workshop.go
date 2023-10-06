@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
 	"greenwelfare/workshop"
@@ -16,10 +17,11 @@ import (
 
 type workshopHandler struct {
 	workshopService workshop.Service
+	endpointService endpointcount.StatisticsService
 }
 
-func NewWorkshopHandler(workshopService workshop.Service) *workshopHandler {
-	return &workshopHandler{workshopService}
+func NewWorkshopHandler(workshopService workshop.Service, endpointService endpointcount.StatisticsService) *workshopHandler {
+	return &workshopHandler{workshopService, endpointService}
 }
 
 func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
@@ -105,6 +107,16 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 		return
 
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetByIDWorkshop /Workshop/GetByIDWorkshop", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+    }
+
 	response := helper.APIresponse(http.StatusOK, newDel)
 	c.JSON(http.StatusOK, response)
 
@@ -119,6 +131,15 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetAllWorkshop /Workshop/GetAllWorkshop", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+    }
+
 	response := helper.APIresponse(http.StatusOK, newBerita)
 	c.JSON(http.StatusOK, response)
 }

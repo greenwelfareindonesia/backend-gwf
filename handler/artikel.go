@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"greenwelfare/artikel"
+	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
 	"io"
@@ -16,10 +17,12 @@ import (
 
 type artikelHandler struct {
 	artikelService artikel.Service
+	endpointService endpointcount.StatisticsService
+
 }
 
-func NewArtikelHandler(artikelService artikel.Service) *artikelHandler {
-	return &artikelHandler{artikelService}
+func NewArtikelHandler(artikelService artikel.Service, endpointService endpointcount.StatisticsService	) *artikelHandler {
+	return &artikelHandler{artikelService, endpointService}
 }
 
 func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
@@ -69,6 +72,16 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 		return
 
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetByIDArtikel /Artikel/GetByIDArtikel", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+    }
+
 	response := helper.APIresponse(http.StatusOK, newDel)
 	c.JSON(http.StatusOK, response)
 
@@ -105,7 +118,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	
+
 	response := helper.APIresponse(http.StatusOK, artikel)
 	c.JSON(http.StatusOK, response)
 }
@@ -181,6 +194,16 @@ func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+
+	userAgent := c.GetHeader("User-Agent")
+
+	err = h.endpointService.IncrementCount("GetAllArtikel /Artikel/GetAllArtikel", userAgent)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+    }
+
 	response := helper.APIresponse(http.StatusOK, newBerita)
 	c.JSON(http.StatusOK, response)
 }
