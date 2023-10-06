@@ -7,6 +7,7 @@ import (
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
 	"greenwelfare/event"
+	"greenwelfare/feedback"
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
@@ -39,6 +40,7 @@ func main() {
 	db.AutoMigrate(&event.Event{})
 	db.AutoMigrate(&workshop.Workshop{})
 	db.AutoMigrate(&veganguide.Veganguide{})
+	db.AutoMigrate(&feedback.Feedback{})
 
 	// fmt.Println("Database Connection Success") //
 
@@ -128,6 +130,18 @@ func main() {
 	veg.GET("/:id", veganguideHandler.GetVeganguideByID)
 	veg.PUT("/:id", veganguideHandler.UpdateVeganguide)
 	veg.DELETE("/:id", veganguideHandler.DeleteVeganguide)
+
+	// feedback
+	feedbackRepository := feedback.NewRepository(db)
+	feedbackService := feedback.NewService(feedbackRepository)
+	feedbackHandler := handler.NewFeedbackHandler(feedbackService)
+	//--//
+	fee := router.Group("/feedback")
+	fee.POST("/", feedbackHandler.PostFeedbackHandler)
+	fee.GET("/", feedbackHandler.GetAllFeedback)
+	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
+	fee.PUT("/:id", feedbackHandler.UpdateFeedback)
+	fee.DELETE("/:id", feedbackHandler.DeleteFeedback)
 
 	// Port
 	router.Run(":8080")
