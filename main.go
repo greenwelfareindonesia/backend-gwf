@@ -44,7 +44,6 @@ func main() {
 	db.AutoMigrate(&feedback.Feedback{})
 	db.AutoMigrate(&endpointcount.Statistics{})
 
-
 	// fmt.Println("Database Connection Success") //
 
 	router := gin.Default()
@@ -151,6 +150,8 @@ func main() {
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
 	fee.PUT("/:id", feedbackHandler.UpdateFeedback)
 	fee.DELETE("/:id", feedbackHandler.DeleteFeedback)
+
+	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
 
 	// Port

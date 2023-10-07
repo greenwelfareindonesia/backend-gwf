@@ -57,26 +57,45 @@ import (
 )
 
 func InitSMTPDialer() *gomail.Dialer {
-    // Ganti dengan konfigurasi sesuai SMTP server Anda.
-    return gomail.NewDialer("smtp.gmail.com", 587, "raihanalfarisi2@gmail.com", "obmhkhrsrckkcxni")
+	// Ganti dengan konfigurasi sesuai SMTP server Anda.
+	return gomail.NewDialer("smtp.gmail.com", 587, "raihanalfarisi2@gmail.com", "obmhkhrsrckkcxni")
 }
 
 func SendEmail(to, subject, name string, from string, body string) error {
-    // Buat pesan email baru.
-    email := gomail.NewMessage()
-    email.SetHeader("From", "noreply@example.com")
-    email.SetHeader("To", "raihanalfarisi2@gmail.com")
-    email.SetHeader("Subject", subject)
+	// Buat pesan email baru.
+	email := gomail.NewMessage()
+	email.SetHeader("From", "noreply@example.com")
+	email.SetHeader("To", "raihanalfarisi2@gmail.com")
+	email.SetHeader("Subject", subject)
 
-    // email.SetBody("text/plain", from)
-    email.SetBody("text/plain", "Email        : " + from + "\n" + "nama        : " + name + "\n" + "Message  : " + body)
+	// email.SetBody("text/plain", from)
+	email.SetBody("text/plain", "Email        : "+from+"\n"+"nama        : "+name+"\n"+"Message  : "+body)
 
-    // Ambil Dialer SMTP yang telah dikonfigurasi.
-    d := InitSMTPDialer()
+	// Ambil Dialer SMTP yang telah dikonfigurasi.
+	d := InitSMTPDialer()
 
-    // Kirim email.
-    if err := d.DialAndSend(email); err != nil {
-        return err
-    }
-    return nil
+	// Kirim email.
+	if err := d.DialAndSend(email); err != nil {
+		return err
+	}
+	return nil
+}
+
+func SendEmailFeedback(to, Email string, Text string) error {
+	// Buat pesan email baru.
+	email := gomail.NewMessage()
+	email.SetHeader("From", "noreply@example.com")
+	email.SetHeader("To", "raihanalfarisi2@gmail.com")
+
+	// email.SetBody("text/plain", from)
+	email.SetBody("text/plain", "Email        : "+Email+"\n"+"Feedback        : "+Text)
+
+	// Ambil Dialer SMTP yang telah dikonfigurasi.
+	d := InitSMTPDialer()
+
+	// Kirim email.
+	if err := d.DialAndSend(email); err != nil {
+		return err
+	}
+	return nil
 }

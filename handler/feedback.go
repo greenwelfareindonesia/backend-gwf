@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+	"greenwelfare/email"
 	"greenwelfare/feedback"
 	"greenwelfare/helper"
 	"net/http"
@@ -140,15 +142,24 @@ func (h *feedbackHandler) PostFeedbackHandler(c *gin.Context) {
 		return
 	}
 
-	_, err = h.feedbackService.CreateFeedback(feedbackInput)
+	newFeedbackPost, err := h.feedbackService.CreateFeedback(feedbackInput)
 	if err != nil {
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, "nil")
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	err = email.SendEmailFeedback("raihanalfarisi2@gmail.com", feedbackInput.Email, feedbackInput.Text)
+	if err != nil {
+		// Handle kesalahan pengiriman email di sini.
+		// Mungkin menampilkan pesan kesalahan kepada pengguna atau mencatatnya.
+		fmt.Println("Error sending email:", err)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, "nilll")
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	formatter := feedback.FormatterFeedback(newFeedbackPost)
+	response := helper.APIresponse(http.StatusOK, formatter)
 	c.JSON(http.StatusOK, response)
 }
