@@ -9,6 +9,7 @@ import (
 	"greenwelfare/endpointCount"
 	"greenwelfare/event"
 	"greenwelfare/feedback"
+	"greenwelfare/gallery"
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
@@ -43,6 +44,7 @@ func main() {
 	db.AutoMigrate(&veganguide.Veganguide{})
 	db.AutoMigrate(&feedback.Feedback{})
 	db.AutoMigrate(&endpointcount.Statistics{})
+	db.AutoMigrate(&gallery.Gallery{})
 
 	// fmt.Println("Database Connection Success") //
 
@@ -150,6 +152,18 @@ func main() {
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
 	fee.PUT("/:id", feedbackHandler.UpdateFeedback)
 	fee.DELETE("/:id", feedbackHandler.DeleteFeedback)
+
+	// gallery
+	galleryRepository := gallery.NewRepository(db)
+	galleryService := gallery.NewService(galleryRepository)
+	galleryHandler := handler.NewGalleryHandler(galleryService, statisticsService)
+	//--//
+	gal := router.Group("/gallery")
+	gal.POST("/", galleryHandler.CreateGallery)
+	gal.GET("/", galleryHandler.GetAllGallery)
+	gal.GET("/:id", galleryHandler.GetOneGallery)
+	gal.PUT("/:id", galleryHandler.UpdateGallery)
+	gal.DELETE("/:id", galleryHandler.DeleteGallery)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
