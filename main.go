@@ -17,6 +17,7 @@ import (
 	"greenwelfare/workshop"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
@@ -26,8 +27,13 @@ import (
 )
 
 func main() {
+	dbUsername := os.Getenv("MYSQLUSER")
+	dbPassword := os.Getenv("MYSQLPASSWORD")
+	dbHost := os.Getenv("MYSQLHOST")
+	dbPort := os.Getenv("MYSQLPORT")
+	dbName := os.Getenv("MYSQLDATABASE")
 	// Database connection
-	dsn := "root:@tcp(127.0.0.1:3306)/gwf?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUsername, dbPassword, dbHost, dbPort, dbName)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Db Connestion Error")
