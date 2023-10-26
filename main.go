@@ -42,8 +42,6 @@ func main() {
 	db.AutoMigrate(&veganguide.Veganguide{})
 	db.AutoMigrate(&feedback.Feedback{})
 	db.AutoMigrate(&endpointcount.Statistics{})
-	db.AutoMigrate(&ecopedia.Comment{})
-	db.AutoMigrate(&ecopedia.IsLike{})
 
 	// fmt.Println("Database Connection Success") //
 
@@ -150,8 +148,8 @@ func main() {
 	fee.POST("/", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.PostFeedbackHandler)
 	fee.GET("/", feedbackHandler.GetAllFeedback)
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
-	fee.PUT("/:id", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.UpdateFeedback)
-	fee.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.DeleteFeedback)
+	fee.PUT("/:id", feedbackHandler.UpdateFeedback)
+	fee.DELETE("/:id", feedbackHandler.DeleteFeedback)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
