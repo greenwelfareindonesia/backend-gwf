@@ -47,6 +47,7 @@ func main() {
 	db.AutoMigrate(&ecopedia.IsLike{})
 	db.AutoMigrate(&gallery.Gallery{})
 
+
 	// fmt.Println("Database Connection Success") //
 
 	router := gin.Default()
@@ -152,8 +153,8 @@ func main() {
 	fee.POST("/", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.PostFeedbackHandler)
 	fee.GET("/", feedbackHandler.GetAllFeedback)
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
-	fee.PUT("/:id", feedbackHandler.UpdateFeedback)
-	fee.DELETE("/:id", feedbackHandler.DeleteFeedback)
+	fee.PUT("/:id", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.UpdateFeedback)
+	fee.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.DeleteFeedback)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
