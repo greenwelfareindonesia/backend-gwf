@@ -8,6 +8,7 @@ type Service interface {
 	CreateEcopedia(ecopedia EcopediaInput, FileName string) (Ecopedia, error)
 	DeleteEcopedia(ID int) (Ecopedia, error)
 	UpdateEcopedia(getIdEcopedia EcopediaID, input EcopediaInput, FileName string) (Ecopedia, error)
+	UserActionToEcopedia (getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error)
 }
 
 type service struct {
@@ -16,6 +17,33 @@ type service struct {
 
 func NewService(repository Repository) *service {
 	return &service{repository}
+}
+
+func (s *service) UserActionToEcopedia (getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error){
+
+
+
+	FindEcoId, err := s.repository.FindEcopediaCommentID(getIdEcopedia.ID)
+	if err != nil {
+		return FindEcoId, err
+	}
+
+	createComment := Comment{}
+
+	createComment.Comment = inputUser.Comment
+	createComment.UserId = inputUser.User.ID
+	createComment.EcopediaId = getIdEcopedia.ID
+	// FindUserId, err := s.repository.FindByUserId(FindEcoId.User.ID)
+	// if err != nil {
+	// 	return FindUserId, err
+	// }
+
+	create, err := s.repository.CreateComment(createComment)
+	if err != nil {
+		return create, err
+	}
+	return create, nil	
+
 }
 
 func (s *service) DeleteEcopedia(ID int) (Ecopedia, error) {

@@ -1,6 +1,9 @@
 package ecopedia
 
-import "time"
+import (
+	"greenwelfare/user"
+	"time"
+)
 
 type Ecopedia struct {
 	ID        int 
@@ -10,6 +13,28 @@ type Ecopedia struct {
 	Gambar    string
 	Srcgambar string
 	Referensi string
+	// Like []IsLike
+	Comment []Comment `gorm:"foreignKey:EcopediaId"`
 	CreatedAt time.Time
     UpdatedAt time.Time 
+}
+
+type Comment struct {
+	ID int
+	UserId int
+	EcopediaId int
+	Comment string
+	User user.User
+	CreatedAt time.Time
+    UpdatedAt time.Time
+}
+
+type IsLike struct {
+	ID int
+	UserId int
+	EcopediaId int
+	IsLike bool
+	User user.User
+	CreatedAt time.Time
+    UpdatedAt time.Time
 }

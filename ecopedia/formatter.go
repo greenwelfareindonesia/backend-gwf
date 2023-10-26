@@ -1,19 +1,37 @@
 package ecopedia
 
 type EcopediaFormatter struct {
-	Judul     string `form:"judul"`
-	Subjudul  string `form:"subjudul"`
-	Deskripsi string `form:"deskripsi"`
-	Gambar    string `form:"gambar"`
-	Srcgambar string `form:"srcgambar"`
-	Referensi string `form:"referensi"`
+	ID int `json:"id"`
+	Judul     string `json:"judul"`
+	Subjudul  string `json:"subjudul"`
+	Deskripsi string `json:"deskripsi"`
+	Gambar    string `json:"gambar"`
+	Srcgambar string `json:"srcgambar"`
+	Referensi string `json:"referensi"`
+	Comment []string `json:"Comment"`
+	// Like []string `json:"like"`
+
 }
+
+// type EcopediaComment struct {
+
+// }
 
 func FormatterEcopedia(ecopedia_submit Ecopedia) EcopediaFormatter {
 	formatter := EcopediaFormatter{
+		ID:  ecopedia_submit.ID,
 		Judul:     ecopedia_submit.Judul,
 		Subjudul:  ecopedia_submit.Subjudul,
 		Deskripsi: ecopedia_submit.Deskripsi,
+		Gambar: ecopedia_submit.Gambar,
+		Srcgambar: ecopedia_submit.Srcgambar,
+		Referensi: ecopedia_submit.Referensi,
+		Comment: make([]string, len(ecopedia_submit.Comment)),
 	}
+
+	for i, comment := range ecopedia_submit.Comment {
+        formatter.Comment[i] = comment.Comment
+    }
+
 	return formatter
 }

@@ -5,9 +5,13 @@ import "gorm.io/gorm"
 type Repository interface {
 	FindAll() ([]Ecopedia, error)
 	FindById(id int) (Ecopedia, error)
+	FindEcopediaCommentID(Id int) (Comment, error)
+	// FindByUserCommentID (Id int) (Comment, error)
 	Create(ecopedia Ecopedia) (Ecopedia, error)
 	DeleteEcopedia(ecopedia Ecopedia) (Ecopedia, error)
 	Update(ecopedia Ecopedia) (Ecopedia, error)
+	FindByUserId (userId int) (Ecopedia, error)
+	CreateComment (comment Comment) (Comment, error)
 
 }
 
@@ -17,6 +21,34 @@ type repository struct {
 
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
+}
+
+func (r *repository) FindEcopediaCommentID(Id int) (Comment, error){
+	var comment Comment
+	err := r.db.Preload("EcopediaId").Where("ecopedia_id", Id).Error
+	if err != nil {
+		return comment, err
+	}
+	return comment, nil
+}
+
+func (r *repository) CreateComment (comment Comment) (Comment, error){
+
+	err := r.db.Create(&comment).Error
+	if err != nil {
+		return comment, err
+	}
+	return comment, nil
+}
+
+func (r *repository) FindByUserId (userId int) (Ecopedia, error) {
+	var eco Ecopedia
+
+	err := r.db.Preload("User").Where("id = ?", userId).Find(eco).Error
+	if err != nil {
+		return eco, err
+	}
+	return eco, nil
 }
 
 func (r *repository) Update(ecopedia Ecopedia) (Ecopedia, error) {
@@ -49,7 +81,7 @@ func (r *repository) FindAll() ([]Ecopedia, error) {
 
 func (r *repository) FindById(id int) (Ecopedia, error) {
 	var ecopedia Ecopedia
-	err := r.db.Find(&ecopedia, id).Error
+	err := r.db.Preload("Comment").Preload("Comment.User").Find(&ecopedia, id).Error
 	if err != nil {
 		return ecopedia, err
 	}

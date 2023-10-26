@@ -18,7 +18,6 @@ import (
 type artikelHandler struct {
 	artikelService artikel.Service
 	endpointService endpointcount.StatisticsService
-
 }
 
 func NewArtikelHandler(artikelService artikel.Service, endpointService endpointcount.StatisticsService	) *artikelHandler {

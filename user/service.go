@@ -30,6 +30,7 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	user.Username = input.Username
 	user.Email = input.Email
 	user.Password = input.Password
+	user.Role = 0
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.MinCost)
 	if err != nil {
 		return user, err

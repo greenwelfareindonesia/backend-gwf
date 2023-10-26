@@ -6,7 +6,7 @@ import (
 	"greenwelfare/auth"
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
-	"greenwelfare/endpointCount"
+	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/event"
 	"greenwelfare/feedback"
 	"greenwelfare/handler"
@@ -26,7 +26,7 @@ import (
 
 func main() {
 	// Database connection
-	dsn := "root:@tcp(127.0.0.1:3306)/greenwelfare?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:@tcp(127.0.0.1:3306)/gwf?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Db Connestion Error")
@@ -39,10 +39,11 @@ func main() {
 	db.AutoMigrate(&contact.Contact{})
 	db.AutoMigrate(&workshop.Workshop{})
 	db.AutoMigrate(&event.Event{})
-	db.AutoMigrate(&workshop.Workshop{})
 	db.AutoMigrate(&veganguide.Veganguide{})
 	db.AutoMigrate(&feedback.Feedback{})
 	db.AutoMigrate(&endpointcount.Statistics{})
+	db.AutoMigrate(&ecopedia.Comment{})
+	db.AutoMigrate(&ecopedia.IsLike{})
 
 	// fmt.Println("Database Connection Success") //
 
@@ -66,7 +67,7 @@ func main() {
 	user.POST("/login", userHandler.Login)
 	user.POST("/email_checkers", userHandler.CheckEmailAvailabilty)
 	user.DELETE("/", authMiddleware(authService, userService), userHandler.DeletedUser)
-	user.PUT("/:id", userHandler.UpdateUser)
+	user.PUT("/:id", authMiddleware(authService, userService), userHandler.UpdateUser)
 
 	// contact
 	contactRepository := contact.NewRepository(db)
@@ -74,10 +75,10 @@ func main() {
 	contactHandler := handler.NewContactHandler(contactService)
 	//--//
 	con := router.Group("/contact")
-	con.POST("/", contactHandler.SubmitContactForm)
+	con.POST("/", authMiddleware(authService, userService), authRole(authService, userService), contactHandler.SubmitContactForm)
 	con.GET("/", contactHandler.GetContactSubmissionsHandler)
 	con.GET("/:id", contactHandler.GetContactSubmissionHandler)
-	con.DELETE("/:id", contactHandler.DeleteContactSubmissionHandler)
+	con.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), contactHandler.DeleteContactSubmissionHandler)
 
 	// workshop
 	workshopRepository := workshop.NewRepository(db)
@@ -85,23 +86,24 @@ func main() {
 	workshopHandler := handler.NewWorkshopHandler(workshopService, statisticsService)
 	//--//
 	work := router.Group("/workshop")
-	work.POST("/", workshopHandler.CreateWorkshop)
+	work.POST("/", authMiddleware(authService, userService), authRole(authService, userService), workshopHandler.CreateWorkshop)
 	work.GET("/", workshopHandler.GetAllWorkshop)
 	work.GET("/:id", workshopHandler.GetOneWorkshop)
-	work.PUT("/:id", workshopHandler.UpdateWorkshop)
-	work.DELETE("/:id", workshopHandler.DeleteWorkshop)
+	work.PUT("/:id", authMiddleware(authService, userService), authRole(authService, userService), workshopHandler.UpdateWorkshop)
+	work.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), workshopHandler.DeleteWorkshop)
 
 	// ecopedia
 	ecopediaRepository := ecopedia.NewRepository(db)
 	ecopediaService := ecopedia.NewService(ecopediaRepository)
 	ecopediaHandler := handler.NewEcopediaHandler(ecopediaService, statisticsService)
-	//--/
+
 	eco := router.Group("/ecopedia")
-	eco.POST("/", ecopediaHandler.PostEcopediaHandler)
+	eco.POST("/", authMiddleware(authService, userService), authRole(authService, userService), ecopediaHandler.PostEcopediaHandler)
 	eco.GET("/", ecopediaHandler.GetAllEcopedia)
 	eco.GET("/:id", ecopediaHandler.GetEcopediaByID)
-	eco.PUT("/:id", ecopediaHandler.UpdateEcopedia)
-	eco.DELETE("/:id", ecopediaHandler.DeleteEcopedia)
+	eco.PUT("/:id", authMiddleware(authService, userService), authRole(authService, userService), ecopediaHandler.UpdateEcopedia)
+	eco.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), ecopediaHandler.DeleteEcopedia)
+	eco.POST("comment/:id", authMiddleware(authService, userService), ecopediaHandler.PostCommentEcopedia)
 
 	// artikel
 	artikelRepository := artikel.NewRepository(db)
@@ -109,11 +111,11 @@ func main() {
 	artikelHandler := handler.NewArtikelHandler(artikelService, statisticsService)
 	//--//
 	art := router.Group("/artikel")
-	art.POST("/", artikelHandler.CreateArtikel)
+	art.POST("/", authMiddleware(authService, userService), authRole(authService, userService), artikelHandler.CreateArtikel)
 	art.GET("/", artikelHandler.GetAllArtikel)
 	art.GET("/:id", artikelHandler.GetOneArtikel)
-	art.PUT("/:id", artikelHandler.UpdateArtikel)
-	art.DELETE("/:id", artikelHandler.DeleteArtikel)
+	art.PUT("/:id", authMiddleware(authService, userService), authRole(authService, userService), artikelHandler.UpdateArtikel)
+	art.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), artikelHandler.DeleteArtikel)
 
 	// event
 	eventRepository := event.NewRepository(db)
@@ -121,11 +123,11 @@ func main() {
 	eventHandler := handler.NewEventHandler(eventService, statisticsService)
 	//--//
 	eve := router.Group("/event")
-	eve.POST("/", eventHandler.CreateEvent)
+	eve.POST("/", authMiddleware(authService, userService), authRole(authService, userService), eventHandler.CreateEvent)
 	eve.GET("/", eventHandler.GetAllEvent)
 	eve.GET("/:id", eventHandler.GetOneEvent)
-	eve.PUT(":id", eventHandler.UpdateEvent)
-	eve.DELETE("/:id", eventHandler.DeleteEvent)
+	eve.PUT(":id", authMiddleware(authService, userService), authRole(authService, userService), eventHandler.UpdateEvent)
+	eve.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), eventHandler.DeleteEvent)
 
 	// veganguide
 	veganguideRepository := veganguide.NewRepository(db)
@@ -133,11 +135,11 @@ func main() {
 	veganguideHandler := handler.NewVeganguideHandler(veganguideService, statisticsService)
 	//--//
 	veg := router.Group("/veganguide")
-	veg.POST("/", veganguideHandler.PostVeganguideHandler)
+	veg.POST("/", authMiddleware(authService, userService), authRole(authService, userService), veganguideHandler.PostVeganguideHandler)
 	veg.GET("/", veganguideHandler.GetAllVeganguide)
 	veg.GET("/:id", veganguideHandler.GetVeganguideByID)
-	veg.PUT("/:id", veganguideHandler.UpdateVeganguide)
-	veg.DELETE("/:id", veganguideHandler.DeleteVeganguide)
+	veg.PUT("/:id", authMiddleware(authService, userService), authRole(authService, userService), veganguideHandler.UpdateVeganguide)
+	veg.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), veganguideHandler.DeleteVeganguide)
 
 	// feedback
 	feedbackRepository := feedback.NewRepository(db)
@@ -145,11 +147,11 @@ func main() {
 	feedbackHandler := handler.NewFeedbackHandler(feedbackService)
 	//--//
 	fee := router.Group("/feedback")
-	fee.POST("/", feedbackHandler.PostFeedbackHandler)
+	fee.POST("/", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.PostFeedbackHandler)
 	fee.GET("/", feedbackHandler.GetAllFeedback)
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
-	fee.PUT("/:id", feedbackHandler.UpdateFeedback)
-	fee.DELETE("/:id", feedbackHandler.DeleteFeedback)
+	fee.PUT("/:id", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.UpdateFeedback)
+	fee.DELETE("/:id", authMiddleware(authService, userService), authRole(authService, userService), feedbackHandler.DeleteFeedback)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
@@ -191,6 +193,54 @@ func authMiddleware(authService auth.Service, userService user.Service) gin.Hand
 
 		user, err := userService.GetUserByid(userID)
 		fmt.Println(user, err)
+		if err != nil {
+			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+			return
+		}
+		c.Set("currentUser", user)
+	}
+}
+
+func authRole(authService auth.Service, userService user.Service) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		authHeader := c.GetHeader("Authorization")
+		// fmt.Println(authHeader)
+		if !strings.Contains(authHeader, "Bearer") {
+			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+			return
+		}
+		tokenString := ""
+		arrToken := strings.Split(authHeader, " ")
+		if len(arrToken) == 2 {
+			//nah ini kalau emang ada dua key nya dan sesuai, maka tokenString tadi masuk ke arrtoken index ke1
+			tokenString = arrToken[1]
+		}
+		token, err := authService.ValidasiToken(tokenString)
+		// fmt.Println(token, err)
+		if err != nil {
+			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+			return
+		}
+		claim, ok := token.Claims.(jwt.MapClaims)
+		// fmt.Println(claim, ok)
+		if !ok || !token.Valid {
+			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+			return
+		}
+		userID := int(claim["user_id"].(float64))
+
+		if int(claim["role"].(float64)) != 1 {
+			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+			return
+		}
+
+		user, err := userService.GetUserByid(userID)
+		// fmt.Println(user, err)
 		if err != nil {
 			response := helper.APIresponse(http.StatusUnauthorized, nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
