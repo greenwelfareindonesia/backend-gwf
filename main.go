@@ -9,6 +9,7 @@ import (
 	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/event"
 	"greenwelfare/feedback"
+	"greenwelfare/gallery"
 	"greenwelfare/handler"
 	"greenwelfare/helper"
 	"greenwelfare/user"
@@ -42,6 +43,9 @@ func main() {
 	db.AutoMigrate(&veganguide.Veganguide{})
 	db.AutoMigrate(&feedback.Feedback{})
 	db.AutoMigrate(&endpointcount.Statistics{})
+	db.AutoMigrate(&ecopedia.Comment{})
+	db.AutoMigrate(&ecopedia.IsLike{})
+	db.AutoMigrate(&gallery.Gallery{})
 
 	// fmt.Println("Database Connection Success") //
 
