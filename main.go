@@ -27,6 +27,12 @@ import (
 )
 
 func main() {
+	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); exists == false {
+		if err := godotenv.Load(); err != nil {
+			log.Fatal("error loading .env file:", err)
+		}
+	}
+	
 	dbUsername := os.Getenv("MYSQLUSER")
 	dbPassword := os.Getenv("MYSQLPASSWORD")
 	dbHost := os.Getenv("MYSQLHOST")
