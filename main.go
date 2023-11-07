@@ -20,6 +20,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/joho/godotenv"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -27,16 +29,23 @@ import (
 )
 
 func main() {
+
+	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); exists == false {
+		if err := godotenv.Load(); err != nil {
+			log.Fatal("error loading .env file:", err)
+		}
+	}
+
 	dbUsername := os.Getenv("MYSQLUSER")
 	dbPassword := os.Getenv("MYSQLPASSWORD")
 	dbHost := os.Getenv("MYSQLHOST")
 	dbPort := os.Getenv("MYSQLPORT")
 	dbName := os.Getenv("MYSQLDATABASE")
-	// Database connection
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUsername, dbPassword, dbHost, dbPort, dbName)
+
+	dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Db Connestion Error")
+		log.Fatal("DB Connection Error")
 	}
 
 	// Auto Migration
