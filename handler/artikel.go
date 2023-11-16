@@ -125,10 +125,12 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
-	defer src.Close()
 	if err != nil {
-		fmt.Printf("error when open file %v", err)
+		fmt.Printf("error when opening file: %v", err)
+		return
 	}
+	defer src.Close()
+
 
 	buf := bytes.NewBuffer(nil)
 	if _, err := io.Copy(buf, src); err != nil {
@@ -138,10 +140,10 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 
 	img, err := imagekits.Base64toEncode(buf.Bytes())
 	if err != nil {
-		fmt.Println("error reading image %v", err)
+		fmt.Println("error reading image : ", err)
 	}
 
-	fmt.Println("image base 64 format : %v", img)
+	fmt.Println("image base 64 format : ", img)
 
 	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
 	if err != nil {
