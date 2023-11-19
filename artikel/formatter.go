@@ -20,7 +20,6 @@ func FormatterArtikel (artikel Artikel) CreateArtikelFormatter {
 		Topic: artikel.Topic,
 		ArtikelMessage:   artikel.ArtikelMessage,
 		CreatedAt: artikel.CreatedAt,
-		UpdatedAt: artikel.UpdatedAt,
 	}
 	return formatter
 }

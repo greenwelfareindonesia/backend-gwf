@@ -24,6 +24,15 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 	return &artikelHandler{artikelService, endpointService}
 }
 
+
+// @Summary Delete an artikel by ID
+// @Description Delete an artikel by its ID
+// @Accept form
+// @Produce json
+// @Param id path int true "Artikel ID"
+// @Success 200 {object} map[string]interface{}
+// @Router /artikel/{id} [delete]
+
 func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 	var input artikel.GetArtikel
 
@@ -122,6 +131,20 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Menambahkan artikel baru
+// @Description Menambahkan entri artikel baru
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "File gambar"
+// @Param full_name formData string true "Nama lengkap"
+// @Param email formData string true "Email"
+// @Param topic formData string true "Topik"
+// @Param message formData string true "Pesan artikel"
+// @Success 200 {object} map[string]interface{}
+// @Success 400 {object} map[string]interface{}
+// @Success 422 {object} map[string]interface{}
+// @Success 500 {object} map[string]interface{}
+// @Router /artikel [post]
 func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
@@ -176,7 +199,6 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 
 	_, err = h.artikelService.CreateArtikel(input, imageKitURL)
 	if err != nil {
-		// data := gin.H{"is_uploaded": false}
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return

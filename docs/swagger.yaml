@@ -4,5 +4,60 @@ info:
   description: Sweager service API in Go using Gin framework
   title: Sweager Service API
   version: "1.0"
-paths: {}
+paths:
+  /artikel:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Menambahkan entri artikel baru
+      parameters:
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Nama lengkap
+        in: formData
+        name: full_name
+        required: true
+        type: string
+      - description: Email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Topik
+        in: formData
+        name: topic
+        required: true
+        type: string
+      - description: Pesan artikel
+        in: formData
+        name: message
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Menambahkan artikel baru
 swagger: "2.0"
