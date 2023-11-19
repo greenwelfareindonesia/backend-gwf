@@ -31,7 +31,7 @@ import (
 // @title Sweager Service API
 // @version 1.0
 // @description Sweager service API in Go using Gin framework
-// @host localhost:8080
+// @host https://backend-gwf-production.up.railway.app/
 func main() {
 
 	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); exists == false {

@@ -25,14 +25,16 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 }
 
 
-// @Summary Delete an artikel by ID
-// @Description Delete an artikel by its ID
-// @Accept form
+// @Summary Menghapus artikel by id
+// @Description Menghapus artikel by id
+// @Accept json
 // @Produce json
 // @Param id path int true "Artikel ID"
 // @Success 200 {object} map[string]interface{}
+// @Success 400 {object} map[string]interface{}
+// @Success 422 {object} map[string]interface{}
+// @Success 500 {object} map[string]interface{}
 // @Router /artikel/{id} [delete]
-
 func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 	var input artikel.GetArtikel
 

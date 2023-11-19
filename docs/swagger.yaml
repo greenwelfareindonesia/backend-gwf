@@ -1,4 +1,4 @@
-host: localhost:8080
+host: https://backend-gwf-production.up.railway.app/
 info:
   contact: {}
   description: Sweager service API in Go using Gin framework
@@ -60,4 +60,39 @@ paths:
             additionalProperties: true
             type: object
       summary: Menambahkan artikel baru
+  /artikel/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Menghapus artikel by id
+      parameters:
+      - description: Artikel ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Menghapus artikel by id
 swagger: "2.0"
