@@ -94,5 +94,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Menghapus artikel by id
 swagger: "2.0"

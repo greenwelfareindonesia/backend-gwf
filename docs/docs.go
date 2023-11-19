@@ -96,6 +96,11 @@ const docTemplate = `{
         },
         "/artikel/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Menghapus artikel by id",
                 "consumes": [
                     "application/json"

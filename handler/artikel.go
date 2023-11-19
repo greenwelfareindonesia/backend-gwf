@@ -24,7 +24,7 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 	return &artikelHandler{artikelService, endpointService}
 }
 
-
+// @Security ApiKeyAuth
 // @Summary Menghapus artikel by id
 // @Description Menghapus artikel by id
 // @Accept json
