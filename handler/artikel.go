@@ -137,6 +137,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 // @Description Menambahkan entri artikel baru
 // @Accept multipart/form-data
 // @Produce json
+// @Security BearerAuth
 // @Param file formData file true "File gambar"
 // @Param full_name formData string true "Nama lengkap"
 // @Param email formData string true "Email"
