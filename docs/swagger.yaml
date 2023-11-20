@@ -97,4 +97,9 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Menghapus artikel by id
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
