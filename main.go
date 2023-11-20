@@ -16,13 +16,10 @@ import (
 	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
 	"log"
-	"os"
 
 	"github.com/gin-contrib/cors"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-
-	"github.com/joho/godotenv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,11 +34,7 @@ import (
 
 func main() {
 
-	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); exists == false {
-		if err := godotenv.Load(); err != nil {
-			log.Fatal("error loading .env file:", err)
-		}
-	}
+
 
 	db, err := database.InitDb()
 	if err != nil {

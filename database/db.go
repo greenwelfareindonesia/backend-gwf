@@ -10,14 +10,23 @@ import (
 	"greenwelfare/gallery"
 	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
+	"log"
 	"os"
 	"os/user"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func InitDb() (*gorm.DB, error){
+
+	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); exists == false {
+		if err := godotenv.Load(); err != nil {
+			log.Fatal("error loading .env file:", err)
+		}
+	}
+
 		dbUsername := os.Getenv("MYSQLUSER")
 		dbPassword := os.Getenv("MYSQLPASSWORD")
 		dbHost := os.Getenv("MYSQLHOST")
