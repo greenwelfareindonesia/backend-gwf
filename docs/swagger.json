@@ -3,8 +3,7 @@
     "info": {
         "description": "Sweager service API in Go using Gin framework",
         "title": "Sweager Service API",
-        "contact": {},
-        "version": "1.0"
+        "contact": {}
     },
     "host": "https://backend-gwf-production.up.railway.app/",
     "paths": {

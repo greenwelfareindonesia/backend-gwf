@@ -3,7 +3,6 @@ info:
   contact: {}
   description: Sweager service API in Go using Gin framework
   title: Sweager Service API
-  version: "1.0"
 paths:
   /artikel:
     post:
