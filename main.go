@@ -4,12 +4,12 @@ import (
 	"greenwelfare/artikel"
 	"greenwelfare/auth"
 	"greenwelfare/contact"
+	"greenwelfare/database"
 	_ "greenwelfare/docs"
 	"greenwelfare/ecopedia"
 	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/event"
 	"greenwelfare/feedback"
-	"greenwelfare/gallery"
 	"greenwelfare/handler"
 	"greenwelfare/middleware"
 	"greenwelfare/user"
@@ -25,8 +25,6 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 // @title Sweager Service API
@@ -41,33 +39,10 @@ func main() {
 		}
 	}
 
-	dbUsername := os.Getenv("MYSQLUSER")
-	dbPassword := os.Getenv("MYSQLPASSWORD")
-	dbHost := os.Getenv("MYSQLHOST")
-	dbPort := os.Getenv("MYSQLPORT")
-	dbName := os.Getenv("MYSQLDATABASE")
-
-	dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := database.InitDb()
 	if err != nil {
-		log.Fatal("DB Connection Error")
+		log.Fatal("Eror Db Connection")
 	}
-
-	// Auto Migration
-	db.AutoMigrate(&user.User{})
-	db.AutoMigrate(&artikel.Artikel{})
-	db.AutoMigrate(&ecopedia.Ecopedia{})
-	db.AutoMigrate(&contact.Contact{})
-	db.AutoMigrate(&workshop.Workshop{})
-	db.AutoMigrate(&event.Event{})
-	db.AutoMigrate(&veganguide.Veganguide{})
-	db.AutoMigrate(&feedback.Feedback{})
-	db.AutoMigrate(&endpointcount.Statistics{})
-	db.AutoMigrate(&ecopedia.Comment{})
-	db.AutoMigrate(&ecopedia.IsLike{})
-	db.AutoMigrate(&gallery.Gallery{})
-
-
 
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
