@@ -28,7 +28,6 @@ import (
 )
 
 // @title Sweager Service API
-// @version 1.0
 // @description Sweager service API in Go using Gin framework
 // @host https://backend-gwf-production.up.railway.app/
 
