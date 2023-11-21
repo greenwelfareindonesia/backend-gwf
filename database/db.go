@@ -26,7 +26,7 @@ func InitDb() (*gorm.DB, error){
 			log.Fatal("error loading .env file:", err)
 		}
 	}
-
+	
 		dbUsername := os.Getenv("MYSQLUSER")
 		dbPassword := os.Getenv("MYSQLPASSWORD")
 		dbHost := os.Getenv("MYSQLHOST")

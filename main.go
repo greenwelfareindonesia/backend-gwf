@@ -33,9 +33,7 @@ import (
 // @name Authorization
 
 func main() {
-
-
-
+	
 	db, err := database.InitDb()
 	if err != nil {
 		log.Fatal("Eror Db Connection")
