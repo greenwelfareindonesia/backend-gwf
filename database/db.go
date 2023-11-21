@@ -33,11 +33,18 @@ func InitDb() (*gorm.DB, error){
 		dbPort := os.Getenv("MYSQLPORT")
 		dbName := os.Getenv("MYSQLDATABASE")
 
+
 		dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
-			return nil, err
+			log.Fatal("DB Connection Error")
 		}
+
+		// dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+		// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		// if err != nil {
+		// 	return nil, err
+		// }
 
 		// Auto Migration
 		db.AutoMigrate(&user.User{})
