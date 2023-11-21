@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"greenwelfare/artikel"
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
@@ -35,16 +36,16 @@ func InitDb() (*gorm.DB, error){
 
 
 		dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+		fmt.Println("Nilai dbUsername:", dbUsername)
+		fmt.Println("Nilai dbPassword:", dbPassword)
+		fmt.Println("Nilai dbHost:", dbHost)
+		fmt.Println("Nilai dbPort:", dbPort)
+		fmt.Println("Nilai dbName:", dbName)
+		fmt.Println("String Koneksi (DSN):", dsn)
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			log.Fatal("DB Connection Error")
 		}
-
-		// dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
-		// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-		// if err != nil {
-		// 	return nil, err
-		// }
 
 		// Auto Migration
 		db.AutoMigrate(&user.User{})
