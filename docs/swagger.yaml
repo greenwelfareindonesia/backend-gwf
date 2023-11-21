@@ -1,4 +1,4 @@
-host: https://backend-gwf-production.up.railway.app/
+host: roundhouse.proxy.rlwy.net
 info:
   contact: {}
   description: Sweager service API in Go using Gin framework
@@ -58,6 +58,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Menambahkan artikel baru
   /artikel/{id}:
     delete:

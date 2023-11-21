@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/artikel": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Menambahkan entri artikel baru",
                 "consumes": [
                     "multipart/form-data"
@@ -163,7 +168,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
-	Host:             "https://backend-gwf-production.up.railway.app/",
+	Host:             "roundhouse.proxy.rlwy.net",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Sweager Service API",

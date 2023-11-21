@@ -26,7 +26,7 @@ import (
 
 // @title Sweager Service API
 // @description Sweager service API in Go using Gin framework
-// @host https://backend-gwf-production.up.railway.app/
+// @host roundhouse.proxy.rlwy.net
 
 // @securitydefinitions.apikey BearerAuth
 // @in header

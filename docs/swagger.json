@@ -5,10 +5,15 @@
         "title": "Sweager Service API",
         "contact": {}
     },
-    "host": "https://backend-gwf-production.up.railway.app/",
+    "host": "roundhouse.proxy.rlwy.net",
     "paths": {
         "/artikel": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Menambahkan entri artikel baru",
                 "consumes": [
                     "multipart/form-data"
