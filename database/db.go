@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"greenwelfare/artikel"
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
@@ -33,7 +34,8 @@ func InitDb() (*gorm.DB, error){
 		dbPort := os.Getenv("MYSQLPORT")
 		dbName := os.Getenv("MYSQLDATABASE")
 
-		dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s post=%s", dbHost, dbUsername, dbPassword, dbName, dbPort)
+		// dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&d=True&loc=Local"
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			return nil, err
