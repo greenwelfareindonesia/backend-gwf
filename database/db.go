@@ -28,14 +28,14 @@ func InitDb() (*gorm.DB, error){
 		}
 	}
 	
-		dbUsername := os.Getenv("MYSQLUSER")
-		dbPassword := os.Getenv("MYSQLPASSWORD")
-		dbHost := os.Getenv("MYSQLHOST")
-		dbPort := os.Getenv("MYSQLPORT")
-		dbName := os.Getenv("MYSQLDATABASE")
-
-		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", dbHost, dbUsername, dbPassword, dbName, dbPort)
-
+	dbUsername := os.Getenv("MYSQLUSER")
+	dbPassword := os.Getenv("MYSQLPASSWORD")
+	dbHost := os.Getenv("MYSQLHOST")
+	dbPort := os.Getenv("MYSQLPORT")
+	dbName := os.Getenv("MYSQLDATABASE")
+	
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", dbHost, dbUsername, dbPassword, dbName, dbPort)
+	
 		// dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&d=True&loc=Local"
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
