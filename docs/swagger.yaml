@@ -1,4 +1,4 @@
-host: roundhouse.proxy.rlwy.net
+host: backend-gwf-production.up.railway.app
 info:
   contact: {}
   description: Sweager service API in Go using Gin framework

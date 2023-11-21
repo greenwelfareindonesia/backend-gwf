@@ -5,7 +5,7 @@
         "title": "Sweager Service API",
         "contact": {}
     },
-    "host": "roundhouse.proxy.rlwy.net",
+    "host": "backend-gwf-production.up.railway.app",
     "paths": {
         "/artikel": {
             "post": {
