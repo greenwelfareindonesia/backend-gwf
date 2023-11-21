@@ -4,7 +4,6 @@ import (
 	"greenwelfare/artikel"
 	"greenwelfare/auth"
 	"greenwelfare/contact"
-	"greenwelfare/database"
 	_ "greenwelfare/docs"
 	"greenwelfare/ecopedia"
 	endpointcount "greenwelfare/endpointCount"
@@ -16,10 +15,14 @@ import (
 	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
 	"log"
+	"os"
 
 	"github.com/gin-contrib/cors"
+	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,9 +37,23 @@ import (
 
 func main() {
 	
-	db, err := database.InitDb()
+	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); exists == false {
+		if err := godotenv.Load(); err != nil {
+			log.Fatal("error loading .env file:", err)
+		}
+	}
+
+	dbUsername := os.Getenv("MYSQLUSER")
+	dbPassword := os.Getenv("MYSQLPASSWORD")
+	dbHost := os.Getenv("MYSQLHOST")
+	dbPort := os.Getenv("MYSQLPORT")
+	dbName := os.Getenv("MYSQLDATABASE")
+	// secretKey := os.Getenv("SECRET_KEY")
+
+	dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Eror Db Connection")
+		log.Fatal("DB Connection Error")
 	}
 
 	router := gin.Default()
