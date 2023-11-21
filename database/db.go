@@ -9,11 +9,11 @@ import (
 	"greenwelfare/event"
 	"greenwelfare/feedback"
 	"greenwelfare/gallery"
+	"greenwelfare/user"
 	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
 	"log"
 	"os"
-	"os/user"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
