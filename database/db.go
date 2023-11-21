@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"greenwelfare/artikel"
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
@@ -33,16 +32,9 @@ func InitDb() (*gorm.DB, error){
 	dbPort := os.Getenv("MYSQLPORT")
 	dbName := os.Getenv("MYSQLDATABASE")
 	
-	// Gunakan nilai variabel lingkungan untuk koneksi database
-	dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+		// Gunakan nilai variabel lingkungan untuk koneksi database
+		dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 
-		// dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
-		fmt.Println("Nilai dbUsername:", dbUsername)
-		fmt.Println("Nilai dbPassword:", dbPassword)
-		fmt.Println("Nilai dbHost:", dbHost)
-		fmt.Println("Nilai dbPort:", dbPort)
-		fmt.Println("Nilai dbName:", dbName)
-		fmt.Println("String Koneksi (DSN):", dsn)
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			log.Fatal("DB Connection Error")
