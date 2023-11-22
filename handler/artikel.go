@@ -113,16 +113,17 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Param id path int true "Artikel ID"
-// @Param file formData file false "File gambar baru"
-// @Param full_name formData string false "Nama lengkap baru"
-// @Param email formData string false "Email baru"
-// @Param topic formData string false "Topik baru"
-// @Param message formData string false "Pesan artikel baru"
+// @Param file formData file true "File gambar"
+// @Param full_name formData string true "Nama lengkap"
+// @Param email formData string true "Email"
+// @Param topic formData string true "Topik"
+// @Param message formData string true "Pesan artikel"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
 // @Router /artikel/{id} [put]
+
 func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 	var inputID artikel.GetArtikel
 
