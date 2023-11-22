@@ -26,6 +26,16 @@ func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpoi
 }
 
 
+// @Summary Hapus data Ecopedia berdasarkan ID
+// @Description Hapus data Ecopedia berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Param id path int true "Ecopedia ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /ecopedia/{id} [delete]
 func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
 	var input ecopedia.EcopediaID
 
@@ -51,6 +61,16 @@ func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Dapatkan data Ecopedia berdasarkan ID
+// @Description Dapatkan data Ecopedia berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Param id path int true "Ecopedia ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /ecopedia/{id} [get]
 func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 	var input ecopedia.EcopediaID
 
@@ -87,6 +107,16 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 
 }
 
+// @Summary Dapatkan semua data Ecopedia
+// @Description Dapatkan semua data Ecopedia dengan opsi ID sebagai parameter query opsional
+// @Accept json
+// @Produce json
+// @Param id query int false "ID Ecopedia (opsional)"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /ecopedia [get]
 func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -112,6 +142,22 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Update data Ecopedia
+// @Description Update data Ecopedia berdasarkan ID yang diberikan dengan informasi yang diberikan
+// @Accept multipart/form-data
+// @Produce json
+// @Param id path int true "Ecopedia ID"
+// @Param file formData file true "File gambar"
+// @Param judul formData string true "judul"
+// @Param SubJudul formData string true "sub judul"
+// @Param Deskripsi formData string true "deskripsi"
+// @Param SrcGambar formData string true "src_gambar"
+// @Param Referensi formData string true "referensi"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /ecopedia/{id} [put]
 func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 	var input ecopedia.EcopediaInput
 
@@ -189,6 +235,21 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 
 }
 
+// @Summary Buat data Ecopedia baru
+// @Description Buat data Ecopedia baru dengan informasi yang diberikan
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "File gambar"
+// @Param judul formData string true "judul"
+// @Param SubJudul formData string true "sub judul"
+// @Param Deskripsi formData string true "deskripsi"
+// @Param SrcGambar formData string true "src_gambar"
+// @Param Referensi formData string true "referensi"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /ecopedia [post]
 func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src,err:=file.Open()
@@ -255,6 +316,17 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 }
 
 
+// @Summary Buat komentar pada data Ecopedia
+// @Description Buat komentar pada data Ecopedia berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Param id path int true "Ecopedia ID"
+// @Param body body string true "Komentar"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /ecopedia/{id}/comment [post]
 func (h *ecopediaHandler) PostCommentEcopedia(c *gin.Context) {
 	var getIdEcopedia ecopedia.EcopediaID
 

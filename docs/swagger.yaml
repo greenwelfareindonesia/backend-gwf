@@ -226,6 +226,275 @@ paths:
       security:
       - BearerAuth: []
       summary: Memperbarui artikel
+  /ecopedia:
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan semua data Ecopedia dengan opsi ID sebagai parameter query
+        opsional
+      parameters:
+      - description: ID Ecopedia (opsional)
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan semua data Ecopedia
+    post:
+      consumes:
+      - multipart/form-data
+      description: Buat data Ecopedia baru dengan informasi yang diberikan
+      parameters:
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: judul
+        in: formData
+        name: judul
+        required: true
+        type: string
+      - description: sub judul
+        in: formData
+        name: SubJudul
+        required: true
+        type: string
+      - description: deskripsi
+        in: formData
+        name: Deskripsi
+        required: true
+        type: string
+      - description: src_gambar
+        in: formData
+        name: SrcGambar
+        required: true
+        type: string
+      - description: referensi
+        in: formData
+        name: Referensi
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Buat data Ecopedia baru
+  /ecopedia/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Hapus data Ecopedia berdasarkan ID yang diberikan
+      parameters:
+      - description: Ecopedia ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Hapus data Ecopedia berdasarkan ID
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan data Ecopedia berdasarkan ID yang diberikan
+      parameters:
+      - description: Ecopedia ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan data Ecopedia berdasarkan ID
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update data Ecopedia berdasarkan ID yang diberikan dengan informasi
+        yang diberikan
+      parameters:
+      - description: Ecopedia ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: judul
+        in: formData
+        name: judul
+        required: true
+        type: string
+      - description: sub judul
+        in: formData
+        name: SubJudul
+        required: true
+        type: string
+      - description: deskripsi
+        in: formData
+        name: Deskripsi
+        required: true
+        type: string
+      - description: src_gambar
+        in: formData
+        name: SrcGambar
+        required: true
+        type: string
+      - description: referensi
+        in: formData
+        name: Referensi
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update data Ecopedia
+  /ecopedia/{id}/comment:
+    post:
+      consumes:
+      - application/json
+      description: Buat komentar pada data Ecopedia berdasarkan ID yang diberikan
+      parameters:
+      - description: Ecopedia ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Komentar
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Buat komentar pada data Ecopedia
 securityDefinitions:
   BearerAuth:
     in: header
