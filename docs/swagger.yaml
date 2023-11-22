@@ -5,6 +5,39 @@ info:
   title: Sweager Service API
 paths:
   /artikel:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan semua artikel
+      parameters:
+      - description: ID
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Mendapatkan semua artikel
     post:
       consumes:
       - multipart/form-data
@@ -96,8 +129,78 @@ paths:
             additionalProperties: true
             type: object
       security:
-      - ApiKeyAuth: []
+      - BearerAuth: []
       summary: Menghapus artikel by id
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan satu artikel by id
+      parameters:
+      - description: Artikel ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Mendapatkan satu artikel by id
+    put:
+      consumes:
+      - application/json
+      description: Memperbarui artikel
+      parameters:
+      - description: Artikel ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Memperbarui artikel
 securityDefinitions:
   BearerAuth:
     in: header

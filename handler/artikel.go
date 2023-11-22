@@ -24,11 +24,11 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 	return &artikelHandler{artikelService, endpointService}
 }
 
-// @Security ApiKeyAuth
 // @Summary Menghapus artikel by id
 // @Description Menghapus artikel by id
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "Artikel ID"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
@@ -61,6 +61,16 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 
 }
 
+// @Summary Mendapatkan satu artikel by id
+// @Description Mendapatkan satu artikel by id
+// @Accept json
+// @Produce json
+// @Param id path int true "Artikel ID"
+// @Success 200 {object} map[string]interface{}
+// @Success 400 {object} map[string]interface{}
+// @Success 422 {object} map[string]interface{}
+// @Success 500 {object} map[string]interface{}
+// @Router /artikel/{id} [get]
 func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 	var input artikel.GetArtikel
 
@@ -97,6 +107,17 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 
 }
 
+// @Summary Memperbarui artikel
+// @Description Memperbarui artikel
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Artikel ID"
+// @Success 200 {object} map[string]interface{}
+// @Success 400 {object} map[string]interface{}
+// @Success 422 {object} map[string]interface{}
+// @Success 500 {object} map[string]interface{}
+// @Router /artikel/{id} [put]
 func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 	var inputID artikel.GetArtikel
 
@@ -211,6 +232,16 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Mendapatkan semua artikel
+// @Description Mendapatkan semua artikel
+// @Accept json
+// @Produce json
+// @Param id query int false "ID"
+// @Success 200 {object} map[string]interface{}
+// @Success 400 {object} map[string]interface{}
+// @Success 422 {object} map[string]interface{}
+// @Success 500 {object} map[string]interface{}
+// @Router /artikel [get]
 func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
