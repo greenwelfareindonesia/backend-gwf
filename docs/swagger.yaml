@@ -281,7 +281,7 @@ paths:
         name: SubJudul
         required: true
         type: string
-      - description: Deskripsi
+      - description: deskripsi
         in: formData
         name: Deskripsi
         required: true
@@ -419,7 +419,7 @@ paths:
         name: SubJudul
         required: true
         type: string
-      - description: Deskripsi
+      - description: deskripsi
         in: formData
         name: Deskripsi
         required: true

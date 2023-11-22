@@ -428,7 +428,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Deskripsi",
+                        "description": "deskripsi",
                         "name": "Deskripsi",
                         "in": "formData",
                         "required": true
@@ -575,7 +575,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Deskripsi",
+                        "description": "deskripsi",
                         "name": "Deskripsi",
                         "in": "formData",
                         "required": true

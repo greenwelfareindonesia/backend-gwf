@@ -420,7 +420,7 @@
                     },
                     {
                         "type": "string",
-                        "description": "Deskripsi",
+                        "description": "deskripsi",
                         "name": "Deskripsi",
                         "in": "formData",
                         "required": true
@@ -567,7 +567,7 @@
                     },
                     {
                         "type": "string",
-                        "description": "Deskripsi",
+                        "description": "deskripsi",
                         "name": "Deskripsi",
                         "in": "formData",
                         "required": true
