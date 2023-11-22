@@ -7,7 +7,7 @@ type Service interface {
 	GetFeedbackByID(id int) (Feedback, error)
 	CreateFeedback(feedback FeedbackInput) (Feedback, error)
 	DeleteFeedback(ID int) (Feedback, error)
-	UpdateFeedback(getIdFeedback FeedbackID, input FeedbackInput, FileName string) (Feedback, error)
+	// UpdateFeedback(getIdFeedback FeedbackID, input FeedbackInput, FileName string) (Feedback, error)
 }
 
 type service struct {
@@ -31,21 +31,21 @@ func (s *service) DeleteFeedback(ID int) (Feedback, error) {
 	return feedback, nil
 }
 
-func (s *service) UpdateFeedback(getIdFeedback FeedbackID, input FeedbackInput, FileName string) (Feedback, error) {
-	feedback, err := s.repository.FindById(getIdFeedback.ID)
-	if err != nil {
-		return feedback, nil
-	}
+// func (s *service) UpdateFeedback(getIdFeedback FeedbackID, input FeedbackInput, FileName string) (Feedback, error) {
+// 	feedback, err := s.repository.FindById(getIdFeedback.ID)
+// 	if err != nil {
+// 		return feedback, nil
+// 	}
 
-	feedback.Email = input.Email
-	feedback.Text = input.Text
+// 	feedback.Email = input.Email
+// 	feedback.Text = input.Text
 
-	newFeedback, err := s.repository.Update(feedback)
-	if err != nil {
-		return newFeedback, err
-	}
-	return newFeedback, nil
-}
+// 	newFeedback, err := s.repository.Update(feedback)
+// 	if err != nil {
+// 		return newFeedback, err
+// 	}
+// 	return newFeedback, nil
+// }
 
 func (s *service) GetAllFeedback(input int) ([]Feedback, error) {
 	feedbacks, err := s.repository.FindAll()

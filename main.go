@@ -148,7 +148,7 @@ func main() {
 	fee.POST("/", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.PostFeedbackHandler)
 	fee.GET("/", feedbackHandler.GetAllFeedback)
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
-	fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
+	// fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
 	fee.DELETE("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
 
 	// statistics

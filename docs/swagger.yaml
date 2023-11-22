@@ -1,4 +1,14 @@
 definitions:
+  feedback.FeedbackInput:
+    properties:
+      email:
+        type: string
+      text:
+        type: string
+    required:
+    - email
+    - text
+    type: object
   user.LoginInput:
     properties:
       email:
@@ -536,6 +546,126 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat komentar pada data Ecopedia
+  /feedback:
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan semua feedback atau feedback berdasarkan ID tertentu
+      parameters:
+      - description: ID Feedback
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan semua feedback atau feedback berdasarkan ID tertentu
+    post:
+      consumes:
+      - application/json
+      description: Buat feedback baru dengan informasi yang diberikan
+      parameters:
+      - description: Data Feedback yang ingin dibuat
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/feedback.FeedbackInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Buat feedback baru
+  /feedback/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Hapus feedback berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Feedback
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Hapus feedback berdasarkan ID
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan feedback berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Feedback
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan feedback berdasarkan ID
   /user/{id}:
     delete:
       description: Delete a user
