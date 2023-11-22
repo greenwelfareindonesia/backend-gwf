@@ -997,6 +997,213 @@ paths:
             additionalProperties: true
             type: object
       summary: Register new user
+  /workshop:
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan semua workshop atau workshop berdasarkan ID tertentu
+      parameters:
+      - description: ID Workshop
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan semua workshop atau workshop berdasarkan ID tertentu
+    post:
+      consumes:
+      - application/json
+      description: Buat workshop baru dengan informasi yang diberikan
+      parameters:
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Judul
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Deskripsi
+        in: formData
+        name: desc
+        required: true
+        type: string
+      - description: Tanggal
+        in: formData
+        name: date
+        required: true
+        type: string
+      - description: URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: Status buka
+        in: formData
+        name: is_open
+        required: true
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Buat workshop baru
+  /workshop/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Hapus workshop berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Workshop
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Hapus workshop berdasarkan ID
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan satu workshop berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Workshop
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan satu workshop berdasarkan ID
+    put:
+      consumes:
+      - application/json
+      description: Update workshop berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Workshop
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Judul
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Deskripsi
+        in: formData
+        name: desc
+        required: true
+        type: string
+      - description: Tanggal
+        in: formData
+        name: date
+        required: true
+        type: string
+      - description: URL
+        in: formData
+        name: url
+        required: true
+        type: string
+      - description: Status buka
+        in: formData
+        name: is_open
+        required: true
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update workshop berdasarkan ID
 securityDefinitions:
   BearerAuth:
     in: header

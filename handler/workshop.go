@@ -24,6 +24,21 @@ func NewWorkshopHandler(workshopService workshop.Service, endpointService endpoi
 	return &workshopHandler{workshopService, endpointService}
 }
 
+// @Summary Buat workshop baru
+// @Description Buat workshop baru dengan informasi yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param file formData file true "File gambar"
+// @Param title formData string true "Judul"
+// @Param desc formData string true "Deskripsi"
+// @Param date formData string true "Tanggal"
+// @Param url formData string true "URL"
+// @Param is_open formData boolean true "Status buka"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /workshop [post]
 func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
@@ -86,6 +101,15 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Dapatkan satu workshop berdasarkan ID
+// @Description Dapatkan satu workshop berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Param id path int true "ID Workshop"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /workshop/{id} [get]
 func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 	var input workshop.GetWorkshop
 
@@ -122,6 +146,15 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 
 }
 
+// @Summary Dapatkan semua workshop atau workshop berdasarkan ID tertentu
+// @Description Dapatkan semua workshop atau workshop berdasarkan ID tertentu
+// @Accept json
+// @Produce json
+// @Param id query int false "ID Workshop"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /workshop [get]
 func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -144,6 +177,22 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Update workshop berdasarkan ID
+// @Description Update workshop berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID Workshop"
+// @Param file formData file true "File gambar"
+// @Param title formData string true "Judul"
+// @Param desc formData string true "Deskripsi"
+// @Param date formData string true "Tanggal"
+// @Param url formData string true "URL"
+// @Param is_open formData boolean true "Status buka"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /workshop/{id} [put]
 func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
@@ -207,6 +256,16 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Hapus workshop berdasarkan ID
+// @Description Hapus workshop berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID Workshop"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /workshop/{id} [delete]
 func (h *workshopHandler) DeleteWorkshop(c *gin.Context) {
 	var input workshop.GetWorkshop
 
