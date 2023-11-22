@@ -9,7 +9,7 @@ import (
 type Service interface {
 	RegisterUser(input RegisterUserInput) (User, error)
 	Login(input LoginInput) (User, error)
-	IsEmaillAvailabilty(input CheckEmailInput) (bool, error)
+	IsEmaillAvailabilty(input string) (bool, error)
 	GetUserByid(ID int) (User, error)
 	DeleteUser(ID int) (User, error)
 	// SaveAvatar(ID int, fileLocation string) (User, error)
@@ -77,14 +77,19 @@ func (s *service) DeleteUser(userID int) (User, error) {
 	return userDel, nil
 }
 
-func (s *service) IsEmaillAvailabilty(input CheckEmailInput) (bool, error) {
-	email := input.Email
+func (s *service) IsEmaillAvailabilty(input string) (bool, error) {
+	//karena hanya email maka di inisiasi hanya email
+	emailUser := User{}
+	emailUser.Email = input
 
-	user, err := s.repository.FindByEmail(email)
+	//pengambilan algoritmanya repository yaitu findbyemail
+	user, err := s.repository.FindByEmail(input)
 	if err != nil {
 		return false, err
 	}
 
+	// ini nilainya true karena misal kita input email ini sama ga dengan email yang terdaftar dg id sekian
+	//kalau g ada maka balikkanya 0 sehingga bisa di daftrakan atau availabilty
 	if user.ID == 0 {
 		return true, nil
 	}

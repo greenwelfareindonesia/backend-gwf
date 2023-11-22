@@ -11,9 +11,6 @@ type LoginInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type CheckEmailInput struct {
-	Email string `json:"email" binding:"required,email"`
-}
 
 type DeletedUser struct {
 	ID int `uri:"id" binding:"required"`

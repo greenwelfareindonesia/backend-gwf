@@ -18,6 +18,17 @@ func NewUserHandler(userService user.Service, authService auth.Service) *userHan
 	return &userHandler{userService, authService}
 }
 
+// @Summary Register new user
+// @Description Register a new user with the provided information
+// @Accept json
+// @Produce json
+// @Param body body user.RegisterUserInput true "User registration details"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 409 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /register [post]
 func (h *userHandler) RegisterUser(c *gin.Context) {
 	var input user.RegisterUserInput
 
@@ -30,23 +41,41 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 
+	isEmailAvailable, err := h.userService.IsEmaillAvailabilty(input.Email)
+    if err != nil {
+        response := helper.APIresponse(http.StatusInternalServerError, nil)
+        c.JSON(http.StatusInternalServerError, response)
+        return
+    }
+
+    // Jika email tidak tersedia, kirim respons kesalahan
+    if !isEmailAvailable {
+        response := helper.APIresponse(http.StatusConflict, nil)
+        c.JSON(http.StatusConflict, response)
+        return
+    }
+
 	newUser, err := h.userService.RegisterUser(input)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, nil)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	token, err := h.authService.GenerateToken(newUser.ID, newUser.Role)
-	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, nil)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-	formatter := user.FormatterUser(newUser, token)
-	response := helper.APIresponse(http.StatusOK, formatter)
+
+	response := helper.APIresponse(http.StatusOK, newUser)
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary User login
+// @Description Log in an existing user using email and password
+// @Accept json
+// @Produce json
+// @Param body body user.LoginInput true "User login credentials"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /login [post]
 func (h *userHandler) Login(c *gin.Context) {
 	var input user.LoginInput
 
@@ -76,36 +105,15 @@ func (h *userHandler) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func (h *userHandler) CheckEmailAvailabilty(c *gin.Context) {
-	var input user.CheckEmailInput
-
-	err := c.ShouldBindJSON(&input)
-
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	IsEmailAvailable, err := h.userService.IsEmaillAvailabilty(input)
-	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, nil)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	metaMessage := "Email has been registered"
-
-	if IsEmailAvailable {
-		metaMessage = "Email is available"
-	}
-
-	response := helper.APIresponse(http.StatusOK, metaMessage)
-	c.JSON(http.StatusOK, response)
-}
-
+// @Summary Delete user
+// @Description Delete a user
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /user [delete]
 func (h *userHandler) DeletedUser(c *gin.Context) {
 
 	currentUser := c.MustGet("currentUser").(user.User)
@@ -124,6 +132,18 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Update user information
+// @Description Update user details by ID
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "User ID"
+// @Param body body user.UpdateUserInput true "User information for update"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /user/{id} [put]
 func (h *userHandler) UpdateUser(c *gin.Context) {
 	var inputID user.IdUser
 
