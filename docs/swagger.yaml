@@ -1036,29 +1036,29 @@ paths:
         name: file
         required: true
         type: file
-      - description: Title
+      - description: title
         in: formData
-        name: title
+        name: Title
         required: true
         type: string
-      - description: Desc
+      - description: desc
         in: formData
-        name: desc
+        name: Desc
         required: true
         type: string
-      - description: Date
+      - description: date
         in: formData
-        name: date
+        name: Date
         required: true
         type: string
-      - description: Url
+      - description: url
         in: formData
-        name: url
+        name: Url
         required: true
         type: string
-      - description: IsOpen
+      - description: is_open
         in: formData
-        name: is_open
+        name: IsOpen
         required: true
         type: boolean
       produces:

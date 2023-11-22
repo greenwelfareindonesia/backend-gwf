@@ -30,11 +30,11 @@ func NewWorkshopHandler(workshopService workshop.Service, endpointService endpoi
 // @Produce json
 // @Security BearerAuth
 // @Param file formData file true "File gambar"
-// @Param title formData string true "Title"
-// @Param desc formData string true "Desc"
-// @Param date formData string true "Date"
-// @Param url formData string true "Url"
-// @Param is_open formData boolean true "IsOpen"
+// @Param Title formData string true "title"
+// @Param Desc formData string true "desc"
+// @Param Date formData string true "date"
+// @Param Url formData string true "url"
+// @Param IsOpen formData boolean true "is_open"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

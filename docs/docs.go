@@ -1482,36 +1482,36 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Title",
-                        "name": "title",
+                        "description": "title",
+                        "name": "Title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Desc",
-                        "name": "desc",
+                        "description": "desc",
+                        "name": "Desc",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Date",
-                        "name": "date",
+                        "description": "date",
+                        "name": "Date",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Url",
-                        "name": "url",
+                        "description": "url",
+                        "name": "Url",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "boolean",
-                        "description": "IsOpen",
-                        "name": "is_open",
+                        "description": "is_open",
+                        "name": "IsOpen",
                         "in": "formData",
                         "required": true
                     }
