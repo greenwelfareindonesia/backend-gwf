@@ -536,9 +536,15 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat komentar pada data Ecopedia
-  /user:
+  /user/{id}:
     delete:
       description: Delete a user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -565,7 +571,6 @@ paths:
       security:
       - BearerAuth: []
       summary: Delete user
-  /user/{id}:
     put:
       consumes:
       - application/json
