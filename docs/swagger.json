@@ -383,6 +383,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Buat data Ecopedia baru dengan informasi yang diberikan",
                 "consumes": [
                     "multipart/form-data"
@@ -518,6 +523,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update data Ecopedia berdasarkan ID yang diberikan dengan informasi yang diberikan",
                 "consumes": [
                     "multipart/form-data"
@@ -609,6 +619,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Hapus data Ecopedia berdasarkan ID yang diberikan",
                 "consumes": [
                     "application/json"
@@ -660,6 +675,11 @@
         },
         "/ecopedia/{id}/comment": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Buat komentar pada data Ecopedia berdasarkan ID yang diberikan",
                 "consumes": [
                     "application/json"

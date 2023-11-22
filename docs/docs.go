@@ -391,6 +391,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Buat data Ecopedia baru dengan informasi yang diberikan",
                 "consumes": [
                     "multipart/form-data"
@@ -526,6 +531,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update data Ecopedia berdasarkan ID yang diberikan dengan informasi yang diberikan",
                 "consumes": [
                     "multipart/form-data"
@@ -617,6 +627,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Hapus data Ecopedia berdasarkan ID yang diberikan",
                 "consumes": [
                     "application/json"
@@ -668,6 +683,11 @@ const docTemplate = `{
         },
         "/ecopedia/{id}/comment": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Buat komentar pada data Ecopedia berdasarkan ID yang diberikan",
                 "consumes": [
                     "application/json"

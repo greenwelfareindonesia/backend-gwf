@@ -30,6 +30,7 @@ func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpoi
 // @Description Hapus data Ecopedia berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "Ecopedia ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -145,6 +146,7 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 // @Summary Update data Ecopedia
 // @Description Update data Ecopedia berdasarkan ID yang diberikan dengan informasi yang diberikan
 // @Accept multipart/form-data
+// @Security BearerAuth
 // @Produce json
 // @Param id path int true "Ecopedia ID"
 // @Param file formData file true "File gambar"
@@ -238,6 +240,7 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 // @Summary Buat data Ecopedia baru
 // @Description Buat data Ecopedia baru dengan informasi yang diberikan
 // @Accept multipart/form-data
+// @Security BearerAuth
 // @Produce json
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "judul"
@@ -320,6 +323,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 // @Description Buat komentar pada data Ecopedia berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "Ecopedia ID"
 // @Param body body string true "Komentar"
 // @Success 200 {object} map[string]interface{}

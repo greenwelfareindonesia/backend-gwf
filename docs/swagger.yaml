@@ -319,6 +319,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Buat data Ecopedia baru
   /ecopedia/{id}:
     delete:
@@ -354,6 +356,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Hapus data Ecopedia berdasarkan ID
     get:
       consumes:
@@ -453,6 +457,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Update data Ecopedia
   /ecopedia/{id}/comment:
     post:
@@ -494,6 +500,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Buat komentar pada data Ecopedia
 securityDefinitions:
   BearerAuth:
