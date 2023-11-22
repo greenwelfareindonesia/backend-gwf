@@ -152,7 +152,7 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "judul"
 // @Param SubJudul formData string true "sub_judul"
-// @Param Deskripsi formData string true "deskripsi"
+// @Param Deskripsi formData string true "Deskripsi"
 // @Param SrcGambar formData string true "src_gambar"
 // @Param Referensi formData string true "referensi"
 // @Success 200 {object} map[string]interface{}
@@ -245,7 +245,7 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "judul"
 // @Param SubJudul formData string true "sub_judul"
-// @Param Deskripsi formData string true "deskripsi"
+// @Param Deskripsi formData string true "Deskripsi"
 // @Param SrcGambar formData string true "src_gambar"
 // @Param Referensi formData string true "referensi"
 // @Success 200 {object} map[string]interface{}
