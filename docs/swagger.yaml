@@ -1036,27 +1036,27 @@ paths:
         name: file
         required: true
         type: file
-      - description: title
+      - description: Title
         in: formData
         name: title
         required: true
         type: string
-      - description: desc
+      - description: Desc
         in: formData
         name: desc
         required: true
         type: string
-      - description: date
+      - description: Date
         in: formData
         name: date
         required: true
         type: string
-      - description: url
+      - description: Url
         in: formData
         name: url
         required: true
         type: string
-      - description: is_open
+      - description: IsOpen
         in: formData
         name: is_open
         required: true

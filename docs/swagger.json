@@ -1474,35 +1474,35 @@
                     },
                     {
                         "type": "string",
-                        "description": "title",
+                        "description": "Title",
                         "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "desc",
+                        "description": "Desc",
                         "name": "desc",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "date",
+                        "description": "Date",
                         "name": "date",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "url",
+                        "description": "Url",
                         "name": "url",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "boolean",
-                        "description": "is_open",
+                        "description": "IsOpen",
                         "name": "is_open",
                         "in": "formData",
                         "required": true
