@@ -109,7 +109,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 
 // @Summary Memperbarui artikel
 // @Description Memperbarui artikel
-// @Accept json
+// @Accept multipart/form-data
 // @Produce json
 // @Security BearerAuth
 // @Param id path int true "Artikel ID"
