@@ -123,7 +123,6 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
 // @Router /artikel/{id} [put]
-
 func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 	var inputID artikel.GetArtikel
 
