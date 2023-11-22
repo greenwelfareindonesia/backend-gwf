@@ -145,7 +145,7 @@ func main() {
 	feedbackHandler := handler.NewFeedbackHandler(feedbackService)
 	//--//
 	fee := router.Group("/feedback")
-	fee.POST("/", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.PostFeedbackHandler)
+	fee.POST("/", feedbackHandler.PostFeedbackHandler)
 	fee.GET("/", feedbackHandler.GetAllFeedback)
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
 	// fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
