@@ -613,6 +613,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Buat event baru
   /event/{id}:
     delete:

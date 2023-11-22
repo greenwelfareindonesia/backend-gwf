@@ -789,6 +789,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Buat event baru dengan informasi yang diberikan",
                 "consumes": [
                     "application/json"

@@ -187,6 +187,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 // @Description Buat event baru dengan informasi yang diberikan
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "Judul"
 // @Param message formData string true "Pesan Event"
