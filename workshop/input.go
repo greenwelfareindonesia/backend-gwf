@@ -8,13 +8,6 @@ type CreateWorkshop struct {
 	IsOpen bool   `json:"IsOpen" binding:"required"`
 }
 
-type UpdateWorkshop struct {
-	Title  string `json:"Title"`
-	Desc   string `json:"Desc"`
-	Date   string `json:"Date"`
-	Url    string `json:"Url"`
-	IsOpen bool   `json:"IsOpen"`
-}
 
 type GetWorkshop struct {
 	ID int `uri:"id" binding:"required"`

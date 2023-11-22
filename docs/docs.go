@@ -1615,28 +1615,28 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Title",
+                        "description": "title",
                         "name": "Title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Desc",
+                        "description": "desc",
                         "name": "Desc",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Date",
+                        "description": "date",
                         "name": "Date",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Url",
+                        "description": "url",
                         "name": "Url",
                         "in": "formData",
                         "required": true

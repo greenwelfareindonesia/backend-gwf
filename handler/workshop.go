@@ -184,10 +184,10 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 // @Security BearerAuth
 // @Param id path int true "ID Workshop"
 // @Param file formData file true "File gambar"
-// @Param Title formData string true "Title"
-// @Param Desc formData string true "Desc"
-// @Param Date formData string true "Date"
-// @Param Url formData string true "Url"
+// @Param Title formData string true "title"
+// @Param Desc formData string true "desc"
+// @Param Date formData string true "date"
+// @Param Url formData string true "url"
 // @Param IsOpen formData boolean true "IsOpen"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

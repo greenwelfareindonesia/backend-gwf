@@ -1158,22 +1158,22 @@ paths:
         name: file
         required: true
         type: file
-      - description: Title
+      - description: title
         in: formData
         name: Title
         required: true
         type: string
-      - description: Desc
+      - description: desc
         in: formData
         name: Desc
         required: true
         type: string
-      - description: Date
+      - description: date
         in: formData
         name: Date
         required: true
         type: string
-      - description: Url
+      - description: url
         in: formData
         name: Url
         required: true
