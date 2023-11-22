@@ -1036,27 +1036,27 @@ paths:
         name: file
         required: true
         type: file
-      - description: Judul
+      - description: title
         in: formData
         name: title
         required: true
         type: string
-      - description: Deskripsi
+      - description: desc
         in: formData
         name: desc
         required: true
         type: string
-      - description: Tanggal
+      - description: date
         in: formData
         name: date
         required: true
         type: string
-      - description: URL
+      - description: url
         in: formData
         name: url
         required: true
         type: string
-      - description: Status buka
+      - description: is_open
         in: formData
         name: is_open
         required: true
@@ -1158,27 +1158,27 @@ paths:
         name: file
         required: true
         type: file
-      - description: Judul
+      - description: title
         in: formData
         name: title
         required: true
         type: string
-      - description: Deskripsi
+      - description: desc
         in: formData
         name: desc
         required: true
         type: string
-      - description: Tanggal
+      - description: date
         in: formData
         name: date
         required: true
         type: string
-      - description: URL
+      - description: url
         in: formData
         name: url
         required: true
         type: string
-      - description: Status buka
+      - description: is_open
         in: formData
         name: is_open
         required: true

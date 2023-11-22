@@ -1482,35 +1482,35 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Judul",
+                        "description": "title",
                         "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Deskripsi",
+                        "description": "desc",
                         "name": "desc",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Tanggal",
+                        "description": "date",
                         "name": "date",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "URL",
+                        "description": "url",
                         "name": "url",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "boolean",
-                        "description": "Status buka",
+                        "description": "is_open",
                         "name": "is_open",
                         "in": "formData",
                         "required": true
@@ -1615,35 +1615,35 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Judul",
+                        "description": "title",
                         "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Deskripsi",
+                        "description": "desc",
                         "name": "desc",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Tanggal",
+                        "description": "date",
                         "name": "date",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "URL",
+                        "description": "url",
                         "name": "url",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "boolean",
-                        "description": "Status buka",
+                        "description": "is_open",
                         "name": "is_open",
                         "in": "formData",
                         "required": true
