@@ -421,7 +421,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "sub judul",
+                        "description": "sub_judul",
                         "name": "SubJudul",
                         "in": "formData",
                         "required": true
@@ -568,7 +568,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "sub judul",
+                        "description": "sub_judul",
                         "name": "SubJudul",
                         "in": "formData",
                         "required": true

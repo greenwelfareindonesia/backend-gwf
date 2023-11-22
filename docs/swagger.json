@@ -413,7 +413,7 @@
                     },
                     {
                         "type": "string",
-                        "description": "sub judul",
+                        "description": "sub_judul",
                         "name": "SubJudul",
                         "in": "formData",
                         "required": true
@@ -560,7 +560,7 @@
                     },
                     {
                         "type": "string",
-                        "description": "sub judul",
+                        "description": "sub_judul",
                         "name": "SubJudul",
                         "in": "formData",
                         "required": true

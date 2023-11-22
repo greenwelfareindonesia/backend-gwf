@@ -276,7 +276,7 @@ paths:
         name: judul
         required: true
         type: string
-      - description: sub judul
+      - description: sub_judul
         in: formData
         name: SubJudul
         required: true
@@ -414,7 +414,7 @@ paths:
         name: judul
         required: true
         type: string
-      - description: sub judul
+      - description: sub_judul
         in: formData
         name: SubJudul
         required: true
