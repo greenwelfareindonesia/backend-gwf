@@ -536,83 +536,6 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat komentar pada data Ecopedia
-  /login:
-    post:
-      consumes:
-      - application/json
-      description: Log in an existing user using email and password
-      parameters:
-      - description: User login credentials
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/user.LoginInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "422":
-          description: Unprocessable Entity
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: User login
-  /register:
-    post:
-      consumes:
-      - application/json
-      description: Register a new user with the provided information
-      parameters:
-      - description: User registration details
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/user.RegisterUserInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "409":
-          description: Conflict
-          schema:
-            additionalProperties: true
-            type: object
-        "422":
-          description: Unprocessable Entity
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Register new user
   /user:
     delete:
       description: Delete a user
@@ -685,6 +608,83 @@ paths:
       security:
       - BearerAuth: []
       summary: Update user information
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: Log in an existing user using email and password
+      parameters:
+      - description: User login credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/user.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: User login
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with the provided information
+      parameters:
+      - description: User registration details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/user.RegisterUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register new user
 securityDefinitions:
   BearerAuth:
     in: header

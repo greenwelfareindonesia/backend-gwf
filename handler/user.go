@@ -28,7 +28,7 @@ func NewUserHandler(userService user.Service, authService auth.Service) *userHan
 // @Failure 409 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /register [post]
+// @Router /user/register [post]
 func (h *userHandler) RegisterUser(c *gin.Context) {
 	var input user.RegisterUserInput
 
@@ -75,7 +75,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /login [post]
+// @Router /user/login [post]
 func (h *userHandler) Login(c *gin.Context) {
 	var input user.LoginInput
 
