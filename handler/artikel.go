@@ -108,16 +108,16 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 }
 
 // @Summary Memperbarui artikel
-// @Description Memperbarui artikel
+// @Description Memperbarui artikel dengan informasi yang diberikan
 // @Accept multipart/form-data
 // @Produce json
 // @Security BearerAuth
 // @Param id path int true "Artikel ID"
-// @Param file formData file true "File gambar"
-// @Param full_name formData string true "Nama lengkap"
-// @Param email formData string true "Email"
-// @Param topic formData string true "Topik"
-// @Param message formData string true "Pesan artikel"
+// @Param file formData file false "File gambar baru"
+// @Param full_name formData string false "Nama lengkap baru"
+// @Param email formData string false "Email baru"
+// @Param topic formData string false "Topik baru"
+// @Param message formData string false "Pesan artikel baru"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
