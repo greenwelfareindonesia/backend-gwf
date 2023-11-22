@@ -546,6 +546,181 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat komentar pada data Ecopedia
+  /event:
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan semua event atau event berdasarkan ID tertentu
+      parameters:
+      - description: ID Event
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan semua event atau event berdasarkan ID tertentu
+    post:
+      consumes:
+      - application/json
+      description: Buat event baru dengan informasi yang diberikan
+      parameters:
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Judul
+        in: formData
+        name: judul
+        required: true
+        type: string
+      - description: Pesan Event
+        in: formData
+        name: message
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Buat event baru
+  /event/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Hapus event berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Event
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Hapus event berdasarkan ID
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan satu event berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Event
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan satu event berdasarkan ID
+    put:
+      consumes:
+      - application/json
+      description: Update event berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Event
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Judul
+        in: formData
+        name: judul
+        required: true
+        type: string
+      - description: Pesan Event
+        in: formData
+        name: message
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update event berdasarkan ID
   /feedback:
     get:
       consumes:

@@ -24,6 +24,16 @@ func NewEventHandler(eventService event.Service, endpointService endpointcount.S
 	return &eventHandler{eventService, endpointService}
 }
 
+// @Summary Hapus event berdasarkan ID
+// @Description Hapus event berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID Event"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /event/{id} [delete]
 func (h *eventHandler) DeleteEvent(c *gin.Context) {
 	var input event.GetEvent
 
@@ -50,6 +60,15 @@ func (h *eventHandler) DeleteEvent(c *gin.Context) {
 
 }
 
+// @Summary Dapatkan satu event berdasarkan ID
+// @Description Dapatkan satu event berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Param id path int true "ID Event"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /event/{id} [get]
 func (h *eventHandler) GetOneEvent(c *gin.Context) {
 	var input event.GetEvent
 
@@ -86,6 +105,19 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 
 }
 
+// @Summary Update event berdasarkan ID
+// @Description Update event berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID Event"
+// @Param file formData file true "File gambar"
+// @Param judul formData string true "Judul"
+// @Param message formData string true "Pesan Event"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /event/{id} [put]
 func (h *eventHandler) UpdateEvent(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
@@ -151,6 +183,17 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 
 }
 
+// @Summary Buat event baru
+// @Description Buat event baru dengan informasi yang diberikan
+// @Accept json
+// @Produce json
+// @Param file formData file true "File gambar"
+// @Param judul formData string true "Judul"
+// @Param message formData string true "Pesan Event"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /event [post]
 func (h *eventHandler) CreateEvent(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
@@ -213,6 +256,15 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Dapatkan semua event atau event berdasarkan ID tertentu
+// @Description Dapatkan semua event atau event berdasarkan ID tertentu
+// @Accept json
+// @Produce json
+// @Param id query int false "ID Event"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /event [get]
 func (h *eventHandler) GetAllEvent(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
