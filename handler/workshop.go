@@ -30,11 +30,11 @@ func NewWorkshopHandler(workshopService workshop.Service, endpointService endpoi
 // @Produce json
 // @Security BearerAuth
 // @Param file formData file true "File gambar"
-// @Param Title formData string true "title"
-// @Param Desc formData string true "desc"
-// @Param Date formData string true "date"
-// @Param Url formData string true "url"
-// @Param IsOpen formData boolean true "is_open"
+// @Param Title formData string true "Title"
+// @Param Desc formData string true "Desc"
+// @Param Date formData string true "Date"
+// @Param Url formData string true "Url"
+// @Param IsOpen formData boolean true "IsOpen"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -184,11 +184,11 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 // @Security BearerAuth
 // @Param id path int true "ID Workshop"
 // @Param file formData file true "File gambar"
-// @Param title formData string true "title"
-// @Param desc formData string true "desc"
-// @Param date formData string true "date"
-// @Param url formData string true "url"
-// @Param is_open formData boolean true "is_open"
+// @Param Title formData string true "Title"
+// @Param Desc formData string true "Desc"
+// @Param Date formData string true "Date"
+// @Param Url formData string true "Url"
+// @Param IsOpen formData boolean true "IsOpen"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

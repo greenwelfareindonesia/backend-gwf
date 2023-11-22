@@ -1482,35 +1482,35 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "title",
+                        "description": "Title",
                         "name": "Title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "desc",
+                        "description": "Desc",
                         "name": "Desc",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "date",
+                        "description": "Date",
                         "name": "Date",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "url",
+                        "description": "Url",
                         "name": "Url",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "boolean",
-                        "description": "is_open",
+                        "description": "IsOpen",
                         "name": "IsOpen",
                         "in": "formData",
                         "required": true
@@ -1615,36 +1615,36 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "title",
-                        "name": "title",
+                        "description": "Title",
+                        "name": "Title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "desc",
-                        "name": "desc",
+                        "description": "Desc",
+                        "name": "Desc",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "date",
-                        "name": "date",
+                        "description": "Date",
+                        "name": "Date",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "url",
-                        "name": "url",
+                        "description": "Url",
+                        "name": "Url",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "boolean",
-                        "description": "is_open",
-                        "name": "is_open",
+                        "description": "IsOpen",
+                        "name": "IsOpen",
                         "in": "formData",
                         "required": true
                     }

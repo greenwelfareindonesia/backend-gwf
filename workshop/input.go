@@ -1,19 +1,19 @@
 package workshop
 
 type CreateWorkshop struct {
-	Title  string `json:"title" binding:"required"`
-	Desc   string `json:"desc" binding:"required"`
-	Date   string `json:"date" binding:"required"`
-	Url    string `json:"url" binding:"required"`
-	IsOpen bool   `json:"is_open" binding:"required"`
+	Title  string `json:"Title" binding:"required"`
+	Desc   string `json:"Desc" binding:"required"`
+	Date   string `json:"Date" binding:"required"`
+	Url    string `json:"Url" binding:"required"`
+	IsOpen bool   `json:"IsOpen" binding:"required"`
 }
 
 type UpdateWorkshop struct {
-	Title  string `json:"title"`
-	Desc   string `json:"desc"`
-	Date   string `json:"date"`
-	Url    string `json:"url"`
-	IsOpen bool   `json:"is_open"`
+	Title  string `json:"Title"`
+	Desc   string `json:"Desc"`
+	Date   string `json:"Date"`
+	Url    string `json:"Url"`
+	IsOpen bool   `json:"IsOpen"`
 }
 
 type GetWorkshop struct {
