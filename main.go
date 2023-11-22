@@ -64,7 +64,7 @@ func main() {
 	user := router.Group("/user")
 	user.POST("/register", userHandler.RegisterUser)
 	user.POST("/login", userHandler.Login)
-	user.DELETE("/", middleware.AuthMiddleware(authService, userService), userHandler.DeletedUser)
+	user.DELETE("/:id", middleware.AuthMiddleware(authService, userService), userHandler.DeletedUser)
 	user.PUT("/:id", middleware.AuthMiddleware(authService, userService), userHandler.UpdateUser)
 
 	// contact

@@ -109,18 +109,25 @@ func (h *userHandler) Login(c *gin.Context) {
 // @Description Delete a user
 // @Security BearerAuth
 // @Produce json
+// @Param id path int true "User ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /user [delete]
+// @Router /user/{id} [delete]
 func (h *userHandler) DeletedUser(c *gin.Context) {
+	var input user.DeletedUser
 
-	currentUser := c.MustGet("currentUser").(user.User)
+	err := c.ShouldBindUri(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
 
-	userID := currentUser.ID
-
-	newDel, err := h.userService.DeleteUser(userID)
+	newDel, err := h.userService.DeleteUser(input)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, newDel)
 		c.JSON(http.StatusUnprocessableEntity, response)

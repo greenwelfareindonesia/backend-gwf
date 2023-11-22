@@ -11,7 +11,7 @@ type Service interface {
 	Login(input LoginInput) (User, error)
 	IsEmaillAvailabilty(input string) (bool, error)
 	GetUserByid(ID int) (User, error)
-	DeleteUser(ID int) (User, error)
+	DeleteUser(ID DeletedUser) (User, error)
 	// SaveAvatar(ID int, fileLocation string) (User, error)
 	UpdateUser(InputID IdUser, input UpdateUserInput) (User, error)
 }
@@ -64,8 +64,8 @@ func (s *service) Login(input LoginInput) (User, error) {
 
 }
 
-func (s *service) DeleteUser(userID int) (User, error) {
-	user, err := s.repository.FindById(userID)
+func (s *service) DeleteUser(userID DeletedUser) (User, error) {
+	user, err := s.repository.FindById(userID.ID)
 	if err != nil {
 		return user, err
 	}
