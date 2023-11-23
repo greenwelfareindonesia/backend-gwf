@@ -74,7 +74,7 @@ func main() {
 	contactHandler := handler.NewContactHandler(contactService)
 	//--//
 	con := router.Group("/contact")
-	con.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), contactHandler.SubmitContactForm)
+	con.POST("/", contactHandler.SubmitContactForm)
 	con.GET("/", contactHandler.GetContactSubmissionsHandler)
 	con.GET("/:id", contactHandler.GetContactSubmissionHandler)
 	con.DELETE("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), contactHandler.DeleteContactSubmissionHandler)
