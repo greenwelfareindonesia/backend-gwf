@@ -487,25 +487,25 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Buat komentar pada data Ecopedia berdasarkan ID yang diberikan",
+                "description": "Tambahkan komentar atau tindakan pengguna pada Ecopedia berdasarkan ID Ecopedia yang diberikan",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Buat komentar pada data Ecopedia",
+                "summary": "Tambahkan komentar atau tindakan pengguna pada Ecopedia",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Ecopedia ID",
+                        "description": "ID Ecopedia",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "comment",
+                        "description": "Komentar",
                         "name": "comment",
                         "in": "formData",
                         "required": true
@@ -528,13 +528,6 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "Unprocessable Entity",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true

@@ -319,17 +319,16 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 }
 
 
-// @Summary Buat komentar pada data Ecopedia
-// @Description Buat komentar pada data Ecopedia berdasarkan ID yang diberikan
+// @Summary Tambahkan komentar atau tindakan pengguna pada Ecopedia
+// @Description Tambahkan komentar atau tindakan pengguna pada Ecopedia berdasarkan ID Ecopedia yang diberikan
 // @Accept json
 // @Produce json
 // @Security BearerAuth
-// @Param id path int true "Ecopedia ID"
-// @Param comment formData string true "comment"
+// @Param id path int true "ID Ecopedia"
+// @Param comment formData string true "Komentar"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Failure 500 {object} map[string]interface{}
 // @Router /ecopedia/comment/{id} [post]
 func (h *ecopediaHandler) PostCommentEcopedia(c *gin.Context) {
 	var getIdEcopedia ecopedia.EcopediaID

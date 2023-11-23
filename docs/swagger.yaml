@@ -507,14 +507,15 @@ paths:
     post:
       consumes:
       - application/json
-      description: Buat komentar pada data Ecopedia berdasarkan ID yang diberikan
+      description: Tambahkan komentar atau tindakan pengguna pada Ecopedia berdasarkan
+        ID Ecopedia yang diberikan
       parameters:
-      - description: Ecopedia ID
+      - description: ID Ecopedia
         in: path
         name: id
         required: true
         type: integer
-      - description: comment
+      - description: Komentar
         in: formData
         name: comment
         required: true
@@ -537,14 +538,9 @@ paths:
           schema:
             additionalProperties: true
             type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
       security:
       - BearerAuth: []
-      summary: Buat komentar pada data Ecopedia
+      summary: Tambahkan komentar atau tindakan pengguna pada Ecopedia
   /event:
     get:
       consumes:
