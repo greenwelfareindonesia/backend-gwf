@@ -544,7 +544,7 @@ paths:
             additionalProperties: true
             type: object
       security:
-      - ApiKeyAuth: []
+      - BearerAuth: []
       summary: Tambahkan komentar atau tindakan pengguna terhadap Ecopedia
   /event:
     get:

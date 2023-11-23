@@ -484,7 +484,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Tambahkan komentar atau tindakan pengguna terhadap Ecopedia berdasarkan ID yang diberikan",

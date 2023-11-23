@@ -325,7 +325,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 // @Produce json
 // @Param id path int true "ID Ecopedia"
 // @Param comment formData string true "Komentar"
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 401 {object} map[string]interface{}
