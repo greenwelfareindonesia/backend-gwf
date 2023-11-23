@@ -157,9 +157,10 @@ func main() {
 	galleryHandler := handler.NewGalleryHandler(galleryService, statisticsService)
 	gallerys := router.Group("/gallery")
 	gallerys.POST("/", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.CreateGallery) 
-	gallerys.GET("/", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.GetAllGallery)
-	gallerys.GET("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.GetOneGallery)
+	gallerys.GET("/", middleware.AuthMiddleware(authService, userService),   galleryHandler.GetAllGallery)
+	gallerys.GET("/:id", middleware.AuthMiddleware(authService, userService), galleryHandler.GetOneGallery)
 	gallerys.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.UpdateGallery)
+	gallerys.DELETE("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.DeleteGallery)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
