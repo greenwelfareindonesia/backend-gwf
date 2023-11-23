@@ -843,6 +843,173 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan feedback berdasarkan ID
+  /gallery:
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu
+      parameters:
+      - description: ID Gallery
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu
+    post:
+      consumes:
+      - application/json
+      description: Buat data Gallery baru dengan informasi yang diberikan
+      parameters:
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Alt
+        in: formData
+        name: alt
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Buat data Gallery baru
+  /gallery/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Hapus data Gallery berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Gallery
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Hapus data Gallery berdasarkan ID
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan satu data Gallery berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Gallery
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan satu data Gallery berdasarkan ID
+    put:
+      consumes:
+      - application/json
+      description: Update data Gallery berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Gallery
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Alt
+        in: formData
+        name: alt
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update data Gallery berdasarkan ID
   /user/{id}:
     delete:
       description: Delete a user

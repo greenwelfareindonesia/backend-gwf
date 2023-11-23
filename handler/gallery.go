@@ -24,6 +24,17 @@ func NewGalleryHandler(galleryService gallery.Service, endpointService endpointc
 	return &galleryHandler{galleryService, endpointService}
 }
 
+// @Summary Buat data Gallery baru
+// @Description Buat data Gallery baru dengan informasi yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param file formData file true "File gambar"
+// @Param alt formData string true "Alt"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /gallery [post]
 func (h *galleryHandler) CreateGallery(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
@@ -86,6 +97,15 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Dapatkan satu data Gallery berdasarkan ID
+// @Description Dapatkan satu data Gallery berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Param id path int true "ID Gallery"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /gallery/{id} [get]
 func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 	var input gallery.InputGalleryID
 
@@ -122,6 +142,15 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 
 }
 
+// @Summary Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu
+// @Description Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu
+// @Accept json
+// @Produce json
+// @Param id query int false "ID Gallery"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /gallery [get]
 func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -144,6 +173,18 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Update data Gallery berdasarkan ID
+// @Description Update data Gallery berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID Gallery"
+// @Param file formData file true "File gambar"
+// @Param alt formData string true "Alt"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /gallery/{id} [put]
 func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
@@ -207,6 +248,16 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Hapus data Gallery berdasarkan ID
+// @Description Hapus data Gallery berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID Gallery"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /gallery/{id} [delete]
 func (h *galleryHandler) DeleteGallery(c *gin.Context) {
 	var input gallery.InputGalleryID
 
