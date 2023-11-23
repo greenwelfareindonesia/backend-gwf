@@ -507,8 +507,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: Tambahkan komentar atau tindakan pengguna pada Ecopedia berdasarkan
-        ID Ecopedia yang diberikan
+      description: Tambahkan komentar atau tindakan pengguna terhadap Ecopedia berdasarkan
+        ID yang diberikan
       parameters:
       - description: ID Ecopedia
         in: path
@@ -533,14 +533,19 @@ paths:
           schema:
             additionalProperties: true
             type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
         "422":
           description: Unprocessable Entity
           schema:
             additionalProperties: true
             type: object
       security:
-      - BearerAuth: []
-      summary: Tambahkan komentar atau tindakan pengguna pada Ecopedia
+      - ApiKeyAuth: []
+      summary: Tambahkan komentar atau tindakan pengguna terhadap Ecopedia
   /event:
     get:
       consumes:

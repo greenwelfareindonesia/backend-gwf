@@ -484,17 +484,17 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "BearerAuth": []
+                        "ApiKeyAuth": []
                     }
                 ],
-                "description": "Tambahkan komentar atau tindakan pengguna pada Ecopedia berdasarkan ID Ecopedia yang diberikan",
+                "description": "Tambahkan komentar atau tindakan pengguna terhadap Ecopedia berdasarkan ID yang diberikan",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Tambahkan komentar atau tindakan pengguna pada Ecopedia",
+                "summary": "Tambahkan komentar atau tindakan pengguna terhadap Ecopedia",
                 "parameters": [
                     {
                         "type": "integer",
@@ -521,6 +521,13 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
