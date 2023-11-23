@@ -7,6 +7,7 @@ type Repository interface {
 	FindById(id int) (Ecopedia, error)
 	FindEcopediaCommentID(Id int) (Comment, error)
 	// FindByUserCommentID (Id int) (Comment, error)
+	CreateImage(ecopedia EcopediaImage) (error)
 	Create(ecopedia Ecopedia) (Ecopedia, error)
 	DeleteEcopedia(ecopedia Ecopedia) (Ecopedia, error)
 	Update(ecopedia Ecopedia) (Ecopedia, error)
@@ -21,6 +22,12 @@ type repository struct {
 
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
+}
+
+func (r *repository) CreateImage(ecopedia EcopediaImage) (error) {
+	err := r.db.Create(&ecopedia).Error
+		return  err
+	
 }
 
 func (r *repository) FindEcopediaCommentID(Id int) (Comment, error){

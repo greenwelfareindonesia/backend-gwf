@@ -1,7 +1,7 @@
 package artikel
 
 type Service interface {
-	CreateArtikel(input CreateArtikel, fileLocation string) (Artikel, error)
+	CreateArtikel(input CreateArtikel) (Artikel, error)
 	GetAllArtikel(input int) ([]Artikel, error)
 	DeleteArtikel(ID int) (Artikel, error)
 	GetOneArtikel(ID int) (Artikel, error)
@@ -62,7 +62,7 @@ func (s *service) GetAllArtikel(input int) ([]Artikel, error) {
 	return berita, nil
 }
 
-func (s *service) CreateArtikel(input CreateArtikel, fileLocation string) (Artikel, error) {
+func (s *service) CreateArtikel(input CreateArtikel) (Artikel, error) {
 	createBerita := Artikel{}
 
 	createBerita.FullName = input.FullName

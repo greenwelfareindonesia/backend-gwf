@@ -178,37 +178,6 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 		return
 	}
 
-	file, _ := c.FormFile("file")
-	src,err:=file.Open()
-	if err!=nil{
-		fmt.Printf("error when open file %v",err)
-	}
-	defer	src.Close()
-
-	
-	buf:=bytes.NewBuffer(nil)
-	if _, err := io.Copy(buf, src); err != nil {
-		fmt.Printf("error read file %v",err)
-		return 
-	}	
-
-	img,err:=imagekits.Base64toEncode(buf.Bytes())
-	if err!=nil{
-		fmt.Println("error reading image ",err)
-	}
-
-	fmt.Println("image base 64 format : ",img)
-
-	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
-	if err != nil {
-		// Tangani jika terjadi kesalahan saat upload gambar
-		// Misalnya, Anda dapat mengembalikan respon error ke klien jika diperlukan
-		response := helper.APIresponse(http.StatusInternalServerError, "Failed to upload image")
-		c.JSON(http.StatusInternalServerError, response)
-		return
-	}
-
-
 	err = c.ShouldBind(&input)
 	if err != nil {
 		errorMessages := helper.FormatValidationError(err)
@@ -227,7 +196,7 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 		}
 		
 
-	_, err = h.ecopediaService.UpdateEcopedia(inputID, input, imageKitURL)
+	_, err = h.ecopediaService.UpdateEcopedia(inputID, input)
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
 		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
@@ -259,68 +228,89 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /ecopedia [post]
 func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
-	file, _ := c.FormFile("file")
-	src,err:=file.Open()
-	if err!=nil{
-		fmt.Printf("error when open file %v",err)
-	}
-	defer	src.Close()
+	var imagesKitURLs []string
 
-	
-	
-	buf:=bytes.NewBuffer(nil)
-	if _, err := io.Copy(buf, src); err != nil {
-		fmt.Printf("error read file %v",err)
-		return 
-	}	
+	for i := 1; ; i++ {
+        fileKey := fmt.Sprintf("file%d", i)
+        file, err := c.FormFile(fileKey)
+        
+        // If there are no more files to upload, break the loop
+        if err == http.ErrMissingFile {
+            break
+        }
 
-	img,err:=imagekits.Base64toEncode(buf.Bytes())
-	if err!=nil{
-		fmt.Println("error reading image", err)
-	}
+        if err != nil {
+            fmt.Printf("Error when opening file %s: %v\n", fileKey, err)
+            continue // Skip to the next file
+        }
 
-	fmt.Println("image base 64 format",img)
+        src, err := file.Open()
+        if err != nil {
+            fmt.Printf("Error when opening file %s: %v\n", fileKey, err)
+            continue
+        }
+        defer src.Close()
 
-	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
-	if err != nil {
-		// Tangani jika terjadi kesalahan saat upload gambar
-		// Misalnya, Anda dapat mengembalikan respon error ke klien jika diperlukan
-		response := helper.APIresponse(http.StatusInternalServerError, "Failed to upload image")
-		c.JSON(http.StatusInternalServerError, response)
-		return
-	}
+        buf := bytes.NewBuffer(nil)
+        if _, err := io.Copy(buf, src); err != nil {
+            fmt.Printf("Error reading file %s: %v\n", fileKey, err)
+            continue
+        }
 
-	var ecopediaInput ecopedia.EcopediaInput
+        img, err := imagekits.Base64toEncode(buf.Bytes())
+        if err != nil {
+            fmt.Printf("Error reading image %s: %v\n", fileKey, err)
+            continue
+        }
 
-	err = c.ShouldBind(&ecopediaInput)
-	if err != nil {
-		errorMessages := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errorMessages}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
+        fmt.Printf("Image base64 format %s: %v\n", fileKey, img)
+
+        imageKitURL, err := imagekits.ImageKit(context.Background(), img)
+        if err != nil {
+            fmt.Printf("Error uploading image %s to ImageKit: %v\n", fileKey, err)
+            continue
+        }
+
+        imagesKitURLs = append(imagesKitURLs, imageKitURL)
 		}
 
+		var ecopediaInput ecopedia.EcopediaInput
+
+		err := c.ShouldBind(&ecopediaInput)
+
 		if err != nil {
-			//inisiasi data yang tujuan dalam return hasil ke postman
-			data := gin.H{"is_uploaded": false}
-			response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+			errors := helper.FormatValidationError(err)
+			errorMessage := gin.H{"errors": errors}
+			response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
 			c.JSON(http.StatusUnprocessableEntity, response)
 			return
 		}
-		
 
-	_, err = h.ecopediaService.CreateEcopedia(ecopediaInput, imageKitURL)
-	if err != nil {
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
+		// Create a new news item with the provided input
+		newNews, err := h.ecopediaService.CreateEcopedia(ecopediaInput)
+		fmt.Println(newNews)
+		if err != nil {
+			response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+			c.JSON(http.StatusUnprocessableEntity, response)
+			return
+		}
 
-	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
-	c.JSON(http.StatusOK, response)
+		// Associate the uploaded images with the news item
+		for _, imageURL := range imagesKitURLs {
+			// Create a new BeritaImage record for each image and associate it with the news item
+			err := h.ecopediaService.CreateEcopediaImage(newNews.ID, imageURL)
+			if err != nil {
+				response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+				c.JSON(http.StatusUnprocessableEntity, response)
+				return
+			}
+		}
+
+// Respond with a success message
+			data := gin.H{"is_uploaded": true}
+			response := helper.APIresponse(http.StatusOK, data)
+			c.JSON(http.StatusOK, response)
+
 }
 
 

@@ -1,14 +1,9 @@
 package handler
 
 import (
-	"bytes"
-	"context"
-	"fmt"
 	"greenwelfare/artikel"
 	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/helper"
-	"greenwelfare/imagekits"
-	"io"
 	"net/http"
 	"strconv"
 
@@ -179,40 +174,9 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 // @Success 500 {object} map[string]interface{}
 // @Router /artikel [post]
 func (h *artikelHandler) CreateArtikel(c *gin.Context) {
-	file, _ := c.FormFile("file")
-	src, err := file.Open()
-	if err != nil {
-		fmt.Printf("error when opening file: %v", err)
-		return
-	}
-	defer src.Close()
-
-
-	buf := bytes.NewBuffer(nil)
-	if _, err := io.Copy(buf, src); err != nil {
-		fmt.Printf("error read file %v", err)
-		return
-	}
-
-	img, err := imagekits.Base64toEncode(buf.Bytes())
-	if err != nil {
-		fmt.Println("error reading image : ", err)
-	}
-
-	fmt.Println("image base 64 format : ", img)
-
-	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
-	if err != nil {
-		// Tangani jika terjadi kesalahan saat upload gambar
-		// Misalnya, Anda dapat mengembalikan respon error ke klien jika diperlukan
-		response := helper.APIresponse(http.StatusInternalServerError, "Failed to upload image")
-		c.JSON(http.StatusInternalServerError, response)
-		return
-	}
-
 	var input artikel.CreateArtikel
 
-	err = c.ShouldBind(&input)
+	err := c.ShouldBind(&input)
 
 	if err != nil {
 		errors := helper.FormatValidationError(err)
@@ -230,7 +194,7 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 		return
 	}
 
-	_, err = h.artikelService.CreateArtikel(input, imageKitURL)
+	_, err = h.artikelService.CreateArtikel(input)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
 		c.JSON(http.StatusUnprocessableEntity, response)

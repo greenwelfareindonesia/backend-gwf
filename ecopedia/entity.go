@@ -10,12 +10,20 @@ type Ecopedia struct {
 	Judul     string
 	Subjudul  string
 	Deskripsi string
-	Gambar    string
 	Srcgambar string
 	Referensi string
 	// Like []IsLike
+	FileName       []EcopediaImage `gorm:"foreignKey:EcopediaID"`
 	Comment []Comment `gorm:"foreignKey:EcopediaId"`
 	CreatedAt time.Time
+    UpdatedAt time.Time 
+}
+
+type EcopediaImage struct {
+	ID        int      `gorm:"primaryKey"`
+    FileName  string    
+	EcopediaID  int      
+	CreatedAt time.Time 
     UpdatedAt time.Time 
 }
 

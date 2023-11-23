@@ -5,7 +5,6 @@ type EcopediaFormatter struct {
 	Judul     string `json:"judul"`
 	Subjudul  string `json:"subjudul"`
 	Deskripsi string `json:"deskripsi"`
-	Gambar    string `json:"gambar"`
 	Srcgambar string `json:"srcgambar"`
 	Referensi string `json:"referensi"`
 	Comment []string `json:"Comment"`
@@ -23,7 +22,6 @@ func FormatterEcopedia(ecopedia_submit Ecopedia) EcopediaFormatter {
 		Judul:     ecopedia_submit.Judul,
 		Subjudul:  ecopedia_submit.Subjudul,
 		Deskripsi: ecopedia_submit.Deskripsi,
-		Gambar: ecopedia_submit.Gambar,
 		Srcgambar: ecopedia_submit.Srcgambar,
 		Referensi: ecopedia_submit.Referensi,
 		Comment: make([]string, len(ecopedia_submit.Comment)),
