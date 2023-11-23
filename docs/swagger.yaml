@@ -514,12 +514,11 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Komentar
-        in: body
-        name: body
+      - description: comment
+        in: formData
+        name: comment
         required: true
-        schema:
-          type: string
+        type: string
       produces:
       - application/json
       responses:

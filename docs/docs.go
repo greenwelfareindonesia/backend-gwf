@@ -504,13 +504,11 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Komentar",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string",
+                        "description": "comment",
+                        "name": "comment",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
