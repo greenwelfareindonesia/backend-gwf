@@ -503,7 +503,7 @@ paths:
       security:
       - BearerAuth: []
       summary: Update data Ecopedia
-  /ecopedia/{id}/comment:
+  /ecopedia/comment/{id}:
     post:
       consumes:
       - application/json

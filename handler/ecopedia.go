@@ -330,7 +330,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia/{id}/comment [post]
+// @Router /ecopedia/comment/{id} [post]
 func (h *ecopediaHandler) PostCommentEcopedia(c *gin.Context) {
 	var getIdEcopedia ecopedia.EcopediaID
 
