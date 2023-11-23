@@ -304,6 +304,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan semua data Ecopedia
+      tags:
+      - Ecopedia
     post:
       consumes:
       - multipart/form-data
@@ -365,6 +367,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat data Ecopedia baru
+      tags:
+      - Ecopedia
   /ecopedia/{id}:
     delete:
       consumes:
@@ -402,6 +406,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Hapus data Ecopedia berdasarkan ID
+      tags:
+      - Ecopedia
     get:
       consumes:
       - application/json
@@ -436,6 +442,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan data Ecopedia berdasarkan ID
+      tags:
+      - Ecopedia
     put:
       consumes:
       - multipart/form-data
@@ -503,6 +511,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Update data Ecopedia
+      tags:
+      - Ecopedia
   /ecopedia/comment/{id}:
     post:
       consumes:
@@ -546,6 +556,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Tambahkan komentar atau tindakan pengguna terhadap Ecopedia
+      tags:
+      - Ecopedia
   /event:
     get:
       consumes:

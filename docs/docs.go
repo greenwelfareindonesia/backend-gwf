@@ -350,6 +350,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Ecopedia"
+                ],
                 "summary": "Dapatkan semua data Ecopedia",
                 "parameters": [
                     {
@@ -402,6 +405,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Ecopedia"
                 ],
                 "summary": "Buat data Ecopedia baru",
                 "parameters": [
@@ -494,6 +500,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Ecopedia"
+                ],
                 "summary": "Tambahkan komentar atau tindakan pengguna terhadap Ecopedia",
                 "parameters": [
                     {
@@ -552,6 +561,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Ecopedia"
+                ],
                 "summary": "Dapatkan data Ecopedia berdasarkan ID",
                 "parameters": [
                     {
@@ -605,6 +617,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Ecopedia"
                 ],
                 "summary": "Update data Ecopedia",
                 "parameters": [
@@ -701,6 +716,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Ecopedia"
                 ],
                 "summary": "Hapus data Ecopedia berdasarkan ID",
                 "parameters": [

@@ -30,6 +30,7 @@ func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpoi
 // @Description Hapus data Ecopedia berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Ecopedia
 // @Security BearerAuth
 // @Param id path int true "Ecopedia ID"
 // @Success 200 {object} map[string]interface{}
@@ -66,6 +67,7 @@ func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
 // @Description Dapatkan data Ecopedia berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Ecopedia
 // @Param id path int true "Ecopedia ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -112,6 +114,7 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 // @Description Dapatkan semua data Ecopedia dengan opsi ID sebagai parameter query opsional
 // @Accept json
 // @Produce json
+// @Tags Ecopedia
 // @Param id query int false "ID Ecopedia (opsional)"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -148,6 +151,7 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 // @Accept multipart/form-data
 // @Security BearerAuth
 // @Produce json
+// @Tags Ecopedia
 // @Param id path int true "Ecopedia ID"
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "judul"
@@ -242,6 +246,7 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 // @Accept multipart/form-data
 // @Security BearerAuth
 // @Produce json
+// @Tags Ecopedia
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "judul"
 // @Param SubJudul formData string true "sub_judul"
@@ -323,6 +328,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 // @Description Tambahkan komentar atau tindakan pengguna terhadap Ecopedia berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Ecopedia
 // @Param id path int true "ID Ecopedia"
 // @Param comment formData string true "Komentar"
 // @Security BearerAuth
