@@ -88,7 +88,7 @@ func (r *repository) FindAll() ([]Ecopedia, error) {
 
 func (r *repository) FindById(id int) (Ecopedia, error) {
 	var ecopedia Ecopedia
-	err := r.db.Preload("Comment").Preload("Comment.User").Find(&ecopedia, id).Error
+	err := r.db.Preload("FileName").Preload("Comment").Preload("Comment.User").Find(&ecopedia, id).Error
 	if err != nil {
 		return ecopedia, err
 	}

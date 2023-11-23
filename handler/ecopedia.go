@@ -216,7 +216,8 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 // @Security BearerAuth
 // @Produce json
 // @Tags Ecopedia
-// @Param file formData file true "File gambar"
+// @Param file1 formData file true "File gambar 1"
+// @Param file2 formData file true "File gambar 2"
 // @Param judul formData string true "judul"
 // @Param SubJudul formData string true "sub_judul"
 // @Param Deskripsi formData string true "Deskripsi"

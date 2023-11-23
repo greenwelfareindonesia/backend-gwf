@@ -584,8 +584,15 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "file",
+                        "description": "File gambar 1",
+                        "name": "file1",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "File gambar 2",
+                        "name": "file2",
                         "in": "formData",
                         "required": true
                     },

@@ -442,9 +442,14 @@ paths:
       - multipart/form-data
       description: Buat data Ecopedia baru dengan informasi yang diberikan
       parameters:
-      - description: File gambar
+      - description: File gambar 1
         in: formData
-        name: file
+        name: file1
+        required: true
+        type: file
+      - description: File gambar 2
+        in: formData
+        name: file2
         required: true
         type: file
       - description: judul
