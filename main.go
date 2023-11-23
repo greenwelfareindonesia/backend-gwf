@@ -10,6 +10,7 @@ import (
 	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/event"
 	"greenwelfare/feedback"
+	"greenwelfare/gallery"
 	"greenwelfare/handler"
 	"greenwelfare/middleware"
 	"greenwelfare/user"
@@ -150,6 +151,15 @@ func main() {
 	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
 	// fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
 	fee.DELETE("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
+
+	galleryRepository := gallery.NewRepository(db)
+	galleryService := gallery.NewService(galleryRepository)
+	galleryHandler := handler.NewGalleryHandler(galleryService, statisticsService)
+	gallerys := router.Group("/gallery")
+	gallerys.POST("/", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.CreateGallery) 
+	gallerys.GET("/", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.GetAllGallery)
+	gallerys.GET("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.GetOneGallery)
+	gallerys.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), galleryHandler.UpdateGallery)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
