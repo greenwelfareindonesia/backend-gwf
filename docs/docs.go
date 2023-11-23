@@ -1915,6 +1915,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "VeganGuide"
+                ],
                 "summary": "Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu",
                 "parameters": [
                     {
@@ -2027,6 +2030,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "VeganGuide"
                 ],
                 "summary": "Dapatkan Veganguide berdasarkan ID",
                 "parameters": [
@@ -2199,6 +2205,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Workshop"
+                ],
                 "summary": "Dapatkan semua workshop atau workshop berdasarkan ID tertentu",
                 "parameters": [
                     {
@@ -2326,6 +2335,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Workshop"
                 ],
                 "summary": "Dapatkan satu workshop berdasarkan ID",
                 "parameters": [

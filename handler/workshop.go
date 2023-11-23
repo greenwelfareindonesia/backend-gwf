@@ -106,6 +106,7 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 // @Description Dapatkan satu workshop berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Workshop
 // @Param id path int true "ID Workshop"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -151,6 +152,7 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 // @Description Dapatkan semua workshop atau workshop berdasarkan ID tertentu
 // @Accept json
 // @Produce json
+// @Tags Workshop
 // @Param id query int false "ID Workshop"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

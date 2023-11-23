@@ -64,6 +64,7 @@ func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 // @Description Dapatkan Veganguide berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags VeganGuide
 // @Param id path int true "ID Veganguide"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -109,6 +110,7 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 // @Description Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu
 // @Accept json
 // @Produce json
+// @Tags VeganGuide
 // @Param id query int false "ID Veganguide"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

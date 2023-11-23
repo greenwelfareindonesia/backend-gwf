@@ -1907,6 +1907,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "VeganGuide"
+                ],
                 "summary": "Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu",
                 "parameters": [
                     {
@@ -2019,6 +2022,9 @@
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "VeganGuide"
                 ],
                 "summary": "Dapatkan Veganguide berdasarkan ID",
                 "parameters": [
@@ -2191,6 +2197,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Workshop"
+                ],
                 "summary": "Dapatkan semua workshop atau workshop berdasarkan ID tertentu",
                 "parameters": [
                     {
@@ -2318,6 +2327,9 @@
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Workshop"
                 ],
                 "summary": "Dapatkan satu workshop berdasarkan ID",
                 "parameters": [

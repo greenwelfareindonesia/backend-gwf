@@ -1372,6 +1372,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu
+      tags:
+      - VeganGuide
     post:
       consumes:
       - application/json
@@ -1482,6 +1484,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan Veganguide berdasarkan ID
+      tags:
+      - VeganGuide
     put:
       consumes:
       - application/json
@@ -1563,6 +1567,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan semua workshop atau workshop berdasarkan ID tertentu
+      tags:
+      - Workshop
     post:
       consumes:
       - application/json
@@ -1684,6 +1690,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan satu workshop berdasarkan ID
+      tags:
+      - Workshop
     put:
       consumes:
       - application/json
