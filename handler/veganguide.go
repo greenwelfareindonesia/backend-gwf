@@ -28,6 +28,7 @@ func NewVeganguideHandler(veganguideService veganguide.Service, endpointService 
 // @Description Hapus data Veganguide berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "ID Veganguide"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

@@ -1644,6 +1644,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Hapus data Veganguide berdasarkan ID yang diberikan",
                 "consumes": [
                     "application/json"

@@ -1100,6 +1100,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Hapus data Veganguide berdasarkan ID
     get:
       consumes:
