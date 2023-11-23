@@ -997,6 +997,189 @@ paths:
             additionalProperties: true
             type: object
       summary: Register new user
+  /veganguide:
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu
+      parameters:
+      - description: ID Veganguide
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu
+    post:
+      consumes:
+      - application/json
+      description: Buat data Veganguide baru dengan informasi yang diberikan
+      parameters:
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Judul
+        in: formData
+        name: judul
+        required: true
+        type: string
+      - description: Deskripsi
+        in: formData
+        name: deskripsi
+        required: true
+        type: string
+      - description: Body
+        in: formData
+        name: body
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Buat data Veganguide baru
+  /veganguide/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Hapus data Veganguide berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Veganguide
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Hapus data Veganguide berdasarkan ID
+    get:
+      consumes:
+      - application/json
+      description: Dapatkan Veganguide berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Veganguide
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Dapatkan Veganguide berdasarkan ID
+    put:
+      consumes:
+      - application/json
+      description: Update data Veganguide berdasarkan ID yang diberikan
+      parameters:
+      - description: ID Veganguide
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: File gambar
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Judul
+        in: formData
+        name: judul
+        required: true
+        type: string
+      - description: Deskripsi
+        in: formData
+        name: deskripsi
+        required: true
+        type: string
+      - description: Body
+        in: formData
+        name: body
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update data Veganguide berdasarkan ID
   /workshop:
     get:
       consumes:

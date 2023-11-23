@@ -24,6 +24,15 @@ func NewVeganguideHandler(veganguideService veganguide.Service, endpointService 
 	return &veganguideHandler{veganguideService, endpointService}
 }
 
+// @Summary Hapus data Veganguide berdasarkan ID
+// @Description Hapus data Veganguide berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Param id path int true "ID Veganguide"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /veganguide/{id} [delete]
 func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 	var input veganguide.VeganguideID
 
@@ -49,6 +58,15 @@ func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Dapatkan Veganguide berdasarkan ID
+// @Description Dapatkan Veganguide berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Param id path int true "ID Veganguide"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /veganguide/{id} [get]
 func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 	var input veganguide.VeganguideID
 
@@ -85,6 +103,15 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 
 }
 
+// @Summary Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu
+// @Description Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu
+// @Accept json
+// @Produce json
+// @Param id query int false "ID Veganguide"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /veganguide [get]
 func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -110,24 +137,20 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// func (h *veganguideHandler) GetveganguideHandler(c *gin.Context) {
-// 	idString := c.Param("id")
-// 	id, _ := strconv.Atoi(idString)
 
-// 	ecopedia, err := h.veganguide.Service.FindById(id)
-
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"error": err,
-// 		})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"data": ecopedia,
-// 	})
-// }
-
+// @Summary Buat data Veganguide baru
+// @Description Buat data Veganguide baru dengan informasi yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param file formData file true "File gambar"
+// @Param judul formData string true "Judul"
+// @Param deskripsi formData string true "Deskripsi"
+// @Param body formData string false "Body"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /veganguide [post]
 func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
@@ -191,6 +214,20 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Update data Veganguide berdasarkan ID
+// @Description Update data Veganguide berdasarkan ID yang diberikan
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID Veganguide"
+// @Param file formData file true "File gambar"
+// @Param judul formData string true "Judul"
+// @Param deskripsi formData string true "Deskripsi"
+// @Param body formData string false "Body"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+// @Router /veganguide/{id} [put]
 func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	src, err := file.Open()
