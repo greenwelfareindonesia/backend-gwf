@@ -29,6 +29,7 @@ func NewWorkshopHandler(workshopService workshop.Service, endpointService endpoi
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Tags Workshop
 // @Param file formData file true "File gambar"
 // @Param Title formData string true "Title"
 // @Param Desc formData string true "Desc"
@@ -182,6 +183,7 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Tags Workshop
 // @Param id path int true "ID Workshop"
 // @Param file formData file true "File gambar"
 // @Param Title formData string true "title"
@@ -261,6 +263,7 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Tags Workshop
 // @Param id path int true "ID Workshop"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

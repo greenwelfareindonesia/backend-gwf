@@ -20,6 +20,15 @@ func NewContactHandler(contactService contact.Service) *contactHandler {
 	return &contactHandler{contactService}
 }
 
+// @Summary Submit Contact Form
+// @Description Submit a contact form
+// @Accept json
+// @Produce json
+// @Tags Contact
+// @Param requestBody body contact.ContactSubmissionInput true "Contact form input"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Router /contact [post]
 func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 	var input contact.ContactSubmissionInput
 	
@@ -57,6 +66,14 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary Get All Contact Submissions
+// @Description Get all contact form submissions
+// @Accept json
+// @Produce json
+// @Tags Contact
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Router /contact [get]
 func (h *contactHandler) GetContactSubmissionsHandler(c *gin.Context) {
 	contact_submissions, err := h.contactService.GetAllContactSubmission()
 	if err != nil {
@@ -71,6 +88,15 @@ func (h *contactHandler) GetContactSubmissionsHandler(c *gin.Context) {
 	})
 }
 
+// @Summary Get Contact Submission by ID
+// @Description Get a contact form submission by ID
+// @Accept json
+// @Produce json
+// @Tags Contact
+// @Param id path int true "Contact Submission ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Router /contact/{id} [get]
 func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
 	idString := c.Param("id")
 	id, _ := strconv.Atoi(idString)
@@ -89,6 +115,16 @@ func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
 	})
 }
 
+// @Summary Delete Contact Submission by ID
+// @Description Delete a contact form submission by ID
+// @Accept json
+// @Produce json
+// @Tags Contact
+// @Param id path int true "Contact Submission ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /contact/{id} [delete]
 func (h *contactHandler) DeleteContactSubmissionHandler(c *gin.Context) {
 	idString := c.Param("id")
 	id, err := strconv.Atoi(idString)

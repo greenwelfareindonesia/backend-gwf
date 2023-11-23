@@ -1,4 +1,19 @@
 definitions:
+  contact.ContactSubmissionInput:
+    properties:
+      email:
+        type: string
+      message:
+        type: string
+      name:
+        type: string
+      subject:
+        type: string
+    required:
+    - email
+    - message
+    - subject
+    type: object
   feedback.FeedbackInput:
     properties:
       email:
@@ -81,6 +96,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Mendapatkan semua artikel
+      tags:
+      - Artikel
     post:
       consumes:
       - multipart/form-data
@@ -137,6 +154,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Menambahkan artikel baru
+      tags:
+      - Artikel
   /artikel/{id}:
     delete:
       consumes:
@@ -174,6 +193,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Menghapus artikel by id
+      tags:
+      - Artikel
     get:
       consumes:
       - application/json
@@ -208,6 +229,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Mendapatkan satu artikel by id
+      tags:
+      - Artikel
     put:
       consumes:
       - multipart/form-data
@@ -269,6 +292,114 @@ paths:
       security:
       - BearerAuth: []
       summary: Memperbarui artikel
+      tags:
+      - Artikel
+  /contact:
+    get:
+      consumes:
+      - application/json
+      description: Get all contact form submissions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Contact Submissions
+      tags:
+      - Contact
+    post:
+      consumes:
+      - application/json
+      description: Submit a contact form
+      parameters:
+      - description: Contact form input
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/contact.ContactSubmissionInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Submit Contact Form
+      tags:
+      - Contact
+  /contact/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a contact form submission by ID
+      parameters:
+      - description: Contact Submission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Contact Submission by ID
+      tags:
+      - Contact
+    get:
+      consumes:
+      - application/json
+      description: Get a contact form submission by ID
+      parameters:
+      - description: Contact Submission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Contact Submission by ID
+      tags:
+      - Contact
   /ecopedia:
     get:
       consumes:
@@ -587,6 +718,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan semua event atau event berdasarkan ID tertentu
+      tags:
+      - Event
     post:
       consumes:
       - application/json
@@ -628,6 +761,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat event baru
+      tags:
+      - Event
   /event/{id}:
     delete:
       consumes:
@@ -660,6 +795,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Hapus event berdasarkan ID
+      tags:
+      - Event
     get:
       consumes:
       - application/json
@@ -689,6 +826,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan satu event berdasarkan ID
+      tags:
+      - Event
     put:
       consumes:
       - application/json
@@ -735,6 +874,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Update event berdasarkan ID
+      tags:
+      - Event
   /feedback:
     get:
       consumes:
@@ -764,6 +905,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan semua feedback atau feedback berdasarkan ID tertentu
+      tags:
+      - Feedback
     post:
       consumes:
       - application/json
@@ -794,6 +937,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Buat feedback baru
+      tags:
+      - Feedback
   /feedback/{id}:
     delete:
       consumes:
@@ -826,6 +971,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Hapus feedback berdasarkan ID
+      tags:
+      - Feedback
     get:
       consumes:
       - application/json
@@ -855,6 +1002,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan feedback berdasarkan ID
+      tags:
+      - Feedback
   /gallery:
     get:
       consumes:
@@ -884,6 +1033,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu
+      tags:
+      - Gallery
     post:
       consumes:
       - application/json
@@ -920,6 +1071,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat data Gallery baru
+      tags:
+      - Gallery
   /gallery/{id}:
     delete:
       consumes:
@@ -952,6 +1105,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Hapus data Gallery berdasarkan ID
+      tags:
+      - Gallery
     get:
       consumes:
       - application/json
@@ -981,6 +1136,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Dapatkan satu data Gallery berdasarkan ID
+      tags:
+      - Gallery
     put:
       consumes:
       - application/json
@@ -1022,6 +1179,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Update data Gallery berdasarkan ID
+      tags:
+      - Gallery
   /user/{id}:
     delete:
       description: Delete a user
@@ -1057,6 +1216,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Delete user
+      tags:
+      - Users
     put:
       consumes:
       - application/json
@@ -1099,6 +1260,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Update user information
+      tags:
+      - Users
   /user/login:
     post:
       consumes:
@@ -1135,6 +1298,8 @@ paths:
             additionalProperties: true
             type: object
       summary: User login
+      tags:
+      - Users
   /user/register:
     post:
       consumes:
@@ -1176,6 +1341,8 @@ paths:
             additionalProperties: true
             type: object
       summary: Register new user
+      tags:
+      - Users
   /veganguide:
     get:
       consumes:
@@ -1250,6 +1417,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat data Veganguide baru
+      tags:
+      - VeganGuide
   /veganguide/{id}:
     delete:
       consumes:
@@ -1282,6 +1451,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Hapus data Veganguide berdasarkan ID
+      tags:
+      - VeganGuide
     get:
       consumes:
       - application/json
@@ -1361,6 +1532,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Update data Veganguide berdasarkan ID
+      tags:
+      - VeganGuide
   /workshop:
     get:
       consumes:
@@ -1446,6 +1619,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Buat workshop baru
+      tags:
+      - Workshop
   /workshop/{id}:
     delete:
       consumes:
@@ -1478,6 +1653,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Hapus workshop berdasarkan ID
+      tags:
+      - Workshop
     get:
       consumes:
       - application/json
@@ -1568,6 +1745,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Update workshop berdasarkan ID
+      tags:
+      - Workshop
 securityDefinitions:
   BearerAuth:
     in: header

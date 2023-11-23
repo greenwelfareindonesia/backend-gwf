@@ -28,6 +28,7 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 // @Description Menghapus artikel by id
 // @Accept json
 // @Produce json
+// @Tags Artikel
 // @Security BearerAuth
 // @Param id path int true "Artikel ID"
 // @Success 200 {object} map[string]interface{}
@@ -65,6 +66,7 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 // @Description Mendapatkan satu artikel by id
 // @Accept json
 // @Produce json
+// @Tags Artikel
 // @Param id path int true "Artikel ID"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
@@ -111,6 +113,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Description Memperbarui artikel dengan informasi yang diberikan
 // @Accept multipart/form-data
 // @Produce json
+// @Tags Artikel
 // @Security BearerAuth
 // @Param id path int true "Artikel ID"
 // @Param file formData file true "File gambar"
@@ -163,6 +166,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 // @Description Menambahkan entri artikel baru
 // @Accept multipart/form-data
 // @Produce json
+// @Tags Artikel
 // @Security BearerAuth
 // @Param file formData file true "File gambar"
 // @Param full_name formData string true "Nama lengkap"
@@ -241,6 +245,7 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 // @Description Mendapatkan semua artikel
 // @Accept json
 // @Produce json
+// @Tags Artikel
 // @Param id query int false "ID"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}

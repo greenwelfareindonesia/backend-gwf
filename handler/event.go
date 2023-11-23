@@ -28,6 +28,7 @@ func NewEventHandler(eventService event.Service, endpointService endpointcount.S
 // @Description Hapus event berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Event
 // @Security BearerAuth
 // @Param id path int true "ID Event"
 // @Success 200 {object} map[string]interface{}
@@ -64,6 +65,7 @@ func (h *eventHandler) DeleteEvent(c *gin.Context) {
 // @Description Dapatkan satu event berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Event
 // @Param id path int true "ID Event"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -109,6 +111,7 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 // @Description Update event berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Event
 // @Security BearerAuth
 // @Param id path int true "ID Event"
 // @Param file formData file true "File gambar"
@@ -187,6 +190,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 // @Description Buat event baru dengan informasi yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Event
 // @Security BearerAuth
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "Judul"
@@ -261,6 +265,7 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 // @Description Dapatkan semua event atau event berdasarkan ID tertentu
 // @Accept json
 // @Produce json
+// @Tags Event
 // @Param id query int false "ID Event"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

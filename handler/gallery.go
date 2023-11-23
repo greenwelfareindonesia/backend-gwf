@@ -28,6 +28,7 @@ func NewGalleryHandler(galleryService gallery.Service, endpointService endpointc
 // @Description Buat data Gallery baru dengan informasi yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Gallery
 // @Security BearerAuth
 // @Param file formData file true "File gambar"
 // @Param Alt formData string true "Alt"
@@ -101,6 +102,7 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 // @Description Dapatkan satu data Gallery berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Gallery
 // @Param id path int true "ID Gallery"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -146,6 +148,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 // @Description Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu
 // @Accept json
 // @Produce json
+// @Tags Gallery
 // @Param id query int false "ID Gallery"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -177,6 +180,7 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 // @Description Update data Gallery berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Gallery
 // @Security BearerAuth
 // @Param id path int true "ID Gallery"
 // @Param file formData file true "File gambar"
@@ -252,6 +256,7 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 // @Description Hapus data Gallery berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Gallery
 // @Security BearerAuth
 // @Param id path int true "ID Gallery"
 // @Success 200 {object} map[string]interface{}

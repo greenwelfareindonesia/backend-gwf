@@ -29,6 +29,7 @@ func NewVeganguideHandler(veganguideService veganguide.Service, endpointService 
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Tags VeganGuide
 // @Param id path int true "ID Veganguide"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -144,6 +145,7 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Tags VeganGuide
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "Judul"
 // @Param deskripsi formData string true "Deskripsi"
@@ -220,6 +222,7 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Tags VeganGuide
 // @Param id path int true "ID Veganguide"
 // @Param file formData file true "File gambar"
 // @Param judul formData string true "Judul"

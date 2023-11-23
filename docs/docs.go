@@ -24,6 +24,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Artikel"
+                ],
                 "summary": "Mendapatkan semua artikel",
                 "parameters": [
                     {
@@ -76,6 +79,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Artikel"
                 ],
                 "summary": "Menambahkan artikel baru",
                 "parameters": [
@@ -156,6 +162,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Artikel"
+                ],
                 "summary": "Mendapatkan satu artikel by id",
                 "parameters": [
                     {
@@ -209,6 +218,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Artikel"
                 ],
                 "summary": "Memperbarui artikel",
                 "parameters": [
@@ -299,6 +311,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Artikel"
+                ],
                 "summary": "Menghapus artikel by id",
                 "parameters": [
                     {
@@ -326,6 +341,162 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/contact": {
+            "get": {
+                "description": "Get all contact form submissions",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Get All Contact Submissions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Submit a contact form",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Submit Contact Form",
+                "parameters": [
+                    {
+                        "description": "Contact form input",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contact.ContactSubmissionInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/contact/{id}": {
+            "get": {
+                "description": "Get a contact form submission by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Get Contact Submission by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Contact Submission ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a contact form submission by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Delete Contact Submission by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Contact Submission ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -771,6 +942,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Event"
+                ],
                 "summary": "Dapatkan semua event atau event berdasarkan ID tertentu",
                 "parameters": [
                     {
@@ -816,6 +990,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Event"
                 ],
                 "summary": "Buat event baru",
                 "parameters": [
@@ -875,6 +1052,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Event"
+                ],
                 "summary": "Dapatkan satu event berdasarkan ID",
                 "parameters": [
                     {
@@ -921,6 +1101,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Event"
                 ],
                 "summary": "Update event berdasarkan ID",
                 "parameters": [
@@ -990,6 +1173,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Event"
+                ],
                 "summary": "Hapus event berdasarkan ID",
                 "parameters": [
                     {
@@ -1034,6 +1220,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Feedback"
+                ],
                 "summary": "Dapatkan semua feedback atau feedback berdasarkan ID tertentu",
                 "parameters": [
                     {
@@ -1074,6 +1263,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Feedback"
                 ],
                 "summary": "Buat feedback baru",
                 "parameters": [
@@ -1120,6 +1312,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Feedback"
                 ],
                 "summary": "Dapatkan feedback berdasarkan ID",
                 "parameters": [
@@ -1168,6 +1363,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Feedback"
+                ],
                 "summary": "Hapus feedback berdasarkan ID",
                 "parameters": [
                     {
@@ -1211,6 +1409,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Gallery"
                 ],
                 "summary": "Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu",
                 "parameters": [
@@ -1257,6 +1458,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Gallery"
                 ],
                 "summary": "Buat data Gallery baru",
                 "parameters": [
@@ -1309,6 +1513,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Gallery"
+                ],
                 "summary": "Dapatkan satu data Gallery berdasarkan ID",
                 "parameters": [
                     {
@@ -1355,6 +1562,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Gallery"
                 ],
                 "summary": "Update data Gallery berdasarkan ID",
                 "parameters": [
@@ -1417,6 +1627,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Gallery"
+                ],
                 "summary": "Hapus data Gallery berdasarkan ID",
                 "parameters": [
                     {
@@ -1460,6 +1673,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Users"
                 ],
                 "summary": "User login",
                 "parameters": [
@@ -1513,6 +1729,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Users"
                 ],
                 "summary": "Register new user",
                 "parameters": [
@@ -1579,6 +1798,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Update user information",
                 "parameters": [
                     {
@@ -1638,6 +1860,9 @@ const docTemplate = `{
                 "description": "Delete a user",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Users"
                 ],
                 "summary": "Delete user",
                 "parameters": [
@@ -1735,6 +1960,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "VeganGuide"
                 ],
                 "summary": "Buat data Veganguide baru",
                 "parameters": [
@@ -1847,6 +2075,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "VeganGuide"
+                ],
                 "summary": "Update data Veganguide berdasarkan ID",
                 "parameters": [
                     {
@@ -1920,6 +2151,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "VeganGuide"
                 ],
                 "summary": "Hapus data Veganguide berdasarkan ID",
                 "parameters": [
@@ -2010,6 +2244,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Workshop"
                 ],
                 "summary": "Buat workshop baru",
                 "parameters": [
@@ -2137,6 +2374,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Workshop"
+                ],
                 "summary": "Update workshop berdasarkan ID",
                 "parameters": [
                     {
@@ -2226,6 +2466,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Workshop"
+                ],
                 "summary": "Hapus workshop berdasarkan ID",
                 "parameters": [
                     {
@@ -2263,6 +2506,28 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "contact.ContactSubmissionInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "message",
+                "subject"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                }
+            }
+        },
         "feedback.FeedbackInput": {
             "type": "object",
             "required": [

@@ -23,6 +23,7 @@ func NewFeedbackHandler(feedbackService feedback.Service) *feedbackHandler {
 // @Description Hapus feedback berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Feedback
 // @Security BearerAuth
 // @Param id path int true "ID Feedback"
 // @Success 200 {object} map[string]interface{}
@@ -58,6 +59,7 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 // @Description Dapatkan feedback berdasarkan ID yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Feedback
 // @Param id path int true "ID Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -93,6 +95,7 @@ func (h *feedbackHandler) GetFeedbackByID(c *gin.Context) {
 // @Description Dapatkan semua feedback atau feedback berdasarkan ID tertentu
 // @Accept json
 // @Produce json
+// @Tags Feedback
 // @Param id query int false "ID Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -117,6 +120,7 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 // @Description Buat feedback baru dengan informasi yang diberikan
 // @Accept json
 // @Produce json
+// @Tags Feedback
 // @Param input body feedback.FeedbackInput true "Data Feedback yang ingin dibuat"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

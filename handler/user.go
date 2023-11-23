@@ -22,6 +22,7 @@ func NewUserHandler(userService user.Service, authService auth.Service) *userHan
 // @Description Register a new user with the provided information
 // @Accept json
 // @Produce json
+// @Tags Users
 // @Param body body user.RegisterUserInput true "User registration details"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -70,6 +71,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 // @Description Log in an existing user using email and password
 // @Accept json
 // @Produce json
+// @Tags Users
 // @Param body body user.LoginInput true "User login credentials"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -109,6 +111,7 @@ func (h *userHandler) Login(c *gin.Context) {
 // @Description Delete a user
 // @Security BearerAuth
 // @Produce json
+// @Tags Users
 // @Param id path int true "User ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -144,6 +147,7 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 // @Security BearerAuth
 // @Accept json
 // @Produce json
+// @Tags Users
 // @Param id path int true "User ID"
 // @Param body body user.UpdateUserInput true "User information for update"
 // @Success 200 {object} map[string]interface{}
