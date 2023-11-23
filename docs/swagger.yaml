@@ -884,7 +884,7 @@ paths:
         type: file
       - description: Alt
         in: formData
-        name: alt
+        name: Alt
         required: true
         type: string
       produces:
@@ -986,7 +986,7 @@ paths:
         type: file
       - description: Alt
         in: formData
-        name: alt
+        name: Alt
         required: true
         type: string
       produces:

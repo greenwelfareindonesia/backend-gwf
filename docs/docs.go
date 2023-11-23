@@ -1254,7 +1254,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Alt",
-                        "name": "alt",
+                        "name": "Alt",
                         "in": "formData",
                         "required": true
                     }
@@ -1359,7 +1359,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Alt",
-                        "name": "alt",
+                        "name": "Alt",
                         "in": "formData",
                         "required": true
                     }

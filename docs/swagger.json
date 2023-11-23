@@ -1246,7 +1246,7 @@
                     {
                         "type": "string",
                         "description": "Alt",
-                        "name": "alt",
+                        "name": "Alt",
                         "in": "formData",
                         "required": true
                     }
@@ -1351,7 +1351,7 @@
                     {
                         "type": "string",
                         "description": "Alt",
-                        "name": "alt",
+                        "name": "Alt",
                         "in": "formData",
                         "required": true
                     }
