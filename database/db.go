@@ -21,35 +21,6 @@ import (
 )
 
 func InitDb() (*gorm.DB, error){
-
-	// if err := godotenv.Load(); err != nil {
-	// 	log.Fatal("error loading .env file:", err)
-	// }
-	
-	// dbUsername, exists := os.LookupEnv("MYSQLUSER")
-	// if !exists {
-	// 	log.Fatal("MYSQLUSER environment variable is not set")
-	// }
-	
-	// dbPassword, exists := os.LookupEnv("MYSQLPASSWORD")
-	// if !exists {
-	// 	log.Fatal("MYSQLPASSWORD environment variable is not set")
-	// }
-	
-	// dbHost, exists := os.LookupEnv("MYSQLHOST")
-	// if !exists {
-	// 	log.Fatal("MYSQLHOST environment variable is not set")
-	// }
-	
-	// dbPort, exists := os.LookupEnv("MYSQLPORT")
-	// if !exists {
-	// 	log.Fatal("MYSQLPORT environment variable is not set")
-	// }
-	
-	// dbName, exists := os.LookupEnv("MYSQLDATABASE")
-	// if !exists {
-	// 	log.Fatal("MYSQLDATABASE environment variable is not set")
-	// }
 	
 	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); exists == false {
 		if err := godotenv.Load(); err != nil {
@@ -91,6 +62,7 @@ func InitDb() (*gorm.DB, error){
 		db.AutoMigrate(&ecopedia.Comment{})
 		db.AutoMigrate(&ecopedia.IsLike{})
 		db.AutoMigrate(&gallery.Gallery{})
+		db.AutoMigrate(&ecopedia.EcopediaImage{})
 
 		return db, nil
 
