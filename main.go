@@ -17,7 +17,6 @@ import (
 	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
 	"log"
-	"net/http"
 
 	"github.com/gin-contrib/cors"
 	swaggerFiles "github.com/swaggo/files"
@@ -42,20 +41,10 @@ func main() {
 	}
 
 	router := gin.Default()
-	// router.http.Use(cors.New(cors.DefaultConfig()))
 	router.Use(cors.New(cors.Config{
 		AllowAllOrigins: true,
 		AllowHeaders: []string{"Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Access-Control-Allow-Origin , Origin , Accept , X-Requested-With , Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"},
-		// AllowMethods: []string{"POST, OPTIONS, GET, PUT, DELETE"},
-		AllowMethods: []string{
-			http.MethodHead,
-			http.MethodGet,
-			http.MethodPost,
-			http.MethodPut,
-			http.MethodPatch,
-			http.MethodDelete,
-			http.MethodOptions,
-		},
+		AllowMethods: []string{"POST, OPTIONS, GET, PUT, DELETE"},
 	  }))
 
 	//add sweager
