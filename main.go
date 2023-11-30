@@ -54,6 +54,7 @@ func main() {
 			http.MethodPut,
 			http.MethodPatch,
 			http.MethodDelete,
+			http.MethodOptions,
 		},
 	  }))
 
