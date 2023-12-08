@@ -1,6 +1,10 @@
 package artikel
 
-import "gorm.io/gorm"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	//create User
@@ -59,9 +63,9 @@ func (r *repository) FindBySlug(slug string) (Artikel, error) {
 		return artikel, err
 	}
 	if artikel.Slug == "" {
-        return artikel, err
+        return artikel, errors.New("slug not found")
     }
-
+	
 	return artikel, nil
 }
 
