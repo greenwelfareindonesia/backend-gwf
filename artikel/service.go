@@ -30,9 +30,7 @@ func (s *service) GetOneArtikel(slugs string) (Artikel, error) {
 	if err != nil {
 		return berita, err
 	}
-	if berita.Slug == "" {
-		return berita, err
-	}
+	
 	return berita, nil
 }
 

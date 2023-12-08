@@ -58,6 +58,10 @@ func (r *repository) FindBySlug(slug string) (Artikel, error) {
 	if err != nil {
 		return artikel, err
 	}
+	if artikel.Slug == "" {
+        return artikel, err
+    }
+
 	return artikel, nil
 }
 
