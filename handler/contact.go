@@ -6,7 +6,6 @@ import (
 	"greenwelfare/helper"
 
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -92,13 +91,11 @@ func (h *contactHandler) GetContactSubmissionsHandler(c *gin.Context) {
 // @Param id path int true "Contact Submission ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
-// @Router /contact/{id} [get]
+// @Router /contact/{slug} [get]
 func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
-	idString := c.Param("id")
-	id, _ := strconv.Atoi(idString)
+	param := c.Param("slug")
 
-	contact_submission, err := h.contactService.GetContactSubmissionById(id)
-
+	contact_submission, err := h.contactService.GetContactSubmissionById(param)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -120,18 +117,11 @@ func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /contact/{id} [delete]
+// @Router /contact/{slug} [delete]
 func (h *contactHandler) DeleteContactSubmissionHandler(c *gin.Context) {
-	idString := c.Param("id")
-	id, err := strconv.Atoi(idString)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid ID format",
-		})
-		return
-	}
+	param := c.Param("slug")
 
-	h.contactService.DeleteContactSubmission(id)
+	_, err := h.contactService.DeleteContactSubmission(param)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to delete contact submission",

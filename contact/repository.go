@@ -1,6 +1,8 @@
 package contact
 
 import (
+	"errors"
+
 	"gorm.io/gorm"
 )
 
@@ -9,6 +11,7 @@ type Repository interface {
 	FindAll() ([]Contact, error)
 	FindById(ID int) (Contact, error)
 	Delete(contact_submission Contact) (Contact, error)
+	FindBySlug(slug string) (Contact, error)
 }
 
 type repository struct {
@@ -17,6 +20,21 @@ type repository struct {
 
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
+}
+
+func (r *repository) FindBySlug(slug string) (Contact, error) {
+	var contact Contact
+
+	err := r.db.Where("slug = ?", slug).Find(&slug).Error
+
+	if err != nil {
+		return contact, err
+	}
+	if contact.Slug == "" {
+        return contact, errors.New("slug not found")
+    }
+	
+	return contact, nil
 }
 
 func (r *repository) Submit(contact_submission Contact) (Contact, error) {

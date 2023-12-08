@@ -73,8 +73,8 @@ func StartApp() {
 	con := router.Group("/contact")
 	con.POST("/", contactHandler.SubmitContactForm)
 	con.GET("/", contactHandler.GetContactSubmissionsHandler)
-	con.GET("/:id", contactHandler.GetContactSubmissionHandler)
-	con.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), contactHandler.DeleteContactSubmissionHandler)
+	con.GET("/:slug", contactHandler.GetContactSubmissionHandler)
+	con.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), contactHandler.DeleteContactSubmissionHandler)
 
 	// workshop
 	workshopRepository := workshop.NewRepository(db)

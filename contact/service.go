@@ -1,14 +1,19 @@
 package contact
 
 import (
-	"errors"
+	"fmt"
+	"math/rand"
+	"strings"
+	"time"
+
+	"github.com/gosimple/slug"
 )
 
 type Service interface {
 	SubmitContactSubmission(input ContactSubmissionInput) (Contact, error)
 	GetAllContactSubmission() ([]Contact, error)
-	GetContactSubmissionById(ID int) (Contact, error)
-	DeleteContactSubmission(ID int) (Contact, error)
+	GetContactSubmissionById(slug string) (Contact, error)
+	DeleteContactSubmission(slug string) (Contact, error)
 }
 
 type service struct {
@@ -27,6 +32,17 @@ func (s *service) SubmitContactSubmission(input ContactSubmissionInput) (Contact
 	contact_submission.Subject = input.Subject
 	contact_submission.Message = input.Message
 
+	var seededRand *rand.Rand = rand.New(
+		rand.NewSource(time.Now().UnixNano()))
+
+	slugTitle := strings.ToLower(input.Name)
+
+	mySlug := slug.Make(slugTitle)
+
+	randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+
+	contact_submission.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
+
 	newContactSubmission, err := s.repository.Submit(contact_submission)
 	if err != nil {
 		return newContactSubmission, err
@@ -42,25 +58,22 @@ func (s *service) GetAllContactSubmission() ([]Contact, error) {
 	return contact_submissions, nil
 }
 
-func (s *service) GetContactSubmissionById(ID int) (Contact, error) {
-	contact_submission, err := s.repository.FindById(ID)
+func (s *service) GetContactSubmissionById(slug string) (Contact, error) {
+	contact_submission, err := s.repository.FindBySlug(slug)
 
 	if err != nil {
 		return contact_submission, err
 	}
-
-	if contact_submission.ID == 0 {
-		return contact_submission, errors.New("contact_submission Not Found With That ID")
-	}
-
+	
 	return contact_submission, nil
 }
 
-func (s *service) DeleteContactSubmission(ID int) (Contact, error) {
-	contact_submission, err := s.repository.FindById(ID)
+func (s *service) DeleteContactSubmission(slug string) (Contact, error) {
+	contact_submission, err := s.repository.FindBySlug(slug)
 	if err != nil {
 		return contact_submission, err
 	}
+
 	contact_submissionDel, err := s.repository.Delete(contact_submission)
 
 	if err != nil {
