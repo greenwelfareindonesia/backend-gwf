@@ -43,6 +43,9 @@ func (s *service) GetOneGallery(ID int) (Gallery, error) {
 	if err != nil {
 		return gallery, err
 	}
+	if gallery.ID == 0 {
+		return gallery, err
+	}
 	return gallery, nil
 }
 

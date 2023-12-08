@@ -4,6 +4,7 @@ import "time"
 
 type Artikel struct {
 	ID            int
+	Slug string
 	FullName string
 	Email string
 	Topic string

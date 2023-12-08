@@ -50,9 +50,8 @@ func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 
 	data, err := h.veganguideService.DeleteVeganguide(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -85,9 +84,8 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 
 	data, err := h.veganguideService.GetVeganguideByID(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -96,7 +94,7 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetByIDVeganguide /Veganguide/GetByIDVeganguide", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
     }
@@ -121,9 +119,8 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 
 	data, err := h.veganguideService.GetAllVeganguide(input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -132,7 +129,7 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetAllVeganguide /Veganguide/GetAllVeganguide", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
     }
@@ -200,16 +197,14 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 
 	if err != nil {
 		//inisiasi data yang tujuan dalam return hasil ke postman
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	_, err = h.veganguideService.CreateVeganguide(veganguideInput, imageKitURL)
 	if err != nil {
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -286,9 +281,8 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 
 	veganguide, err := h.veganguideService.UpdateVeganguide(inputID, input, imageKitURL)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}

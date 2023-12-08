@@ -53,9 +53,7 @@ func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
 
 	data, err := h.ecopediaService.DeleteEcopedia(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -89,9 +87,8 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 
 	data, err := h.ecopediaService.GetEcopediaByID(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -100,7 +97,7 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 
 	err = h.endpointService.IncrementCount("GetByIDEcopedia /Ecopedia/GetByIDEcopedia", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -126,9 +123,7 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 
 	data, err := h.ecopediaService.GetAllEcopedia(input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -137,7 +132,7 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 
 	err = h.endpointService.IncrementCount("GetAllEcopedia /Ecopedia/GetAllEcopedia", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -189,8 +184,7 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 
 		if err != nil {
 			//inisiasi data yang tujuan dalam return hasil ke postman
-			data := gin.H{"is_uploaded": false}
-			response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+			response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 			c.JSON(http.StatusUnprocessableEntity, response)
 			return
 		}
@@ -198,8 +192,7 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 
 	_, err = h.ecopediaService.UpdateEcopedia(inputID, input)
 	if err != nil {
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -291,7 +284,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 		newNews, err := h.ecopediaService.CreateEcopedia(ecopediaInput)
 		fmt.Println(newNews)
 		if err != nil {
-			response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+			response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 			c.JSON(http.StatusUnprocessableEntity, response)
 			return
 		}
@@ -301,7 +294,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 			// Create a new BeritaImage record for each image and associate it with the news item
 			err := h.ecopediaService.CreateEcopediaImage(newNews.ID, imageURL)
 			if err != nil {
-				response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+				response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 				c.JSON(http.StatusUnprocessableEntity, response)
 				return
 			}
@@ -366,8 +359,7 @@ func (h *ecopediaHandler) PostCommentEcopedia(c *gin.Context) {
 
 	_, err = h.ecopediaService.UserActionToEcopedia(getIdEcopedia ,ecopediaInput)
 	if err != nil {
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}

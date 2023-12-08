@@ -112,26 +112,6 @@ func (s *service) GetUserByid(ID int) (User, error) {
 
 }
 
-// func (s *service) SaveAvatar(ID int, fileLocation string) (User, error) {
-// 	//mengambil repository findbyid karena id mana ni yang mau upload avatar
-// 	user, err := s.repository.FindById(ID)
-
-// 	if err != nil {
-// 		return user, err
-// 	}
-
-// 	//lalu ini adalah nama filenya apa disimpan dalam parameter
-// 	user.Avatar_file_name = fileLocation
-
-// 	//ini ambil dalam algonya repository kalau mau diupdate
-// 	updatedUser, err := s.repository.Update(user)
-// 	if err != nil {
-// 		return updatedUser, err
-// 	}
-
-// 	return updatedUser, nil
-// }
-
 func (s *service) UpdateUser(InputID IdUser, input UpdateUserInput) (User, error) {
 	user, err := s.repository.FindById(InputID.ID)
 	if err != nil {

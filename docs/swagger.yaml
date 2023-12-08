@@ -56,11 +56,8 @@ definitions:
       username:
         type: string
     type: object
-host: backend-gwf-production.up.railway.app
 info:
   contact: {}
-  description: Sweager service API in Go using Gin framework
-  title: Sweager Service API
 paths:
   /artikel:
     get:
@@ -156,7 +153,7 @@ paths:
       summary: Menambahkan artikel baru
       tags:
       - Artikel
-  /artikel/{id}:
+  /artikel/{slug}:
     delete:
       consumes:
       - application/json
@@ -1760,9 +1757,4 @@ paths:
       summary: Update workshop berdasarkan ID
       tags:
       - Workshop
-securityDefinitions:
-  BearerAuth:
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

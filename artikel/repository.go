@@ -6,9 +6,8 @@ type Repository interface {
 	//create User
 	Save(karya Artikel) (Artikel, error)
 	FindById(ID int) (Artikel, error)
+	FindBySlug(slug string) (Artikel, error)
 	FindAll() ([]Artikel, error)
-	FindByKarya(Karya int) ([]Artikel, error)
-	FindByTags(tags int) ([]Artikel, error)
 	Update(artikel Artikel) (Artikel, error)
 	Delete(karya Artikel) (Artikel, error)
 }
@@ -40,27 +39,6 @@ func (r *repository) Save(karya Artikel) (Artikel, error) {
 	return karya, nil
 }
 
-func (r *repository) FindByTags(tags int) ([]Artikel, error) {
-	var karya []Artikel
-
-	err := r.db.Where("tags_id = ?", tags).Find(&karya).Error
-
-	if err != nil {
-		return karya, err
-	}
-	return karya, nil
-}
-
-func (r *repository) FindByKarya(Karya int) ([]Artikel, error) {
-	var karya []Artikel
-
-	err := r.db.Where("karya_news_id = ?", Karya).Find(&karya).Error
-	if err != nil {
-		return karya, err
-	}
-	return karya, nil
-}
-
 func (r *repository) FindById(ID int) (Artikel, error) {
 	var karya Artikel
 
@@ -70,6 +48,17 @@ func (r *repository) FindById(ID int) (Artikel, error) {
 		return karya, err
 	}
 	return karya, nil
+}
+
+func (r *repository) FindBySlug(slug string) (Artikel, error) {
+	var artikel Artikel
+
+	err := r.db.Where("slug = ?", slug).Find(&artikel).Error
+
+	if err != nil {
+		return artikel, err
+	}
+	return artikel, nil
 }
 
 func (r *repository) Update(karya Artikel) (Artikel, error) {

@@ -21,6 +21,9 @@ func (s *service) GetOneEvent(ID int) (Event, error) {
 	if err != nil {
 		return berita, err
 	}
+	if berita.ID == 0 {
+		return berita, err
+	}
 	return berita, nil
 }
 

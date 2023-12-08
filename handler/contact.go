@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"greenwelfare/contact"
 	"greenwelfare/email"
 	"greenwelfare/helper"
@@ -45,7 +44,7 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 
 	newContactSubmission, err := h.contactService.SubmitContactSubmission(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, "nil")
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -53,10 +52,7 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 	// emailBody := "Terima kasih atas pesan Anda. Kami akan segera menghubungi Anda."
 	err = email.SendEmail("raihanalfarisi2@gmail.com", input.Subject, input.Name, input.Email, input.Message)
 	if err != nil {
-    // Handle kesalahan pengiriman email di sini.
-    // Mungkin menampilkan pesan kesalahan kepada pengguna atau mencatatnya.
-	fmt.Println("Error sending email:", err)
-		response := helper.APIresponse(http.StatusUnprocessableEntity, "nilll")
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}

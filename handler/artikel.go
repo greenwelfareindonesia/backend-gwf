@@ -30,24 +30,13 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /artikel/{id} [delete]
+// @Router /artikel/{slug} [delete]
 func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
-	var input artikel.GetArtikel
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
+	newDel, err := h.artikelService.DeleteArtikel(param)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	newDel, err := h.artikelService.DeleteArtikel(input.ID)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -67,24 +56,13 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /artikel/{id} [get]
+// @Router /artikel/{slug} [get]
 func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
-	var input artikel.GetArtikel
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
+	newDel, err := h.artikelService.GetOneArtikel(param)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	newDel, err := h.artikelService.GetOneArtikel(input.ID)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -94,7 +72,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetByIDArtikel /Artikel/GetByIDArtikel", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
     }
@@ -120,13 +98,14 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /artikel/{id} [put]
+// @Router /artikel/{slug} [put]
 func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
-	var inputID artikel.GetArtikel
 
 	var input artikel.CreateArtikel
 
-	err := c.ShouldBindUri(&inputID)
+	param := c.Param("slug")
+
+	err := c.ShouldBind(&input)
 	if err != nil {
 		errors := helper.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errors}
@@ -135,20 +114,10 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 		return
 	}
 
-	err = c.ShouldBind(&input)
+	artikel, err := h.artikelService.UpdateArtikel(input, param)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	artikel, err := h.artikelService.UpdateArtikel(input, inputID)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -187,16 +156,14 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	}
 
 	if err != nil {
-		//inisiasi data yang tujuan dalam return hasil ke postman
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	_, err = h.artikelService.CreateArtikel(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -221,7 +188,7 @@ func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 
 	newBerita, err := h.artikelService.GetAllArtikel(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, "Eror")
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -230,7 +197,7 @@ func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetAllArtikel /Artikel/GetAllArtikel", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
     }

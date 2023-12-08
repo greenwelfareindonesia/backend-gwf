@@ -42,6 +42,9 @@ func (s *service) GetVeganguideByID(id int) (Veganguide, error) {
 	if err != nil {
 		return veganguides, err
 	}
+	if veganguides.ID == 0 {
+		return veganguides, err
+	}
 	return veganguides, nil
 }
 

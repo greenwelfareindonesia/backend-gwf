@@ -45,9 +45,8 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 
 	data, err := h.feedbackService.DeleteFeedback(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -80,9 +79,8 @@ func (h *feedbackHandler) GetFeedbackByID(c *gin.Context) {
 
 	data, err := h.feedbackService.GetFeedbackByID(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -106,9 +104,8 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 
 	data, err := h.feedbackService.GetAllFeedback(input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -150,7 +147,7 @@ func (h *feedbackHandler) PostFeedbackHandler(c *gin.Context) {
 		// Handle kesalahan pengiriman email di sini.
 		// Mungkin menampilkan pesan kesalahan kepada pengguna atau mencatatnya.
 		fmt.Println("Error sending email:", err)
-		response := helper.APIresponse(http.StatusUnprocessableEntity, "nilll")
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}

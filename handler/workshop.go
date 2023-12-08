@@ -83,9 +83,8 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 	}
 
 	if err != nil {
-		//inisiasi data yang tujuan dalam return hasil ke postman
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -93,7 +92,7 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 	_, err = h.workshopService.CreateWorkshop(input, imageKitURL)
 	if err != nil {
 		// data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -126,9 +125,8 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 
 	newDel, err := h.workshopService.GetOneWorkshop(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -138,7 +136,7 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetByIDWorkshop /Workshop/GetByIDWorkshop", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
     }
@@ -163,7 +161,7 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 
 	newBerita, err := h.workshopService.GetAllWorkshop(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, "Eror")
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -171,7 +169,7 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetAllWorkshop /Workshop/GetAllWorkshop", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
     }
@@ -249,9 +247,8 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 
 	workshop, err := h.workshopService.UpdateWorkshop(inputID, input, imageKitURL)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -285,9 +282,8 @@ func (h *workshopHandler) DeleteWorkshop(c *gin.Context) {
 
 	newDel, err := h.workshopService.DeleteWorkshop(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 

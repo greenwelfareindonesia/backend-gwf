@@ -31,41 +31,45 @@ func NewUserHandler(userService user.Service, authService auth.Service) *userHan
 // @Failure 500 {object} map[string]interface{}
 // @Router /user/register [post]
 func (h *userHandler) RegisterUser(c *gin.Context) {
-	var input user.RegisterUserInput
+    var input user.RegisterUserInput
 
-	err := c.ShouldBindJSON(&input)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	isEmailAvailable, err := h.userService.IsEmaillAvailabilty(input.Email)
+    err := c.ShouldBindJSON(&input)
     if err != nil {
-        response := helper.APIresponse(http.StatusInternalServerError, nil)
+        errors := helper.FormatValidationError(err)
+        errorMessage := gin.H{"errors": errors}
+        response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+        c.JSON(http.StatusUnprocessableEntity, response)
+        return
+    }
+
+    // Periksa ketersediaan email sebelum mendaftarkan pengguna
+    isEmailAvailable, err := h.userService.IsEmaillAvailabilty(input.Email)
+    if err != nil {
+        response := helper.APIresponse(http.StatusInternalServerError, err.Error())
         c.JSON(http.StatusInternalServerError, response)
         return
     }
 
     // Jika email tidak tersedia, kirim respons kesalahan
     if !isEmailAvailable {
-        response := helper.APIresponse(http.StatusConflict, nil)
+        response := helper.APIresponse(http.StatusConflict, err.Error())
         c.JSON(http.StatusConflict, response)
         return
     }
 
-	newUser, err := h.userService.RegisterUser(input)
-	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, nil)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
+    // Register user jika email tersedia
+    newUser, err := h.userService.RegisterUser(input)
+    if err != nil {
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+        c.JSON(http.StatusUnprocessableEntity, response)
+        return
+    }
 
-	response := helper.APIresponse(http.StatusOK, newUser)
-	c.JSON(http.StatusOK, response)
+    // Format dan kirim respons berhasil jika registrasi berhasil
+    response := helper.APIresponse(http.StatusOK, newUser)
+    c.JSON(http.StatusOK, response)
 }
+
 
 // @Summary User login
 // @Description Log in an existing user using email and password
@@ -92,13 +96,13 @@ func (h *userHandler) Login(c *gin.Context) {
 
 	loggedinUser, err := h.userService.Login(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, nil)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 	token, err := h.authService.GenerateToken(loggedinUser.ID, loggedinUser.Role)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, nil)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -132,7 +136,7 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 
 	newDel, err := h.userService.DeleteUser(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, newDel)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -180,9 +184,8 @@ func (h *userHandler) UpdateUser(c *gin.Context) {
 
 	user, err := h.userService.UpdateUser(inputID, input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}

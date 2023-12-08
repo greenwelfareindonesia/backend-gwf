@@ -11,8 +11,8 @@ type Repository interface {
 	Create(ecopedia Ecopedia) (Ecopedia, error)
 	DeleteEcopedia(ecopedia Ecopedia) (Ecopedia, error)
 	Update(ecopedia Ecopedia) (Ecopedia, error)
-	FindByUserId (userId int) (Ecopedia, error)
-	CreateComment (comment Comment) (Comment, error)
+	FindByUserId(userId int) (Ecopedia, error)
+	CreateComment(comment Comment) (Comment, error)
 
 }
 

@@ -1,7 +1,5 @@
 package ecopedia
 
-import "errors"
-
 type Service interface {
 	GetAllEcopedia(input int) ([]Ecopedia, error)
 	GetEcopediaByID(id int) (Ecopedia, error)
@@ -9,7 +7,7 @@ type Service interface {
 	CreateEcopediaImage(ecopediaID int, FileName string) error
 	DeleteEcopedia(ID int) (Ecopedia, error)
 	UpdateEcopedia(getIdEcopedia EcopediaID, input EcopediaInput) (Ecopedia, error)
-	UserActionToEcopedia (getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error)
+	UserActionToEcopedia(getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error)
 }
 
 type service struct {
@@ -33,7 +31,7 @@ func (s *service) CreateEcopediaImage(ecopediaID int, FileName string) error {
 	return nil
 }
 
-func (s *service) UserActionToEcopedia (getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error){
+func (s *service) UserActionToEcopedia(getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error) {
 
 	FindEcoId, err := s.repository.FindEcopediaCommentID(getIdEcopedia.ID)
 	if err != nil {
@@ -54,7 +52,7 @@ func (s *service) UserActionToEcopedia (getIdEcopedia EcopediaID, inputUser User
 	if err != nil {
 		return create, err
 	}
-	return create, nil	
+	return create, nil
 
 }
 
@@ -101,7 +99,10 @@ func (s *service) GetAllEcopedia(input int) ([]Ecopedia, error) {
 func (s *service) GetEcopediaByID(id int) (Ecopedia, error) {
 	ecopedias, err := s.repository.FindById(id)
 	if err != nil {
-		return ecopedias, errors.New("found nothing")
+		return ecopedias, err
+	}
+	if ecopedias.ID == 0 {
+		return ecopedias, err
 	}
 	return ecopedias, nil
 }

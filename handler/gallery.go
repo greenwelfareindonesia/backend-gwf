@@ -80,8 +80,8 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 
 	if err != nil {
 		//inisiasi data yang tujuan dalam return hasil ke postman
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+	
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -89,7 +89,7 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 	_, err = h.galleryService.CreateGallery(input, imageKitURL)
 	if err != nil {
 		// data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -122,9 +122,8 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 
 	newDel, err := h.galleryService.GetOneGallery(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -134,7 +133,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetByIDGallery /Gallery/GetByIDGallery", userAgent)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -159,7 +158,7 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 
 	newGalleryImage, err := h.galleryService.GetAllGallery(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, "Eror")
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -167,7 +166,7 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetByIDGallery /Gallery/GetByIDGallery", userAgent)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -241,9 +240,8 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 
 	gallery, err := h.galleryService.UpdateGallery(inputID, input, imageKitURL)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -277,9 +275,8 @@ func (h *galleryHandler) DeleteGallery(c *gin.Context) {
 
 	newDel, err := h.galleryService.DeleteGallery(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 

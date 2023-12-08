@@ -49,9 +49,7 @@ func (h *eventHandler) DeleteEvent(c *gin.Context) {
 
 	newDel, err := h.eventService.DeleteEvent(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -85,9 +83,8 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 
 	newDel, err := h.eventService.GetOneEvent(input.ID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -174,9 +171,8 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 
 	event, err := h.eventService.UpdateEvent(inputID,input,imageKitURL)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -243,8 +239,8 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 
 	if err != nil {
 		//inisiasi data yang tujuan dalam return hasil ke postman
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, data)
+		
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -252,7 +248,7 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 	_, err = h.eventService.CreateEvent(input, imageKitURL)
 	if err != nil {
 		// data := gin.H{"is_uploaded": false}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -276,7 +272,7 @@ func (h *eventHandler) GetAllEvent(c *gin.Context) {
 
 	newBerita, err := h.eventService.GetAllEvent(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, "Eror")
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -285,7 +281,7 @@ func (h *eventHandler) GetAllEvent(c *gin.Context) {
 
 	err = h.endpointService.IncrementCount("GetAllEvent /Event/GetAllEvent", userAgent)
     if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
     }

@@ -153,7 +153,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/artikel/{id}": {
+        "/artikel/{slug}": {
             "get": {
                 "description": "Mendapatkan satu artikel by id",
                 "consumes": [
@@ -2610,24 +2610,17 @@ const docTemplate = `{
                 }
             }
         }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
-	Host:             "backend-gwf-production.up.railway.app",
+	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Sweager Service API",
-	Description:      "Sweager service API in Go using Gin framework",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

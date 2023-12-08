@@ -46,6 +46,9 @@ func (s *service) GetOneWorkshop(ID int) (Workshop, error) {
 	if err != nil {
 		return workshop, err
 	}
+	if workshop.ID == 0 {
+		return workshop, err
+	}
 	return workshop, nil
 }
 
