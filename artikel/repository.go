@@ -1,6 +1,8 @@
 package artikel
 
 import (
+	"errors"
+
 	"gorm.io/gorm"
 )
 
@@ -61,7 +63,7 @@ func (r *repository) FindBySlug(slug string) (Artikel, error) {
 		return artikel, err
 	}
 	if artikel.Slug == "" {
-        return artikel, err
+        return artikel, errors.New("slug not found")
     }
 	
 	return artikel, nil
