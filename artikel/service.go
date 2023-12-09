@@ -42,7 +42,6 @@ func (s *service) UpdateArtikel(input CreateArtikel, slugs string) (Artikel, err
 
 	oldSlug := artikel.Slug
 
-
 	artikel.FullName = input.FullName
 	artikel.Email = input.Email
 	artikel.Topic = input.Topic

@@ -13,7 +13,7 @@ type Repository interface {
 	Update(ecopedia Ecopedia) (Ecopedia, error)
 	FindByUserId(userId int) (Ecopedia, error)
 	CreateComment(comment Comment) (Comment, error)
-
+	// CreateIsLike(like IsLike) error
 }
 
 type repository struct {
@@ -23,6 +23,14 @@ type repository struct {
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
+
+// func (r *repository) CreateIsLike(like IsLike) error {
+// 	err := r.db.Find(&like).Error
+//     if err != nil {
+//         return err
+//     }
+//     return nil
+// }
 
 func (r *repository) CreateImage(ecopedia EcopediaImage) (error) {
 	err := r.db.Create(&ecopedia).Error

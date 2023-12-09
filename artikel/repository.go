@@ -67,6 +67,7 @@ func (r *repository) FindBySlug(slug string) (Artikel, error) {
     }
 	
 	return artikel, nil
+
 }
 
 func (r *repository) Update(karya Artikel) (Artikel, error) {
