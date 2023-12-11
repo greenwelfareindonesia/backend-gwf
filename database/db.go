@@ -62,6 +62,7 @@ func InitDb() (*gorm.DB, error){
 		db.AutoMigrate(&ecopedia.Comment{})
 		db.AutoMigrate(&ecopedia.IsLike{})
 		db.AutoMigrate(&gallery.Gallery{})
+		db.AutoMigrate(&gallery.GalleryImages{})
 		db.AutoMigrate(&ecopedia.EcopediaImage{})
 
 		return db, nil
