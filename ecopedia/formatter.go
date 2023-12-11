@@ -1,22 +1,32 @@
 package ecopedia
 
-type EcopediaFormatter struct {
-	ID int `json:"id"`
-	Judul     string `json:"judul"`
-	Subjudul  string `json:"subjudul"`
-	Deskripsi string `json:"deskripsi"`
-	Srcgambar string `json:"srcgambar"`
-	Referensi string `json:"referensi"`
-	Comment []string `json:"Comment"`
-	// Like []string `json:"like"`
+import "time"
 
+type EcopediaFormatter struct {
+	ID int `json:"ID"`
+	Judul     string `json:"Judul"`
+	Subjudul  string `json:"SubJudul"`
+	Deskripsi string `json:"Deskripsi"`
+	Srcgambar string `json:"SrcGambar"`
+	Referensi string `json:"Referensi"`
+	FileName []string `json:"FileNames"`
+	Comment []string `json:"Comment"`
+	CreatedAt time.Time `json:"CreatedAt"`
+    UpdatedAt time.Time `json:"UpdatedAt"`
+	// Like []string `json:"like"`
 }
 
-// type EcopediaComment struct {
-
+// type FileNamesFormatter struct {
+// 	FileName string `json:"FileName"`
+// 	CreatedAt time.Time `json:"CreatedAr"`
 // }
 
-func FormatterEcopedia(ecopedia_submit Ecopedia) EcopediaFormatter {
+// type UserFormatter struct {
+// 	Username  string `json:"UserName"`
+// 	Email     string `json:"Email"`
+// }
+
+func GetOneEcopediaFormat(ecopedia_submit Ecopedia) EcopediaFormatter {
 	formatter := EcopediaFormatter{
 		ID:  ecopedia_submit.ID,
 		Judul:     ecopedia_submit.Judul,
@@ -24,12 +34,29 @@ func FormatterEcopedia(ecopedia_submit Ecopedia) EcopediaFormatter {
 		Deskripsi: ecopedia_submit.Deskripsi,
 		Srcgambar: ecopedia_submit.Srcgambar,
 		Referensi: ecopedia_submit.Referensi,
+		FileName: make([]string,len(ecopedia_submit.FileName)),
 		Comment: make([]string, len(ecopedia_submit.Comment)),
+		CreatedAt: ecopedia_submit.CreatedAt,
 	}
 
 	for i, comment := range ecopedia_submit.Comment {
         formatter.Comment[i] = comment.Comment
     }
 
+	for i, fileName := range ecopedia_submit.FileName {
+        formatter.FileName[i] = fileName.FileName
+    }
+
 	return formatter
+}
+
+func FormatterGetAllEcopedia (ecopedia []Ecopedia) []EcopediaFormatter {
+	newEcopediaGetFormatter := []EcopediaFormatter{}
+
+	for _, newPounds := range ecopedia {
+		newEcopediaFormatter := GetOneEcopediaFormat(newPounds)
+		newEcopediaGetFormatter = append(newEcopediaGetFormatter, newEcopediaFormatter)
+	}
+
+	return newEcopediaGetFormatter
 }

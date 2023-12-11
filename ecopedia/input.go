@@ -3,19 +3,19 @@ package ecopedia
 import "greenwelfare/user"
 
 type EcopediaInput struct {
-	Judul     string `form:"judul" binding:"required"`
-	Subjudul  string `form:"subjudul"`
+	Judul     string `form:"Judul" binding:"required"`
+	Subjudul  string `form:"SubJudul"`
 	Deskripsi string `form:"Deskripsi" binding:"required"`
-	Srcgambar string `form:"src_gambar"`
-	Referensi string `form:"referensi"`
+	Srcgambar string `form:"SrcGambar"`
+	Referensi string `form:"Referensi"`
 }
 
 type UserActionToEcopedia struct {
-	Comment string `form:"comment"`
-	IsLike  bool   `form:"is_like"`
+	Comment string `form:"Comment"`
+	IsLike  bool   `form:"Is_like"`
 	User    user.User 
 }
 
 type EcopediaID struct {
-	ID int `uri:"id" binding:"required"`
+	ID int `uri:"ID" binding:"required"`
 }

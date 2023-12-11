@@ -1,59 +1,59 @@
 definitions:
   contact.ContactSubmissionInput:
     properties:
-      email:
+      Email:
         type: string
-      message:
+      Message:
         type: string
-      name:
+      Name:
         type: string
-      subject:
+      Subject:
         type: string
     required:
-    - email
-    - message
-    - subject
+    - Email
+    - Message
+    - Subject
     type: object
   feedback.FeedbackInput:
     properties:
-      email:
+      Email:
         type: string
-      text:
+      Text:
         type: string
     required:
-    - email
-    - text
+    - Email
+    - Text
     type: object
   user.LoginInput:
     properties:
-      email:
+      Email:
         type: string
-      password:
+      Password:
         type: string
     required:
-    - email
-    - password
+    - Email
+    - Password
     type: object
   user.RegisterUserInput:
     properties:
-      email:
+      Email:
         type: string
-      password:
+      Password:
         type: string
-      username:
+      Username:
         type: string
     required:
-    - email
-    - password
-    - username
+    - Email
+    - Password
+    - Username
     type: object
   user.UpdateUserInput:
     properties:
-      email:
+      Email:
         type: string
-      password:
+      Password:
         type: string
-      username:
+      Username:
         type: string
     type: object
 info:
@@ -102,27 +102,27 @@ paths:
       parameters:
       - description: File gambar
         in: formData
-        name: file
+        name: File
         required: true
         type: file
       - description: Nama lengkap
         in: formData
-        name: full_name
+        name: FullName
         required: true
         type: string
       - description: Email
         in: formData
-        name: email
+        name: Email
         required: true
         type: string
       - description: Topik
         in: formData
-        name: topic
+        name: Topic
         required: true
         type: string
       - description: Pesan artikel
         in: formData
-        name: message
+        name: Message
         required: true
         type: string
       produces:
@@ -157,11 +157,11 @@ paths:
     delete:
       consumes:
       - application/json
-      description: Menghapus artikel by id
+      description: Menghapus artikel by slug
       parameters:
       - description: Artikel ID
         in: path
-        name: id
+        name: slug
         required: true
         type: integer
       produces:
@@ -189,17 +189,17 @@ paths:
             type: object
       security:
       - BearerAuth: []
-      summary: Menghapus artikel by id
+      summary: Menghapus artikel by slug
       tags:
       - Artikel
     get:
       consumes:
       - application/json
-      description: Mendapatkan satu artikel by id
+      description: Mendapatkan satu artikel by slug
       parameters:
-      - description: Artikel ID
+      - description: Artikel by slug
         in: path
-        name: id
+        name: slug
         required: true
         type: integer
       produces:
@@ -225,7 +225,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Mendapatkan satu artikel by id
+      summary: Mendapatkan satu artikel by slug
       tags:
       - Artikel
     put:
@@ -233,34 +233,34 @@ paths:
       - multipart/form-data
       description: Memperbarui artikel dengan informasi yang diberikan
       parameters:
-      - description: Artikel ID
+      - description: Artikel slug
         in: path
-        name: id
+        name: slug
         required: true
         type: integer
       - description: File gambar
         in: formData
-        name: file
+        name: File
         required: true
         type: file
       - description: Nama lengkap
         in: formData
-        name: full_name
+        name: FullName
         required: true
         type: string
       - description: Email
         in: formData
-        name: email
+        name: Email
         required: true
         type: string
       - description: Topik
         in: formData
-        name: topic
+        name: Topic
         required: true
         type: string
       - description: Pesan artikel
         in: formData
-        name: message
+        name: Message
         required: true
         type: string
       produces:
@@ -339,7 +339,7 @@ paths:
       summary: Submit Contact Form
       tags:
       - Contact
-  /contact/{id}:
+  /contact/{slug}:
     delete:
       consumes:
       - application/json
@@ -441,20 +441,20 @@ paths:
       parameters:
       - description: File gambar 1
         in: formData
-        name: file1
+        name: File1
         required: true
         type: file
       - description: File gambar 2
         in: formData
-        name: file2
+        name: File2
         required: true
         type: file
-      - description: judul
+      - description: Judul
         in: formData
-        name: judul
+        name: Judul
         required: true
         type: string
-      - description: sub_judul
+      - description: SubJudul
         in: formData
         name: SubJudul
         required: true
@@ -464,12 +464,12 @@ paths:
         name: Deskripsi
         required: true
         type: string
-      - description: src_gambar
+      - description: SrcGambar
         in: formData
         name: SrcGambar
         required: true
         type: string
-      - description: referensi
+      - description: Referensi
         in: formData
         name: Referensi
         required: true
@@ -588,17 +588,12 @@ paths:
         name: id
         required: true
         type: integer
-      - description: File gambar
+      - description: Judul
         in: formData
-        name: file
-        required: true
-        type: file
-      - description: judul
-        in: formData
-        name: judul
+        name: Judul
         required: true
         type: string
-      - description: sub_judul
+      - description: SubJudul
         in: formData
         name: SubJudul
         required: true
@@ -608,12 +603,12 @@ paths:
         name: Deskripsi
         required: true
         type: string
-      - description: src_gambar
+      - description: SrcGambar
         in: formData
         name: SrcGambar
         required: true
         type: string
-      - description: referensi
+      - description: Referensi
         in: formData
         name: Referensi
         required: true
@@ -660,7 +655,7 @@ paths:
         type: integer
       - description: Komentar
         in: formData
-        name: comment
+        name: Comment
         required: true
         type: string
       produces:
@@ -729,17 +724,17 @@ paths:
       parameters:
       - description: File gambar
         in: formData
-        name: file
+        name: File
         required: true
         type: file
       - description: Judul
         in: formData
-        name: judul
+        name: Judul
         required: true
         type: string
       - description: Pesan Event
         in: formData
-        name: message
+        name: Message
         required: true
         type: string
       produces:
@@ -842,17 +837,17 @@ paths:
         type: integer
       - description: File gambar
         in: formData
-        name: file
+        name: File
         required: true
         type: file
       - description: Judul
         in: formData
-        name: judul
+        name: Judul
         required: true
         type: string
       - description: Pesan Event
         in: formData
-        name: message
+        name: Message
         required: true
         type: string
       produces:
@@ -916,7 +911,7 @@ paths:
       parameters:
       - description: Data Feedback yang ingin dibuat
         in: body
-        name: input
+        name: Input
         required: true
         schema:
           $ref: '#/definitions/feedback.FeedbackInput'
@@ -1044,7 +1039,7 @@ paths:
       parameters:
       - description: File gambar
         in: formData
-        name: file
+        name: File
         required: true
         type: file
       - description: Alt
@@ -1075,15 +1070,15 @@ paths:
       summary: Buat data Gallery baru
       tags:
       - Gallery
-  /gallery/{id}:
+  /gallery/{slug}:
     delete:
       consumes:
       - application/json
-      description: Hapus data Gallery berdasarkan ID yang diberikan
+      description: Hapus data Gallery berdasarkan Slug yang diberikan
       parameters:
-      - description: ID Gallery
+      - description: Slug Gallery
         in: path
-        name: id
+        name: slug
         required: true
         type: integer
       produces:
@@ -1106,17 +1101,17 @@ paths:
             type: object
       security:
       - BearerAuth: []
-      summary: Hapus data Gallery berdasarkan ID
+      summary: Hapus data Gallery berdasarkan Slug
       tags:
       - Gallery
     get:
       consumes:
       - application/json
-      description: Dapatkan satu data Gallery berdasarkan ID yang diberikan
+      description: Dapatkan satu data Gallery berdasarkan slug yang diberikan
       parameters:
-      - description: ID Gallery
+      - description: slug Gallery
         in: path
-        name: id
+        name: slug
         required: true
         type: integer
       produces:
@@ -1137,17 +1132,17 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Dapatkan satu data Gallery berdasarkan ID
+      summary: Dapatkan satu data Gallery berdasarkan slug
       tags:
       - Gallery
     put:
       consumes:
       - application/json
-      description: Update data Gallery berdasarkan ID yang diberikan
+      description: Update data Gallery berdasarkan Slug yang diberikan
       parameters:
-      - description: ID Gallery
+      - description: Slug Gallery
         in: path
-        name: id
+        name: slug
         required: true
         type: integer
       - description: File gambar
@@ -1180,16 +1175,16 @@ paths:
             type: object
       security:
       - BearerAuth: []
-      summary: Update data Gallery berdasarkan ID
+      summary: Update data Gallery berdasarkan Slug
       tags:
       - Gallery
-  /user/{id}:
+  /user/{slug}:
     delete:
       description: Delete a user
       parameters:
-      - description: User ID
+      - description: Slug User ID
         in: path
-        name: id
+        name: slug
         required: true
         type: integer
       produces:
@@ -1225,9 +1220,9 @@ paths:
       - application/json
       description: Update user details by ID
       parameters:
-      - description: User ID
+      - description: User Slug
         in: path
-        name: id
+        name: slug
         required: true
         type: integer
       - description: User information for update

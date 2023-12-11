@@ -5,22 +5,33 @@ import (
 )
 
 type GalleryFormatter struct {
-	ID    int    `json:"id"`
-	Image string `json:"image"`
-	Alt   string `json:"alt"`
-	//Likes int `json:"likes"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID    int    `json:"ID"`
+	Alt   string `json:"Alt"`
+	GalleryImages     []string `json:"FileNames"`     
+    ActionUserGallery []string `json:"ActionUsers"`
+	CreatedAt time.Time `json:"CreatedAt"`
+	UpdatedAt time.Time `json:"UpdatedAt"`
 }
 
-func FormatterGallery(gallery Gallery) GalleryFormatter {
+func PostFormatterGallery(gallery Gallery) GalleryFormatter {
 	formatter := GalleryFormatter{
 		ID:    gallery.ID,
-		Image: gallery.Image,
 		Alt:   gallery.Alt,
-		//Likes: gallery.Likes,
+		GalleryImages: make([]string,len(gallery.FileName)),
+		ActionUserGallery: make([]string, len(gallery.ActionUserGallery)),
 		CreatedAt: gallery.CreatedAt,
 		UpdatedAt: gallery.UpdatedAt,
 	}
 	return formatter
+}
+
+func FormatterGetAllGallery (gallery []Gallery) []GalleryFormatter {
+	newGalleryGetFormatter := []GalleryFormatter{}
+
+	for _, newGallery := range gallery {
+		newGalleryFormatter := PostFormatterGallery(newGallery)
+		newGalleryGetFormatter = append(newGalleryGetFormatter, newGalleryFormatter)
+	}
+
+	return newGalleryGetFormatter
 }

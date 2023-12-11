@@ -1,27 +1,18 @@
 package user
 
 type RegisterUserInput struct {
-	Username string `json:"username" binding:"required"`
-	Email    string `json:"email" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Username string `json:"Username" binding:"required"`
+	Email    string `json:"Email" binding:"required"`
+	Password string `json:"Password" binding:"required"`
 }
 
 type LoginInput struct {
-	Email    string `json:"email" binding:"required"`
-	Password string `json:"password" binding:"required"`
-}
-
-
-type DeletedUser struct {
-	ID int `uri:"id" binding:"required"`
-}
-
-type IdUser struct {
-	ID int `uri:"id" binding:"required"`
+	Email    string `json:"Email" binding:"required"`
+	Password string `json:"Password" binding:"required"`
 }
 
 type UpdateUserInput struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Username string `json:"Username"`
+	Email    string `json:"Email"`
+	Password string `json:"Password"`
 }

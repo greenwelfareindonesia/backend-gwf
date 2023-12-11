@@ -30,97 +30,109 @@ func NewGalleryHandler(galleryService gallery.Service, endpointService endpointc
 // @Produce json
 // @Tags Gallery
 // @Security BearerAuth
-// @Param file formData file true "File gambar"
+// @Param File formData file true "File gambar"
 // @Param Alt formData string true "Alt"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /gallery [post]
 func (h *galleryHandler) CreateGallery(c *gin.Context) {
-	file, _ := c.FormFile("file")
-	src, err := file.Open()
-	if err != nil {
-		fmt.Printf("error when open file %v", err)
-	}
-	defer src.Close()
+	var imagesKitURLs []string
 
-	buf := bytes.NewBuffer(nil)
-	if _, err := io.Copy(buf, src); err != nil {
-		fmt.Printf("error read file %v", err)
-		return
-	}
+	for i := 1; ; i++ {
+        fileKey := fmt.Sprintf("File%d", i)
+        file, err := c.FormFile(fileKey)
+        
+        // If there are no more files to upload, break the loop
+        if err == http.ErrMissingFile {
+            break
+        }
 
-	img, err := imagekits.Base64toEncode(buf.Bytes())
-	if err != nil {
-		fmt.Println("error reading image ", err)
-	}
+        if err != nil {
+            fmt.Printf("Error when opening file %s: %v\n", fileKey, err)
+            continue // Skip to the next file
+        }
 
-	fmt.Println("image base 64 format : ", img)
+        src, err := file.Open()
+        if err != nil {
+            fmt.Printf("Error when opening file %s: %v\n", fileKey, err)
+            continue
+        }
+        defer src.Close()
 
-	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
-	if err != nil {
-		// Tangani jika terjadi kesalahan saat upload gambar
-		// Misalnya, Anda dapat mengembalikan respon error ke klien jika diperlukan
-		response := helper.APIresponse(http.StatusInternalServerError, "Failed to upload image")
-		c.JSON(http.StatusInternalServerError, response)
-		return
-	}
+        buf := bytes.NewBuffer(nil)
+        if _, err := io.Copy(buf, src); err != nil {
+            fmt.Printf("Error reading file %s: %v\n", fileKey, err)
+            continue
+        }
 
-	var input gallery.InputGallery
+        img, err := imagekits.Base64toEncode(buf.Bytes())
+        if err != nil {
+            fmt.Printf("Error reading image %s: %v\n", fileKey, err)
+            continue
+        }
 
-	err = c.ShouldBind(&input)
+        fmt.Printf("Image base64 format %s: %v\n", fileKey, img)
 
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
+        imageKitURL, err := imagekits.ImageKit(context.Background(), img)
+        if err != nil {
+            fmt.Printf("Error uploading image %s to ImageKit: %v\n", fileKey, err)
+            continue
+        }
 
-	if err != nil {
-		//inisiasi data yang tujuan dalam return hasil ke postman
-	
+        imagesKitURLs = append(imagesKitURLs, imageKitURL)
+		}
+
+		var input gallery.InputGallery
+
+		err := c.ShouldBindJSON(&input)
+
+		if err != nil {
+			errors := helper.FormatValidationError(err)
+			errorMessage := gin.H{"errors": errors}
+			response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+			c.JSON(http.StatusUnprocessableEntity, response)
+			return
+		}
+
+		// Create a new news item with the provided input
+		newNews, err := h.galleryService.CreateGallery(input)
+		if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
-	}
-
-	_, err = h.galleryService.CreateGallery(input, imageKitURL)
-	if err != nil {
-		// data := gin.H{"is_uploaded": false}
+		}
+		
+		// Associate the uploaded images with the news item
+		for _, imageURL := range imagesKitURLs {
+		// Create a new BeritaImage record for each image and associate it with the news item
+		err := h.galleryService.CreateImageGallery(newNews.ID, imageURL)
+		if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
+		}
 	}
-	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
-	c.JSON(http.StatusOK, response)
+		
+		data := gin.H{"is_uploaded": true}
+		response := helper.APIresponse(http.StatusOK, data)
+		c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan satu data Gallery berdasarkan ID
-// @Description Dapatkan satu data Gallery berdasarkan ID yang diberikan
+// @Summary Dapatkan satu data Gallery berdasarkan slug
+// @Description Dapatkan satu data Gallery berdasarkan slug yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Gallery
-// @Param id path int true "ID Gallery"
+// @Param slug path int true "slug Gallery"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /gallery/{id} [get]
+// @Router /gallery/{slug} [get]
 func (h *galleryHandler) GetOneGallery(c *gin.Context) {
-	var input gallery.InputGalleryID
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	newDel, err := h.galleryService.GetOneGallery(input.ID)
+	newDel, err := h.galleryService.GetOneGallery(param)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -138,7 +150,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.APIresponse(http.StatusOK, gallery.PostFormatterGallery(newDel))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -171,65 +183,29 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, newGalleryImage)
+	response := helper.APIresponse(http.StatusOK, gallery.FormatterGetAllGallery(newGalleryImage))
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Update data Gallery berdasarkan ID
-// @Description Update data Gallery berdasarkan ID yang diberikan
+// @Summary Update data Gallery berdasarkan Slug
+// @Description Update data Gallery berdasarkan Slug yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Gallery
 // @Security BearerAuth
-// @Param id path int true "ID Gallery"
+// @Param slug path int true "Slug Gallery"
 // @Param file formData file true "File gambar"
 // @Param Alt formData string true "Alt"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /gallery/{id} [put]
+// @Router /gallery/{slug} [put]
 func (h *galleryHandler) UpdateGallery(c *gin.Context) {
-	file, _ := c.FormFile("file")
-	src, err := file.Open()
-	if err != nil {
-		fmt.Printf("error when open file %v", err)
-	}
-	defer src.Close()
 
-	buf := bytes.NewBuffer(nil)
-	if _, err := io.Copy(buf, src); err != nil {
-		fmt.Printf("error read file %v", err)
-		return
-	}
-
-	img, err := imagekits.Base64toEncode(buf.Bytes())
-	if err != nil {
-		fmt.Println("error reading image ", err)
-	}
-
-	fmt.Println("image base 64 format : ", img)
-
-	imageKitURL, err := imagekits.ImageKit(context.Background(), img)
-	if err != nil {
-		// Tangani jika terjadi kesalahan saat upload gambar
-		// Misalnya, Anda dapat mengembalikan respon error ke klien jika diperlukan
-		response := helper.APIresponse(http.StatusInternalServerError, "Failed to upload image")
-		c.JSON(http.StatusInternalServerError, response)
-		return
-	}
-
-	var inputID gallery.InputGalleryID
-	err = c.ShouldBindUri(&inputID)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
+	param := c.Param("slug")
 
 	var input gallery.InputGallery
-	err = c.ShouldBind(&input)
+	err := c.ShouldBind(&input)
 	if err != nil {
 		errors := helper.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errors}
@@ -238,7 +214,7 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 		return
 	}
 
-	gallery, err := h.galleryService.UpdateGallery(inputID, input, imageKitURL)
+	gallery, err := h.galleryService.UpdateGallery(param, input)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -250,30 +226,21 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Hapus data Gallery berdasarkan ID
-// @Description Hapus data Gallery berdasarkan ID yang diberikan
+// @Summary Hapus data Gallery berdasarkan Slug
+// @Description Hapus data Gallery berdasarkan Slug yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Gallery
 // @Security BearerAuth
-// @Param id path int true "ID Gallery"
+// @Param slug path int true "Slug Gallery"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /gallery/{id} [delete]
+// @Router /gallery/{slug} [delete]
 func (h *galleryHandler) DeleteGallery(c *gin.Context) {
-	var input gallery.InputGalleryID
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	newDel, err := h.galleryService.DeleteGallery(input.ID)
+	_, err := h.galleryService.DeleteGallery(param)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -281,6 +248,6 @@ func (h *galleryHandler) DeleteGallery(c *gin.Context) {
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.APIresponse(http.StatusOK, "Gallery has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }

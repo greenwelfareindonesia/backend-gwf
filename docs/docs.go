@@ -88,35 +88,35 @@ const docTemplate = `{
                     {
                         "type": "file",
                         "description": "File gambar",
-                        "name": "file",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Nama lengkap",
-                        "name": "full_name",
+                        "name": "FullName",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Email",
-                        "name": "email",
+                        "name": "Email",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Topik",
-                        "name": "topic",
+                        "name": "Topic",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Pesan artikel",
-                        "name": "message",
+                        "name": "Message",
                         "in": "formData",
                         "required": true
                     }
@@ -155,7 +155,7 @@ const docTemplate = `{
         },
         "/artikel/{slug}": {
             "get": {
-                "description": "Mendapatkan satu artikel by id",
+                "description": "Mendapatkan satu artikel by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -165,12 +165,12 @@ const docTemplate = `{
                 "tags": [
                     "Artikel"
                 ],
-                "summary": "Mendapatkan satu artikel by id",
+                "summary": "Mendapatkan satu artikel by slug",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Artikel ID",
-                        "name": "id",
+                        "description": "Artikel by slug",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -226,43 +226,43 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Artikel ID",
-                        "name": "id",
+                        "description": "Artikel slug",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "file",
                         "description": "File gambar",
-                        "name": "file",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Nama lengkap",
-                        "name": "full_name",
+                        "name": "FullName",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Email",
-                        "name": "email",
+                        "name": "Email",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Topik",
-                        "name": "topic",
+                        "name": "Topic",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Pesan artikel",
-                        "name": "message",
+                        "name": "Message",
                         "in": "formData",
                         "required": true
                     }
@@ -304,7 +304,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Menghapus artikel by id",
+                "description": "Menghapus artikel by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -314,12 +314,12 @@ const docTemplate = `{
                 "tags": [
                     "Artikel"
                 ],
-                "summary": "Menghapus artikel by id",
+                "summary": "Menghapus artikel by slug",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "Artikel ID",
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -427,7 +427,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/contact/{id}": {
+        "/contact/{slug}": {
             "get": {
                 "description": "Get a contact form submission by ID",
                 "consumes": [
@@ -585,27 +585,27 @@ const docTemplate = `{
                     {
                         "type": "file",
                         "description": "File gambar 1",
-                        "name": "file1",
+                        "name": "File1",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "file",
                         "description": "File gambar 2",
-                        "name": "file2",
+                        "name": "File2",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "judul",
-                        "name": "judul",
+                        "description": "Judul",
+                        "name": "Judul",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "sub_judul",
+                        "description": "SubJudul",
                         "name": "SubJudul",
                         "in": "formData",
                         "required": true
@@ -619,14 +619,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "src_gambar",
+                        "description": "SrcGambar",
                         "name": "SrcGambar",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "referensi",
+                        "description": "Referensi",
                         "name": "Referensi",
                         "in": "formData",
                         "required": true
@@ -693,7 +693,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Komentar",
-                        "name": "comment",
+                        "name": "Comment",
                         "in": "formData",
                         "required": true
                     }
@@ -809,22 +809,15 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "file",
-                        "description": "File gambar",
-                        "name": "file",
+                        "type": "string",
+                        "description": "Judul",
+                        "name": "Judul",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "judul",
-                        "name": "judul",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "sub_judul",
+                        "description": "SubJudul",
                         "name": "SubJudul",
                         "in": "formData",
                         "required": true
@@ -838,14 +831,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "src_gambar",
+                        "description": "SrcGambar",
                         "name": "SrcGambar",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "referensi",
+                        "description": "Referensi",
                         "name": "Referensi",
                         "in": "formData",
                         "required": true
@@ -1006,21 +999,21 @@ const docTemplate = `{
                     {
                         "type": "file",
                         "description": "File gambar",
-                        "name": "file",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Judul",
-                        "name": "judul",
+                        "name": "Judul",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Pesan Event",
-                        "name": "message",
+                        "name": "Message",
                         "in": "formData",
                         "required": true
                     }
@@ -1124,21 +1117,21 @@ const docTemplate = `{
                     {
                         "type": "file",
                         "description": "File gambar",
-                        "name": "file",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Judul",
-                        "name": "judul",
+                        "name": "Judul",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Pesan Event",
-                        "name": "message",
+                        "name": "Message",
                         "in": "formData",
                         "required": true
                     }
@@ -1278,7 +1271,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Data Feedback yang ingin dibuat",
-                        "name": "input",
+                        "name": "Input",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1474,7 +1467,7 @@ const docTemplate = `{
                     {
                         "type": "file",
                         "description": "File gambar",
-                        "name": "file",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
@@ -1511,9 +1504,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/gallery/{id}": {
+        "/gallery/{slug}": {
             "get": {
-                "description": "Dapatkan satu data Gallery berdasarkan ID yang diberikan",
+                "description": "Dapatkan satu data Gallery berdasarkan slug yang diberikan",
                 "consumes": [
                     "application/json"
                 ],
@@ -1523,12 +1516,12 @@ const docTemplate = `{
                 "tags": [
                     "Gallery"
                 ],
-                "summary": "Dapatkan satu data Gallery berdasarkan ID",
+                "summary": "Dapatkan satu data Gallery berdasarkan slug",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID Gallery",
-                        "name": "id",
+                        "description": "slug Gallery",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -1563,7 +1556,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update data Gallery berdasarkan ID yang diberikan",
+                "description": "Update data Gallery berdasarkan Slug yang diberikan",
                 "consumes": [
                     "application/json"
                 ],
@@ -1573,12 +1566,12 @@ const docTemplate = `{
                 "tags": [
                     "Gallery"
                 ],
-                "summary": "Update data Gallery berdasarkan ID",
+                "summary": "Update data Gallery berdasarkan Slug",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID Gallery",
-                        "name": "id",
+                        "description": "Slug Gallery",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     },
@@ -1627,7 +1620,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Hapus data Gallery berdasarkan ID yang diberikan",
+                "description": "Hapus data Gallery berdasarkan Slug yang diberikan",
                 "consumes": [
                     "application/json"
                 ],
@@ -1637,12 +1630,12 @@ const docTemplate = `{
                 "tags": [
                     "Gallery"
                 ],
-                "summary": "Hapus data Gallery berdasarkan ID",
+                "summary": "Hapus data Gallery berdasarkan Slug",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID Gallery",
-                        "name": "id",
+                        "description": "Slug Gallery",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -1791,7 +1784,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/{id}": {
+        "/user/{slug}": {
             "put": {
                 "security": [
                     {
@@ -1812,8 +1805,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User ID",
-                        "name": "id",
+                        "description": "User Slug",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     },
@@ -1875,8 +1868,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User ID",
-                        "name": "id",
+                        "description": "Slug User ID",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -2528,21 +2521,21 @@ const docTemplate = `{
         "contact.ContactSubmissionInput": {
             "type": "object",
             "required": [
-                "email",
-                "message",
-                "subject"
+                "Email",
+                "Message",
+                "Subject"
             ],
             "properties": {
-                "email": {
+                "Email": {
                     "type": "string"
                 },
-                "message": {
+                "Message": {
                     "type": "string"
                 },
-                "name": {
+                "Name": {
                     "type": "string"
                 },
-                "subject": {
+                "Subject": {
                     "type": "string"
                 }
             }
@@ -2550,14 +2543,14 @@ const docTemplate = `{
         "feedback.FeedbackInput": {
             "type": "object",
             "required": [
-                "email",
-                "text"
+                "Email",
+                "Text"
             ],
             "properties": {
-                "email": {
+                "Email": {
                     "type": "string"
                 },
-                "text": {
+                "Text": {
                     "type": "string"
                 }
             }
@@ -2565,14 +2558,14 @@ const docTemplate = `{
         "user.LoginInput": {
             "type": "object",
             "required": [
-                "email",
-                "password"
+                "Email",
+                "Password"
             ],
             "properties": {
-                "email": {
+                "Email": {
                     "type": "string"
                 },
-                "password": {
+                "Password": {
                     "type": "string"
                 }
             }
@@ -2580,18 +2573,18 @@ const docTemplate = `{
         "user.RegisterUserInput": {
             "type": "object",
             "required": [
-                "email",
-                "password",
-                "username"
+                "Email",
+                "Password",
+                "Username"
             ],
             "properties": {
-                "email": {
+                "Email": {
                     "type": "string"
                 },
-                "password": {
+                "Password": {
                     "type": "string"
                 },
-                "username": {
+                "Username": {
                     "type": "string"
                 }
             }
@@ -2599,13 +2592,13 @@ const docTemplate = `{
         "user.UpdateUserInput": {
             "type": "object",
             "properties": {
-                "email": {
+                "Email": {
                     "type": "string"
                 },
-                "password": {
+                "Password": {
                     "type": "string"
                 },
-                "username": {
+                "Username": {
                     "type": "string"
                 }
             }

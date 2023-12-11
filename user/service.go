@@ -2,7 +2,12 @@ package user
 
 import (
 	"errors"
+	"fmt"
+	"math/rand"
+	"strings"
+	"time"
 
+	"github.com/gosimple/slug"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -11,9 +16,9 @@ type Service interface {
 	Login(input LoginInput) (User, error)
 	IsEmaillAvailabilty(input string) (bool, error)
 	GetUserByid(ID int) (User, error)
-	DeleteUser(ID DeletedUser) (User, error)
+	DeleteUser(slug string) (User, error)
 	// SaveAvatar(ID int, fileLocation string) (User, error)
-	UpdateUser(InputID IdUser, input UpdateUserInput) (User, error)
+	UpdateUser(slugs string, input UpdateUserInput) (User, error)
 }
 
 type service struct {
@@ -26,6 +31,17 @@ func NewService(repository Repository) *service {
 
 func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	user := User{}
+
+	var seededRand *rand.Rand = rand.New(
+	rand.NewSource(time.Now().UnixNano()))
+
+	slugTitle := strings.ToLower(input.Username)
+
+	mySlug := slug.Make(slugTitle)
+
+	randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+
+	user.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
 
 	user.Username = input.Username
 	user.Email = input.Email
@@ -64,8 +80,8 @@ func (s *service) Login(input LoginInput) (User, error) {
 
 }
 
-func (s *service) DeleteUser(userID DeletedUser) (User, error) {
-	user, err := s.repository.FindById(userID.ID)
+func (s *service) DeleteUser(slug string) (User, error) {
+	user, err := s.repository.FindBySlug(slug)
 	if err != nil {
 		return user, err
 	}
@@ -112,11 +128,23 @@ func (s *service) GetUserByid(ID int) (User, error) {
 
 }
 
-func (s *service) UpdateUser(InputID IdUser, input UpdateUserInput) (User, error) {
-	user, err := s.repository.FindById(InputID.ID)
+func (s *service) UpdateUser(slugs string, input UpdateUserInput) (User, error) {
+	user, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return user, err
 	}
+
+	oldSlug := user.Slug
+
+	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+    slugTitle := strings.ToLower(input.Username)
+    mySlug := slug.Make(slugTitle)
+    randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+    user.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
+
+    // Ubah nilai slug kembali ke nilai slug lama untuk mencegah perubahan slug dalam database
+    user.Slug = oldSlug
+
 	user.Username = input.Username
 	user.Email = input.Email
 	user.Password = input.Password

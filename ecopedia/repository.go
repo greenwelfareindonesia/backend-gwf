@@ -34,7 +34,7 @@ func NewRepository(db *gorm.DB) *repository {
 
 func (r *repository) CreateImage(ecopedia EcopediaImage) (error) {
 	err := r.db.Create(&ecopedia).Error
-		return  err
+	return  err
 	
 }
 

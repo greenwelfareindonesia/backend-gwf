@@ -19,13 +19,13 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 	return &artikelHandler{artikelService, endpointService}
 }
 
-// @Summary Menghapus artikel by id
-// @Description Menghapus artikel by id
+// @Summary Menghapus artikel by slug
+// @Description Menghapus artikel by slug
 // @Accept json
 // @Produce json
 // @Tags Artikel
 // @Security BearerAuth
-// @Param id path int true "Artikel ID"
+// @Param slug path int true "Artikel ID"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
@@ -34,24 +34,24 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 	param := c.Param("slug")
 
-	newDel, err := h.artikelService.DeleteArtikel(param)
+	_, err := h.artikelService.DeleteArtikel(param)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.APIresponse(http.StatusOK, "article has successfully deleted")
 	c.JSON(http.StatusOK, response)
 
 }
 
-// @Summary Mendapatkan satu artikel by id
-// @Description Mendapatkan satu artikel by id
+// @Summary Mendapatkan satu artikel by slug
+// @Description Mendapatkan satu artikel by slug
 // @Accept json
 // @Produce json
 // @Tags Artikel
-// @Param id path int true "Artikel ID"
+// @Param slug path int true "Artikel by slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
@@ -88,12 +88,12 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Produce json
 // @Tags Artikel
 // @Security BearerAuth
-// @Param id path int true "Artikel ID"
-// @Param file formData file true "File gambar"
-// @Param full_name formData string true "Nama lengkap"
-// @Param email formData string true "Email"
-// @Param topic formData string true "Topik"
-// @Param message formData string true "Pesan artikel"
+// @Param slug path int true "Artikel slug"
+// @Param File formData file true "File gambar"
+// @Param FullName formData string true "Nama lengkap"
+// @Param Email formData string true "Email"
+// @Param Topic formData string true "Topik"
+// @Param Message formData string true "Pesan artikel"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
@@ -114,7 +114,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 		return
 	}
 
-	artikel, err := h.artikelService.UpdateArtikel(input, param)
+	artikels, err := h.artikelService.UpdateArtikel(input, param)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -122,7 +122,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, artikel)
+	response := helper.APIresponse(http.StatusOK, artikel.UpdatedArticleFormat(artikels))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -132,11 +132,11 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 // @Produce json
 // @Tags Artikel
 // @Security BearerAuth
-// @Param file formData file true "File gambar"
-// @Param full_name formData string true "Nama lengkap"
-// @Param email formData string true "Email"
-// @Param topic formData string true "Topik"
-// @Param message formData string true "Pesan artikel"
+// @Param File formData file true "File gambar"
+// @Param FullName formData string true "Nama lengkap"
+// @Param Email formData string true "Email"
+// @Param Topic formData string true "Topik"
+// @Param Message formData string true "Pesan artikel"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
@@ -161,14 +161,14 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 		return
 	}
 
-	_, err = h.artikelService.CreateArtikel(input)
+	data, err := h.artikelService.CreateArtikel(input)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	// data := gin.H{"is_uploaded": true}
+	response := helper.APIresponse(http.StatusOK, artikel.PostArticleFormat(data))
 	c.JSON(http.StatusOK, response)
 }
 

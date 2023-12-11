@@ -43,14 +43,14 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 		return
 	}
 
-	data, err := h.feedbackService.DeleteFeedback(input.ID)
+	_, err = h.feedbackService.DeleteFeedback(input.ID)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.APIresponse(http.StatusOK, (data))
+	response := helper.APIresponse(http.StatusOK, "feedback has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }
 
@@ -84,7 +84,7 @@ func (h *feedbackHandler) GetFeedbackByID(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.APIresponse(http.StatusOK, (data))
+	response := helper.APIresponse(http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
 
 }
@@ -109,7 +109,7 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.APIresponse(http.StatusOK, (data))
+	response := helper.APIresponse(http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -118,7 +118,7 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Feedback
-// @Param input body feedback.FeedbackInput true "Data Feedback yang ingin dibuat"
+// @Param Input body feedback.FeedbackInput true "Data Feedback yang ingin dibuat"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -152,7 +152,6 @@ func (h *feedbackHandler) PostFeedbackHandler(c *gin.Context) {
 		return
 	}
 
-	formatter := feedback.FormatterFeedback(newFeedbackPost)
-	response := helper.APIresponse(http.StatusOK, formatter)
+	response := helper.APIresponse(http.StatusOK, feedback.PostFormatterFeedback(newFeedbackPost))
 	c.JSON(http.StatusOK, response)
 }

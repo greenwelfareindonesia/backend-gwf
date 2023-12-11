@@ -47,14 +47,14 @@ func (h *eventHandler) DeleteEvent(c *gin.Context) {
 		return
 	}
 
-	newDel, err := h.eventService.DeleteEvent(input.ID)
+	_, err = h.eventService.DeleteEvent(input.ID)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.APIresponse(http.StatusOK, "event has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 
 }
@@ -111,15 +111,15 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 // @Tags Event
 // @Security BearerAuth
 // @Param id path int true "ID Event"
-// @Param file formData file true "File gambar"
-// @Param judul formData string true "Judul"
-// @Param message formData string true "Pesan Event"
+// @Param File formData file true "File gambar"
+// @Param Judul formData string true "Judul"
+// @Param Message formData string true "Pesan Event"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /event/{id} [put]
 func (h *eventHandler) UpdateEvent(c *gin.Context) {
-	file, _ := c.FormFile("file")
+	file, _ := c.FormFile("File")
 	src, err := file.Open()
 	if err != nil {
 		fmt.Printf("error when open file %v", err)
@@ -169,7 +169,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 		return
 	}
 
-	event, err := h.eventService.UpdateEvent(inputID,input,imageKitURL)
+	events, err := h.eventService.UpdateEvent(inputID,input,imageKitURL)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -177,7 +177,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, event)
+	response := helper.APIresponse(http.StatusOK, event.UpdatedFormatterEvent(events))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -188,15 +188,15 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 // @Produce json
 // @Tags Event
 // @Security BearerAuth
-// @Param file formData file true "File gambar"
-// @Param judul formData string true "Judul"
-// @Param message formData string true "Pesan Event"
+// @Param File formData file true "File gambar"
+// @Param Judul formData string true "Judul"
+// @Param Message formData string true "Pesan Event"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /event [post]
 func (h *eventHandler) CreateEvent(c *gin.Context) {
-	file, _ := c.FormFile("file")
+	file, _ := c.FormFile("File")
 	src, err := file.Open()
 	if err != nil {
 		fmt.Printf("error when open file %v", err)
@@ -245,15 +245,14 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 		return
 	}
 
-	_, err = h.eventService.CreateEvent(input, imageKitURL)
+	data, err := h.eventService.CreateEvent(input, imageKitURL)
 	if err != nil {
 		// data := gin.H{"is_uploaded": false}
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	response := helper.APIresponse(http.StatusOK, event.PostFormatterEvent(data))
 	c.JSON(http.StatusOK, response)
 }
 

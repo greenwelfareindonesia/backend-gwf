@@ -62,8 +62,8 @@ func StartApp() {
 	user := router.Group("/user")
 	user.POST("/register", userHandler.RegisterUser)
 	user.POST("/login", userHandler.Login)
-	user.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), userHandler.DeletedUser)
-	user.PUT("/:id", middleware.AuthMiddleware(authService, userService), userHandler.UpdateUser)
+	user.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), userHandler.DeletedUser)
+	user.PUT("/:slug", middleware.AuthMiddleware(authService, userService), userHandler.UpdateUser)
 
 	// contact
 	contactRepository := contact.NewRepository(db)
@@ -155,9 +155,9 @@ func StartApp() {
 	gallerys := router.Group("/gallery")
 	gallerys.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.CreateGallery)
 	gallerys.GET("/", galleryHandler.GetAllGallery)
-	gallerys.GET("/:id", galleryHandler.GetOneGallery)
-	gallerys.PUT("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.UpdateGallery)
-	gallerys.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.DeleteGallery)
+	gallerys.GET("/:slug", galleryHandler.GetOneGallery)
+	gallerys.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.UpdateGallery)
+	gallerys.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.DeleteGallery)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)

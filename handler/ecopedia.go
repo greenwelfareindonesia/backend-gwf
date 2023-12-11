@@ -51,13 +51,14 @@ func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
 		return
 	}
 
-	data, err := h.ecopediaService.DeleteEcopedia(input.ID)
+	_, err = h.ecopediaService.DeleteEcopedia(input.ID)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.APIresponse(http.StatusOK, ecopedia.FormatterEcopedia(data))
+
+	response := helper.APIresponse(http.StatusOK, "ecopedia has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }
 
@@ -102,7 +103,7 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 		return
 	}
 	
-	response := helper.APIresponse(http.StatusOK, (data))
+	response := helper.APIresponse(http.StatusOK, ecopedia.GetOneEcopediaFormat(data))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -137,7 +138,7 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, (data))
+	response := helper.APIresponse(http.StatusOK, ecopedia.FormatterGetAllEcopedia(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -148,12 +149,11 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 // @Produce json
 // @Tags Ecopedia
 // @Param id path int true "Ecopedia ID"
-// @Param file formData file true "File gambar"
-// @Param judul formData string true "judul"
-// @Param SubJudul formData string true "sub_judul"
+// @Param Judul formData string true "Judul"
+// @Param SubJudul formData string true "SubJudul"
 // @Param Deskripsi formData string true "Deskripsi"
-// @Param SrcGambar formData string true "src_gambar"
-// @Param Referensi formData string true "referensi"
+// @Param SrcGambar formData string true "SrcGambar"
+// @Param Referensi formData string true "Referensi"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -190,14 +190,14 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 		}
 		
 
-	_, err = h.ecopediaService.UpdateEcopedia(inputID, input)
+	data, err := h.ecopediaService.UpdateEcopedia(inputID, input)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	data := gin.H{"is_uploaded": true}
+	// data := gin.H{"is_updated": true}
 	response := helper.APIresponse(http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
 
@@ -209,13 +209,13 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 // @Security BearerAuth
 // @Produce json
 // @Tags Ecopedia
-// @Param file1 formData file true "File gambar 1"
-// @Param file2 formData file true "File gambar 2"
-// @Param judul formData string true "judul"
-// @Param SubJudul formData string true "sub_judul"
+// @Param File1 formData file true "File gambar 1"
+// @Param File2 formData file true "File gambar 2"
+// @Param Judul formData string true "Judul"
+// @Param SubJudul formData string true "SubJudul"
 // @Param Deskripsi formData string true "Deskripsi"
-// @Param SrcGambar formData string true "src_gambar"
-// @Param Referensi formData string true "referensi"
+// @Param SrcGambar formData string true "SrcGambar"
+// @Param Referensi formData string true "Referensi"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -225,7 +225,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 	var imagesKitURLs []string
 
 	for i := 1; ; i++ {
-        fileKey := fmt.Sprintf("file%d", i)
+        fileKey := fmt.Sprintf("File%d", i)
         file, err := c.FormFile(fileKey)
         
         // If there are no more files to upload, break the loop
@@ -300,10 +300,9 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 			}
 		}
 
-// Respond with a success message
-			data := gin.H{"is_uploaded": true}
-			response := helper.APIresponse(http.StatusOK, data)
-			c.JSON(http.StatusOK, response)
+		data := gin.H{"is_uploaded": true}
+		response := helper.APIresponse(http.StatusOK, data)
+		c.JSON(http.StatusOK, response)
 
 }
 
@@ -314,7 +313,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 // @Produce json
 // @Tags Ecopedia
 // @Param id path int true "ID Ecopedia"
-// @Param comment formData string true "Komentar"
+// @Param Comment formData string true "Komentar"
 // @Security BearerAuth
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -357,14 +356,14 @@ func (h *ecopediaHandler) PostCommentEcopedia(c *gin.Context) {
 		}
 		
 
-	_, err = h.ecopediaService.UserActionToEcopedia(getIdEcopedia ,ecopediaInput)
+	comments, err := h.ecopediaService.UserActionToEcopedia(getIdEcopedia ,ecopediaInput)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	// data := gin.H{"is_uploaded": true}
+	response := helper.APIresponse(http.StatusOK, comments)
 	c.JSON(http.StatusOK, response)
 }

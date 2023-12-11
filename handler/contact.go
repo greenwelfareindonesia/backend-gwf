@@ -56,8 +56,7 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 		return
 	}
 	
-	formatter := contact.FormatterContact(newContactSubmission)
-	response := helper.APIresponse(http.StatusOK, formatter)
+	response := helper.APIresponse(http.StatusOK, newContactSubmission)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -72,15 +71,13 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 func (h *contactHandler) GetContactSubmissionsHandler(c *gin.Context) {
 	contact_submissions, err := h.contactService.GetAllContactSubmission()
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"data": contact_submissions,
-	})
+	response := helper.APIresponse(http.StatusOK, contact_submissions)
+	c.JSON(http.StatusOK, response)
 }
 
 // @Summary Get Contact Submission by ID
@@ -97,15 +94,13 @@ func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
 
 	contact_submission, err := h.contactService.GetContactSubmissionById(param)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"data": contact_submission,
-	})
+	response := helper.APIresponse(http.StatusOK, contact_submission)
+	c.JSON(http.StatusOK, response)
 }
 
 // @Summary Delete Contact Submission by ID
@@ -123,13 +118,11 @@ func (h *contactHandler) DeleteContactSubmissionHandler(c *gin.Context) {
 
 	_, err := h.contactService.DeleteContactSubmission(param)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to delete contact submission",
-		})
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Contact submission deleted",
-	})
+	response := helper.APIresponse(http.StatusOK, "Contact submission deleted")
+	c.JSON(http.StatusOK, response)
 }

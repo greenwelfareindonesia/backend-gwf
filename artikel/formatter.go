@@ -3,18 +3,20 @@ package artikel
 import "time"
 
 type CreateArtikelFormatter struct {
-	ID             int `json:"id"`
-	FullName       string    `json:"full_name"`
-	Email string `json:"email"`
-	Topic string `json:"topic"`
-	ArtikelMessage string    `json:"message"`
-	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
+	ID             int `json:"ID"`
+	Slug           string `json:"Slug"`
+	FullName       string    `json:"FullName"`
+	Email string `json:"Email"`
+	Topic string `json:"Topic"`
+	ArtikelMessage string    `json:"Message"`
+	CreatedAt      time.Time `json:"CreatedAt"`
+	UpdatedAt      time.Time `json:"UpdatedAt"`
 }
 
-func FormatterArtikel (artikel Artikel) CreateArtikelFormatter {
+func PostArticleFormat(artikel Artikel) CreateArtikelFormatter {
 	formatter := CreateArtikelFormatter{
 		ID:        artikel.ID,
+		Slug: artikel.Slug,
 		FullName: artikel.FullName,
 		Email: artikel.Email,
 		Topic: artikel.Topic,
@@ -24,11 +26,25 @@ func FormatterArtikel (artikel Artikel) CreateArtikelFormatter {
 	return formatter
 }
 
+func UpdatedArticleFormat(artikel Artikel) CreateArtikelFormatter {
+	formatter := CreateArtikelFormatter{
+		ID:        artikel.ID,
+		Slug: artikel.Slug,
+		FullName: artikel.FullName,
+		Email: artikel.Email,
+		Topic: artikel.Topic,
+		ArtikelMessage:   artikel.ArtikelMessage,
+		UpdatedAt: artikel.UpdatedAt,
+	}
+	return formatter
+}
+
+
 func FormatterGetArtikel(artikel []Artikel) []CreateArtikelFormatter {
 	artikelGetFormatter := []CreateArtikelFormatter{}
 
 	for _, artikels := range artikel {
-		artikelsFormatter := FormatterArtikel(artikels)
+		artikelsFormatter := PostArticleFormat(artikels)
 		artikelGetFormatter = append(artikelGetFormatter, artikelsFormatter)
 	}
 
