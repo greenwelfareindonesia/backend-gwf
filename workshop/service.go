@@ -30,7 +30,7 @@ func (s *service) CreateWorkshop(input CreateWorkshop, fileLocation string) (Wor
 
 	createWorkshop.Title = input.Title
 	createWorkshop.Image = fileLocation
-	createWorkshop.Desc = input.Desc
+	createWorkshop.Desc = input.Description
 	createWorkshop.Date = input.Date
 	createWorkshop.Url = input.Url
 	createWorkshop.IsOpen = input.IsOpen
@@ -80,7 +80,7 @@ func (s *service) UpdateWorkshop(slugs string, input CreateWorkshop, fileLocatio
 	// Update the workshop properties with the new values
 	workshop.Title = input.Title
 	workshop.Image = fileLocation
-	workshop.Desc = input.Desc
+	workshop.Desc = input.Description
 	workshop.Date = input.Date
 	workshop.Url = input.Url
 	workshop.IsOpen = input.IsOpen
