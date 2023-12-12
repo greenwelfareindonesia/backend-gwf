@@ -6,7 +6,7 @@ import (
 
 type Contact struct {
 	ID        int
-	Slug string
+	Slug      string
 	Name      string
 	Email     string
 	Subject   string

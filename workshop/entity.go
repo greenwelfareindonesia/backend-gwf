@@ -6,6 +6,7 @@ import (
 
 type Workshop struct {
 	ID        int
+	Slug      string
 	Title     string
 	Image     string
 	Desc      string

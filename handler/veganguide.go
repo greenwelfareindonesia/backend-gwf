@@ -17,7 +17,7 @@ import (
 
 type veganguideHandler struct {
 	veganguideService veganguide.Service
-	endpointService endpointcount.StatisticsService
+	endpointService   endpointcount.StatisticsService
 }
 
 func NewVeganguideHandler(veganguideService veganguide.Service, endpointService endpointcount.StatisticsService) *veganguideHandler {
@@ -36,7 +36,7 @@ func NewVeganguideHandler(veganguideService veganguide.Service, endpointService 
 // @Failure 422 {object} map[string]interface{}
 // @Router /veganguide/{id} [delete]
 func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
-	var input veganguide.VeganguideID
+	var input veganguide.GetVeganguide
 
 	err := c.ShouldBindUri(&input)
 
@@ -50,7 +50,7 @@ func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 
 	data, err := h.veganguideService.DeleteVeganguide(input.ID)
 	if err != nil {
-		
+
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
@@ -70,9 +70,11 @@ func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 // @Failure 422 {object} map[string]interface{}
 // @Router /veganguide/{id} [get]
 func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
-	var input veganguide.VeganguideID
+	// var input veganguide.GetVeganguide
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
+	// err := c.ShouldBindUri(&input)
+	data, err := h.veganguideService.GetOneVeganguide(param)
 
 	if err != nil {
 		errors := helper.FormatValidationError(err)
@@ -82,9 +84,8 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 		return
 	}
 
-	data, err := h.veganguideService.GetVeganguideByID(input.ID)
 	if err != nil {
-		
+
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
@@ -93,11 +94,11 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 	userAgent := c.GetHeader("User-Agent")
 
 	err = h.endpointService.IncrementCount("GetByIDVeganguide /Veganguide/GetByIDVeganguide", userAgent)
-    if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+	if err != nil {
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
-    }
+	}
 
 	response := helper.APIresponse(http.StatusOK, (data))
 	c.JSON(http.StatusOK, response)
@@ -119,7 +120,7 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 
 	data, err := h.veganguideService.GetAllVeganguide(input)
 	if err != nil {
-		
+
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
@@ -128,16 +129,15 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 	userAgent := c.GetHeader("User-Agent")
 
 	err = h.endpointService.IncrementCount("GetAllVeganguide /Veganguide/GetAllVeganguide", userAgent)
-    if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+	if err != nil {
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
-    }
+	}
 
 	response := helper.APIresponse(http.StatusOK, (data))
 	c.JSON(http.StatusOK, response)
 }
-
 
 // @Summary Buat data Veganguide baru
 // @Description Buat data Veganguide baru dengan informasi yang diberikan
@@ -161,7 +161,6 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 	}
 	defer src.Close()
 
-
 	buf := bytes.NewBuffer(nil)
 	if _, err := io.Copy(buf, src); err != nil {
 		fmt.Printf("error read file %v", err)
@@ -184,9 +183,9 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 		return
 	}
 
-	var veganguideInput veganguide.VeganguideInput
+	var input veganguide.VeganguideInput
 
-	err = c.ShouldBind(&veganguideInput)
+	err = c.ShouldBind(&input)
 	if err != nil {
 		errorMessages := helper.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errorMessages}
@@ -202,7 +201,7 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 		return
 	}
 
-	_, err = h.veganguideService.CreateVeganguide(veganguideInput, imageKitURL)
+	_, err = h.veganguideService.CreateVeganguide(input, imageKitURL)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
@@ -259,15 +258,7 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 		return
 	}
 
-	var inputID veganguide.VeganguideID
-	err = c.ShouldBindUri(&inputID)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
+	param := c.Param("slug")
 
 	var input veganguide.VeganguideInput
 	err = c.ShouldBind(&input)
@@ -279,9 +270,9 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 		return
 	}
 
-	veganguide, err := h.veganguideService.UpdateVeganguide(inputID, input, imageKitURL)
+	veganguide, err := h.veganguideService.UpdateVeganguide(input, param, imageKitURL)
 	if err != nil {
-		
+
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return

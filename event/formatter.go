@@ -4,7 +4,8 @@ import "time"
 
 type CreateEventFormatter struct {
 	ID           int       `json:"ID"`
-	Judul        string    `json:"Judul"`
+	Slug         string    `json:"Slug"`
+	Title        string    `json:"Title"`
 	EventMessage string    `json:"Message"`
 	FileName     string    `json:"FileName"`
 	CreatedAt    time.Time `json:"CreatedAt"`
@@ -14,7 +15,8 @@ type CreateEventFormatter struct {
 func PostFormatterEvent(artikel Event) CreateEventFormatter {
 	formatter := CreateEventFormatter{
 		ID:           artikel.ID,
-		Judul:        artikel.Judul,
+		Slug:         artikel.Slug,
+		Title:        artikel.Title,
 		EventMessage: artikel.EventMessage,
 		FileName:     artikel.FileName,
 		CreatedAt:    artikel.CreatedAt,
@@ -26,7 +28,7 @@ func PostFormatterEvent(artikel Event) CreateEventFormatter {
 func UpdatedFormatterEvent(artikel Event) CreateEventFormatter {
 	formatter := CreateEventFormatter{
 		ID:           artikel.ID,
-		Judul:        artikel.Judul,
+		Title:        artikel.Title,
 		EventMessage: artikel.EventMessage,
 		FileName:     artikel.FileName,
 		UpdatedAt:    artikel.UpdatedAt,

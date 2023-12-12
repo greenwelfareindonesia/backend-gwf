@@ -25,15 +25,15 @@ func NewRepository(db *gorm.DB) *repository {
 func (r *repository) FindBySlug(slug string) (Contact, error) {
 	var contact Contact
 
-	err := r.db.Where("slug = ?", slug).Find(&slug).Error
+	err := r.db.Where("slug = ?", slug).Find(&contact).Error
 
 	if err != nil {
 		return contact, err
 	}
 	if contact.Slug == "" {
-        return contact, errors.New("slug not found")
-    }
-	
+		return contact, errors.New("slug not found")
+	}
+
 	return contact, nil
 }
 

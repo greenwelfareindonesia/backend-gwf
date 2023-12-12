@@ -84,9 +84,9 @@ func StartApp() {
 	work := router.Group("/workshop")
 	work.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.CreateWorkshop)
 	work.GET("/", workshopHandler.GetAllWorkshop)
-	work.GET("/:id", workshopHandler.GetOneWorkshop)
-	work.PUT("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.UpdateWorkshop)
-	work.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.DeleteWorkshop)
+	work.GET("/:slug", workshopHandler.GetOneWorkshop)
+	work.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.UpdateWorkshop)
+	work.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.DeleteWorkshop)
 
 	// ecopedia
 	ecopediaRepository := ecopedia.NewRepository(db)
@@ -132,9 +132,9 @@ func StartApp() {
 	veg := router.Group("/veganguide")
 	veg.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.PostVeganguideHandler)
 	veg.GET("/", veganguideHandler.GetAllVeganguide)
-	veg.GET("/:id", veganguideHandler.GetVeganguideByID)
-	veg.PUT("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.UpdateVeganguide)
-	veg.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.DeleteVeganguide)
+	veg.GET("/:slug", veganguideHandler.GetVeganguideByID)
+	veg.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.UpdateVeganguide)
+	veg.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.DeleteVeganguide)
 
 	// feedback
 	feedbackRepository := feedback.NewRepository(db)
@@ -144,9 +144,9 @@ func StartApp() {
 	fee := router.Group("/feedback")
 	fee.POST("/", feedbackHandler.PostFeedbackHandler)
 	fee.GET("/", feedbackHandler.GetAllFeedback)
-	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
+	fee.GET("/:slug", feedbackHandler.GetFeedbackBySlug)
 	// fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
-	fee.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
+	fee.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
 
 	galleryRepository := gallery.NewRepository(db)
 	galleryService := gallery.NewService(galleryRepository)
