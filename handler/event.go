@@ -36,18 +36,9 @@ func NewEventHandler(eventService event.Service, endpointService endpointcount.S
 // @Failure 422 {object} map[string]interface{}
 // @Router /event/{id} [delete]
 func (h *eventHandler) DeleteEvent(c *gin.Context) {
-	var input event.GetEvent
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	_, err = h.eventService.DeleteEvent(input.ID)
+	_, err := h.eventService.DeleteEvent(param)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
@@ -70,18 +61,9 @@ func (h *eventHandler) DeleteEvent(c *gin.Context) {
 // @Failure 422 {object} map[string]interface{}
 // @Router /event/{id} [get]
 func (h *eventHandler) GetOneEvent(c *gin.Context) {
-	var input event.GetEvent
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	newDel, err := h.eventService.GetOneEvent(input.ID)
+	newDel, err := h.eventService.GetOneEvent(param)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -148,16 +130,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 		return
 	}
 
-	var inputID event.GetEvent
-
-	err = c.ShouldBindUri(&inputID)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
+	param := c.Param("slug")
 
 	var input event.CreateEvents
 	err = c.ShouldBind(&input)
@@ -169,7 +142,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 		return
 	}
 
-	events, err := h.eventService.UpdateEvent(inputID,input,imageKitURL)
+	events, err := h.eventService.UpdateEvent(param,input,imageKitURL)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -177,7 +150,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 		return
 	}
 
-	
+
 	response := helper.APIresponse(http.StatusOK, event.UpdatedFormatterEvent(events))
 	c.JSON(http.StatusOK, response)
 

@@ -120,9 +120,9 @@ func StartApp() {
 	eve := router.Group("/event")
 	eve.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.CreateEvent)
 	eve.GET("/", eventHandler.GetAllEvent)
-	eve.GET("/:id", eventHandler.GetOneEvent)
-	eve.PUT(":id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.UpdateEvent)
-	eve.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.DeleteEvent)
+	eve.GET("/:slug", eventHandler.GetOneEvent)
+	eve.PUT(":slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.UpdateEvent)
+	eve.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.DeleteEvent)
 
 	// veganguide
 	veganguideRepository := veganguide.NewRepository(db)

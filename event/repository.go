@@ -1,14 +1,17 @@
 package event
 
-import "gorm.io/gorm"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	//create User
 	Save(karya Event) (Event, error)
 	FindById(ID int) (Event, error)
 	FindAll() ([]Event, error)
-	FindByKarya(Karya int) ([]Event, error)
-	FindByTags(tags int) ([]Event, error)
+	FindBySlug(slug string) (Event, error)
 	Update(artikel Event) (Event, error)
 	Delete(karya Event) (Event, error)
 }
@@ -19,6 +22,22 @@ type repository struct {
 
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
+}
+
+func (r *repository) FindBySlug(slug string) (Event, error) {
+	var event Event
+
+	err := r.db.Where("slug = ?", slug).Find(&event).Error
+
+	if err != nil {
+		return event, err
+	}
+	if event.Slug == "" {
+        return event, errors.New("slug not found")
+    }
+	
+	return event, nil
+
 }
 
 func (r *repository) FindAll() ([]Event, error) {
