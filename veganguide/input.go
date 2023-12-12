@@ -6,6 +6,6 @@ type VeganguideInput struct {
 	Body      string `form:"body"`
 }
 
-type VeganguideID struct {
+type GetVeganguide struct {
 	ID int `uri:"id" binding:"required"`
 }

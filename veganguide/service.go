@@ -1,11 +1,20 @@
 package veganguide
 
+import (
+	"fmt"
+	"math/rand"
+	"strings"
+	"time"
+
+	"github.com/gosimple/slug"
+)
+
 type Service interface {
 	GetAllVeganguide(input int) ([]Veganguide, error)
-	GetVeganguideByID(id int) (Veganguide, error)
+	GetOneVeganguide(slugs string) (Veganguide, error)
 	CreateVeganguide(veganguide VeganguideInput, FileName string) (Veganguide, error)
 	DeleteVeganguide(ID int) (Veganguide, error)
-	UpdateVeganguide(inputID VeganguideID, input VeganguideInput, FileName string) (Veganguide, error)
+	UpdateVeganguide(input VeganguideInput, slugs string, FileName string) (Veganguide, error)
 }
 
 type service struct {
@@ -37,8 +46,8 @@ func (s *service) GetAllVeganguide(input int) ([]Veganguide, error) {
 	return veganguides, nil
 }
 
-func (s *service) GetVeganguideByID(id int) (Veganguide, error) {
-	veganguides, err := s.repository.FindById(id)
+func (s *service) GetOneVeganguide(slugs string) (Veganguide, error) {
+	veganguides, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return veganguides, err
 	}
@@ -48,13 +57,22 @@ func (s *service) GetVeganguideByID(id int) (Veganguide, error) {
 	return veganguides, nil
 }
 
-func (s *service) CreateVeganguide(veganguide VeganguideInput, FileName string) (Veganguide, error) {
+func (s *service) CreateVeganguide(input VeganguideInput, FileName string) (Veganguide, error) {
 	newVeganguide := Veganguide{}
 
-	newVeganguide.Judul = veganguide.Judul
-	newVeganguide.Deskripsi = veganguide.Deskripsi
-	newVeganguide.Body = veganguide.Body
+	newVeganguide.Judul = input.Judul
+	newVeganguide.Deskripsi = input.Deskripsi
+	newVeganguide.Body = input.Body
 	newVeganguide.Gambar = FileName
+
+	var seededRand *rand.Rand = rand.New(
+		rand.NewSource(time.Now().UnixNano()))
+
+	slugTitle := strings.ToLower(input.Judul)
+	mySlug := slug.Make(slugTitle)
+	randomNumber := seededRand.Intn(1000000)
+
+	newVeganguide.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
 
 	saveVeganGuide, err := s.repository.Create(newVeganguide)
 
@@ -64,16 +82,27 @@ func (s *service) CreateVeganguide(veganguide VeganguideInput, FileName string) 
 	return saveVeganGuide, nil
 }
 
-func (s *service) UpdateVeganguide(inputID VeganguideID, input VeganguideInput, FileName string) (Veganguide, error) {
-	veganguide, err := s.repository.FindById(inputID.ID)
+func (s *service) UpdateVeganguide(input VeganguideInput, slugs string, FileName string) (Veganguide, error) {
+	veganguide, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return veganguide, err
 	}
+
+	oldSlug := veganguide.Slug
 
 	veganguide.Judul = input.Judul
 	veganguide.Deskripsi = input.Deskripsi
 	veganguide.Body = input.Body
 	veganguide.Gambar = FileName
+
+	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+	slugTitle := strings.ToLower(veganguide.Judul)
+	mySlug := slug.Make(slugTitle)
+	randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+	veganguide.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
+
+	// Ubah nilai slug kembali ke nilai slug lama untuk mencegah perubahan slug dalam database
+	veganguide.Slug = oldSlug
 
 	newVeganguide, err := s.repository.Update(veganguide)
 	if err != nil {

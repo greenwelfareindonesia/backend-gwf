@@ -133,9 +133,9 @@ func StartApp() {
 	veg := router.Group("/veganguide")
 	veg.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.PostVeganguideHandler)
 	veg.GET("/", veganguideHandler.GetAllVeganguide)
-	veg.GET("/:id", veganguideHandler.GetVeganguideByID)
-	veg.PUT("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.UpdateVeganguide)
-	veg.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.DeleteVeganguide)
+	veg.GET("/:slug", veganguideHandler.GetVeganguideByID)
+	veg.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.UpdateVeganguide)
+	veg.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.DeleteVeganguide)
 
 	// feedback
 	feedbackRepository := feedback.NewRepository(db)

@@ -1,10 +1,15 @@
 package veganguide
 
-import "gorm.io/gorm"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	FindAll() ([]Veganguide, error)
 	FindById(id int) (Veganguide, error)
+	FindBySlug(slug string) (Veganguide, error)
 	Create(veganguide Veganguide) (Veganguide, error)
 	DeleteVeganguide(veganguide Veganguide) (Veganguide, error)
 	Update(veganguide Veganguide) (Veganguide, error)
@@ -37,11 +42,27 @@ func (r *repository) FindAll() ([]Veganguide, error) {
 
 func (r *repository) FindById(id int) (Veganguide, error) {
 	var veganguide Veganguide
-	err := r.db.Find(&veganguide, id).Error
+	err := r.db.Where("id = ?", id).Find(&veganguide).Error
 	if err != nil {
 		return veganguide, err
 	}
 	return veganguide, nil
+}
+
+func (r *repository) FindBySlug(slug string) (Veganguide, error) {
+	var veganguide Veganguide
+
+	err := r.db.Where("slug = ?", slug).Find(&veganguide).Error
+
+	if err != nil {
+		return veganguide, err
+	}
+	if veganguide.Slug == "" {
+		return veganguide, errors.New("slug not found")
+	}
+
+	return veganguide, nil
+
 }
 
 func (r *repository) Create(veganguide Veganguide) (Veganguide, error) {
@@ -51,29 +72,6 @@ func (r *repository) Create(veganguide Veganguide) (Veganguide, error) {
 	}
 	return veganguide, nil
 }
-
-// func (r *repository) Create(ecopedia Ecopedia) (Ecopedia, error) {
-// 	err := r.db.Create(&ecopedia).Error
-// if err != nil {
-// 	return ecopedia, err
-// }
-// 	return ecopedia, nil
-// }
-
-// func (r *repository) FindAll() ([]Ecopedia, error) {
-// 	var ecopedias []Ecopedia
-// 	err := r.db.Find(&ecopedias).Error
-// 	if err != nil {
-// 		return ecopedias, err
-// 	}
-// 	return ecopedias, nil
-// }
-
-// func (r *repository) FindById(id int) (Ecopedia, error) {
-// 	var ecopedia Ecopedia
-// 	err := r.db.Find(&ecopedia, id).Error
-// 	return ecopedia, err
-// }
 
 func (r *repository) Update(veganguide Veganguide) (Veganguide, error) {
 	err := r.db.Save(&veganguide).Error
