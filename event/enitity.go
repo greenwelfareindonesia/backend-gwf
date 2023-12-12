@@ -3,10 +3,11 @@ package event
 import "time"
 
 type Event struct {
-	ID            int
-	Judul string
+	ID           int
+	Slug         string
+	Title        string
 	EventMessage string
-	FileName string
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	FileName     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
