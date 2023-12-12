@@ -6,7 +6,7 @@ type WorkshopFormatter struct {
 	ID        int       `json:"ID"`
 	Slug      string    `json:"Slug"`
 	Title     string    `json:"Title"`
-	Image     string    `json:"Image"`
+	Image     string    `json:"FileName"`
 	Desc      string    `json:"Description"`
 	Date      string    `json:"Date"`
 	Url       string    `json:"Url"`
