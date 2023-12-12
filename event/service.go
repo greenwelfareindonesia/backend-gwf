@@ -51,7 +51,7 @@ func (s *service) GetAllEvent(input int) ([]Event, error) {
 func (s *service) CreateEvent(input CreateEvents, fileLocation string) (Event, error) {
 	createBerita := Event{}
 
-	createBerita.Title = input.Judul
+	createBerita.Title = input.Title
 	createBerita.EventMessage = input.EventMessage
 	createBerita.FileName = fileLocation
 
@@ -68,7 +68,7 @@ func (s *service) UpdateEvent(inputID GetEvent, input CreateEvents, FileLocation
 		return event, err
 	}
 
-	event.Title = input.Judul
+	event.Title = input.Title
 	event.EventMessage = input.EventMessage
 	event.FileName = FileLocation
 

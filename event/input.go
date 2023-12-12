@@ -1,8 +1,8 @@
 package event
 
 type CreateEvents struct {
-	Judul        string `form:"Title" binding:"required"`
-	EventMessage string `form:"Message" binding:"required"`
+	Title        string `form:"Title" binding:"required"`
+	EventMessage string `form:"	EventMessage" binding:"required"`
 }
 
 type GetEvent struct {
