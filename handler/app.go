@@ -96,9 +96,9 @@ func StartApp() {
 	eco := router.Group("/ecopedia")
 	eco.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), ecopediaHandler.PostEcopediaHandler)
 	eco.GET("/", ecopediaHandler.GetAllEcopedia)
-	eco.GET("/:id", ecopediaHandler.GetEcopediaByID)
-	eco.PUT("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), ecopediaHandler.UpdateEcopedia)
-	eco.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), ecopediaHandler.DeleteEcopedia)
+	eco.GET("/:slug", ecopediaHandler.GetEcopediaByID)
+	eco.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), ecopediaHandler.UpdateEcopedia)
+	eco.DELETE("/:ID", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), ecopediaHandler.DeleteEcopedia)
 	eco.POST("comment/:id", middleware.AuthMiddleware(authService, userService), ecopediaHandler.PostCommentEcopedia)
 
 	// artikel

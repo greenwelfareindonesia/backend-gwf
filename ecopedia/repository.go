@@ -1,10 +1,15 @@
 package ecopedia
 
-import "gorm.io/gorm"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	FindAll() ([]Ecopedia, error)
 	FindById(id int) (Ecopedia, error)
+	FindBySlug(slug string) (Ecopedia, error)
 	FindEcopediaCommentID(Id int) (Comment, error)
 	// FindByUserCommentID (Id int) (Comment, error)
 	CreateImage(ecopedia EcopediaImage) (error)
@@ -13,6 +18,7 @@ type Repository interface {
 	Update(ecopedia Ecopedia) (Ecopedia, error)
 	FindByUserId(userId int) (Ecopedia, error)
 	CreateComment(comment Comment) (Comment, error)
+	DeleteImages(ecopediaID int) error
 	// CreateIsLike(like IsLike) error
 }
 
@@ -32,10 +38,20 @@ func NewRepository(db *gorm.DB) *repository {
 //     return nil
 // }
 
+
 func (r *repository) CreateImage(ecopedia EcopediaImage) (error) {
 	err := r.db.Create(&ecopedia).Error
 	return  err
 	
+}
+
+func (r *repository) DeleteImages(ecopediaID int) error {
+    err := r.db.Where("ecopedia_id = ?", ecopediaID).Delete(&EcopediaImage{}).Error
+    if err != nil {
+        return err
+    }
+
+    return nil
 }
 
 func (r *repository) FindEcopediaCommentID(Id int) (Comment, error){
@@ -76,7 +92,6 @@ func (r *repository) Update(ecopedia Ecopedia) (Ecopedia, error) {
 
 }
 
-
 func (r *repository) DeleteEcopedia(ecopedia Ecopedia) (Ecopedia, error){
 	err := r.db.Delete(&ecopedia).Error
 	if err != nil {
@@ -87,7 +102,7 @@ func (r *repository) DeleteEcopedia(ecopedia Ecopedia) (Ecopedia, error){
 
 func (r *repository) FindAll() ([]Ecopedia, error) {
 	var ecopedias []Ecopedia
-	err := r.db.Find(&ecopedias).Error
+	err := r.db.Find(&ecopedias).Preload("FileName").Error
 	if err != nil {
 		return ecopedias, err
 	}
@@ -102,6 +117,23 @@ func (r *repository) FindById(id int) (Ecopedia, error) {
 	}
 	return ecopedia, nil
 }
+
+func (r *repository) FindBySlug(slug string) (Ecopedia, error) {
+	var ecopedia Ecopedia
+
+	err := r.db.Where("slug = ?", slug).Preload("FileName").Preload("Comment").Preload("Comment.User").Find(&ecopedia).Error
+
+	if err != nil {
+		return ecopedia, err
+	}
+	if ecopedia.Slug == "" {
+        return ecopedia, errors.New("slug not found")
+    }
+	
+	return ecopedia, nil
+
+}
+
 
 func (r *repository) Create(ecopedia Ecopedia) (Ecopedia, error) {
 	err := r.db.Create(&ecopedia).Error

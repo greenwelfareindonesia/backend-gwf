@@ -26,32 +26,29 @@ func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpoi
 }
 
 
-// @Summary Hapus data Ecopedia berdasarkan ID
-// @Description Hapus data Ecopedia berdasarkan ID yang diberikan
+// @Summary Hapus data Ecopedia berdasarkan id
+// @Description Hapus data Ecopedia berdasarkan id yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Ecopedia
 // @Security BearerAuth
-// @Param id path int true "Ecopedia ID"
+// @Param id path int true "Ecopedia id"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /ecopedia/{id} [delete]
 func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
-	var input ecopedia.EcopediaID
+	var inputID ecopedia.EcopediaID
 
-	err := c.ShouldBindUri(&input)
-
+	err := c.ShouldBindUri(&inputID)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	_, err = h.ecopediaService.DeleteEcopedia(input.ID)
+	_, err = h.ecopediaService.DeleteEcopedia(inputID.ID)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
@@ -62,31 +59,21 @@ func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan data Ecopedia berdasarkan ID
-// @Description Dapatkan data Ecopedia berdasarkan ID yang diberikan
+// @Summary Dapatkan data Ecopedia berdasarkan slug
+// @Description Dapatkan data Ecopedia berdasarkan slug yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Ecopedia
-// @Param id path int true "Ecopedia ID"
+// @Param slug path int true "Ecopedia slug"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia/{id} [get]
+// @Router /ecopedia/{slug} [get]
 func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
-	var input ecopedia.EcopediaID
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
-
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	data, err := h.ecopediaService.GetEcopediaByID(input.ID)
+	data, err := h.ecopediaService.GetEcopediaByID(param)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -143,12 +130,12 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 }
 
 // @Summary Update data Ecopedia
-// @Description Update data Ecopedia berdasarkan ID yang diberikan dengan informasi yang diberikan
+// @Description Update data Ecopedia berdasarkan IslugD yang diberikan dengan informasi yang diberikan
 // @Accept multipart/form-data
 // @Security BearerAuth
 // @Produce json
 // @Tags Ecopedia
-// @Param id path int true "Ecopedia ID"
+// @Param slug path int true "Ecopedia Slug"
 // @Param Judul formData string true "Judul"
 // @Param SubJudul formData string true "SubJudul"
 // @Param Deskripsi formData string true "Deskripsi"
@@ -158,22 +145,13 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia/{id} [put]
+// @Router /ecopedia/{slug} [put]
 func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 	var input ecopedia.EcopediaInput
 
-	var inputID ecopedia.EcopediaID
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&inputID)
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	err = c.ShouldBind(&input)
+	err := c.ShouldBind(&input)
 	if err != nil {
 		errorMessages := helper.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errorMessages}
@@ -190,7 +168,7 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 		}
 		
 
-	data, err := h.ecopediaService.UpdateEcopedia(inputID, input)
+	data, err := h.ecopediaService.UpdateEcopedia(param, input)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
