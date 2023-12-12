@@ -88,10 +88,11 @@ func (s *service) UpdateEvent(slugs string, input CreateEvents, FileLocation str
 		return event, err
 	}
 
-	oldSlug := event.Slug
 	event.Title = input.Title
 	event.EventMessage = input.EventMessage
 	event.FileName = FileLocation
+	oldSlug := event.Slug
+
 
 	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
     slugTitle := strings.ToLower(input.Title)
