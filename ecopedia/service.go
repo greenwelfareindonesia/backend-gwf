@@ -14,7 +14,7 @@ type Service interface {
 	GetEcopediaByID(slugs string) (Ecopedia, error)
 	CreateEcopedia(ecopedia EcopediaInput) (Ecopedia, error)
 	CreateEcopediaImage(ecopediaID int, FileName string) error
-	DeleteEcopedia(slugs string) (Ecopedia, error)
+	DeleteEcopedia(ID int) (Ecopedia, error)
 	UpdateEcopedia(slugs string, input EcopediaInput) (Ecopedia, error)
 	UserActionToEcopedia(getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error)
 }
@@ -65,8 +65,8 @@ func (s *service) UserActionToEcopedia(getIdEcopedia EcopediaID, inputUser UserA
 
 }
 
-func (s *service) DeleteEcopedia(slugs string) (Ecopedia, error) {
-	ecopedias, err := s.repository.FindBySlug(slugs)
+func (s *service) DeleteEcopedia(ID int) (Ecopedia, error) {
+	ecopedias, err := s.repository.FindById(ID)
 	if err != nil {
 		return ecopedias, err
 	}

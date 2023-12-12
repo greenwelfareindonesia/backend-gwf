@@ -502,15 +502,15 @@ paths:
       summary: Buat data Ecopedia baru
       tags:
       - Ecopedia
-  /ecopedia/{slug}:
+  /ecopedia/{id}:
     delete:
       consumes:
       - application/json
-      description: Hapus data Ecopedia berdasarkan slug yang diberikan
+      description: Hapus data Ecopedia berdasarkan id yang diberikan
       parameters:
-      - description: Ecopedia slug
+      - description: Ecopedia id
         in: path
-        name: slug
+        name: id
         required: true
         type: integer
       produces:
@@ -538,9 +538,10 @@ paths:
             type: object
       security:
       - BearerAuth: []
-      summary: Hapus data Ecopedia berdasarkan slug
+      summary: Hapus data Ecopedia berdasarkan id
       tags:
       - Ecopedia
+  /ecopedia/{slug}:
     get:
       consumes:
       - application/json

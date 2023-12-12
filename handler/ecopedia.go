@@ -26,22 +26,29 @@ func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpoi
 }
 
 
-// @Summary Hapus data Ecopedia berdasarkan slug
-// @Description Hapus data Ecopedia berdasarkan slug yang diberikan
+// @Summary Hapus data Ecopedia berdasarkan id
+// @Description Hapus data Ecopedia berdasarkan id yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Ecopedia
 // @Security BearerAuth
-// @Param slug path int true "Ecopedia slug"
+// @Param id path int true "Ecopedia id"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia/{slug} [delete]
+// @Router /ecopedia/{id} [delete]
 func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
-	param := c.Param("slug")
+	var inputID ecopedia.EcopediaID
 
-	_, err := h.ecopediaService.DeleteEcopedia(param)
+	err := c.ShouldBindUri(&inputID)
+	if err != nil {
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	_, err = h.ecopediaService.DeleteEcopedia(inputID.ID)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
