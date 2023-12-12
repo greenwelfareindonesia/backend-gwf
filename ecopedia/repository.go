@@ -18,6 +18,7 @@ type Repository interface {
 	Update(ecopedia Ecopedia) (Ecopedia, error)
 	FindByUserId(userId int) (Ecopedia, error)
 	CreateComment(comment Comment) (Comment, error)
+	DeleteImages(ecopediaID int) error
 	// CreateIsLike(like IsLike) error
 }
 
@@ -42,6 +43,15 @@ func (r *repository) CreateImage(ecopedia EcopediaImage) (error) {
 	err := r.db.Create(&ecopedia).Error
 	return  err
 	
+}
+
+func (r *repository) DeleteImages(ecopediaID int) error {
+    err := r.db.Where("ecopedia_id = ?", ecopediaID).Delete(&Ecopedia{}).Error
+    if err != nil {
+        return err
+    }
+
+    return nil
 }
 
 func (r *repository) FindEcopediaCommentID(Id int) (Comment, error){
@@ -81,7 +91,6 @@ func (r *repository) Update(ecopedia Ecopedia) (Ecopedia, error) {
 	return ecopedia, nil
 
 }
-
 
 func (r *repository) DeleteEcopedia(ecopedia Ecopedia) (Ecopedia, error){
 	err := r.db.Delete(&ecopedia).Error

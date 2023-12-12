@@ -75,6 +75,11 @@ func (s *service) DeleteEcopedia(slugs string) (Ecopedia, error) {
 	if err != nil {
 		return ecopedia, err
 	}
+	
+	err = s.repository.DeleteImages(ecopedia.ID)
+	if err != nil {
+		return ecopedia, err
+	}
 	return ecopedia, nil
 }
 
