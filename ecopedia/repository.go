@@ -9,7 +9,7 @@ import (
 type Repository interface {
 	FindAll() ([]Ecopedia, error)
 	FindById(id int) (Ecopedia, error)
-	FindBySlug (slug string) (Ecopedia, error)
+	FindBySlug(slug string) (Ecopedia, error)
 	FindEcopediaCommentID(Id int) (Comment, error)
 	// FindByUserCommentID (Id int) (Comment, error)
 	CreateImage(ecopedia EcopediaImage) (error)
@@ -112,7 +112,7 @@ func (r *repository) FindById(id int) (Ecopedia, error) {
 func (r *repository) FindBySlug(slug string) (Ecopedia, error) {
 	var ecopedia Ecopedia
 
-	err := r.db.Where("slug = ?", slug).Preload("FileName").Preload("Comment").Preload("Comment.User").Find(&ecopedia, slug).Error
+	err := r.db.Where("slug = ?", slug).Preload("FileName").Preload("Comment").Preload("Comment.User").Find(&ecopedia).Error
 
 	if err != nil {
 		return ecopedia, err
