@@ -94,7 +94,7 @@ func (s *service) UpdateEvent(slugs string, input CreateEvents, FileLocation str
 	event.FileName = FileLocation
 
 	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
-    slugTitle := strings.ToLower(event.Slug)
+    slugTitle := strings.ToLower(event.Title)
     mySlug := slug.Make(slugTitle)
     randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
     event.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
