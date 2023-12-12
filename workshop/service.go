@@ -1,11 +1,20 @@
 package workshop
 
+import (
+	"fmt"
+	"math/rand"
+	"strings"
+	"time"
+
+	"github.com/gosimple/slug"
+)
+
 type Service interface {
 	CreateWorkshop(input CreateWorkshop, fileLocation string) (Workshop, error)
 	GetAllWorkshop(input int) ([]Workshop, error)
-	GetOneWorkshop(ID int) (Workshop, error)
-	DeleteWorkshop(ID int) (Workshop, error)
-	UpdateWorkshop(getIdWorkshop GetWorkshop, input CreateWorkshop, fileLocation string) (Workshop, error)
+	GetOneWorkshop(slugs string) (Workshop, error)
+	DeleteWorkshop(slugs string) (Workshop, error)
+	UpdateWorkshop(slugs string, input CreateWorkshop, fileLocation string) (Workshop, error)
 }
 
 type service struct {
@@ -26,6 +35,17 @@ func (s *service) CreateWorkshop(input CreateWorkshop, fileLocation string) (Wor
 	createWorkshop.Url = input.Url
 	createWorkshop.IsOpen = input.IsOpen
 
+	var seededRand *rand.Rand = rand.New(
+		rand.NewSource(time.Now().UnixNano()))
+
+	slugTitle := strings.ToLower(input.Title)
+
+	mySlug := slug.Make(slugTitle)
+
+	randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+
+	createWorkshop.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
+
 	newWorkshop, err := s.repository.Create(createWorkshop)
 	if err != nil {
 		return newWorkshop, err
@@ -41,23 +61,22 @@ func (s *service) GetAllWorkshop(input int) ([]Workshop, error) {
 	return workshop, nil
 }
 
-func (s *service) GetOneWorkshop(ID int) (Workshop, error) {
-	workshop, err := s.repository.FindById(ID)
+func (s *service) GetOneWorkshop(slugs string) (Workshop, error) {
+	workshop, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return workshop, err
 	}
-	if workshop.ID == 0 {
-		return workshop, err
-	}
+
 	return workshop, nil
 }
 
-func (s *service) UpdateWorkshop(getIdWorkshop GetWorkshop, input CreateWorkshop, fileLocation string) (Workshop, error) {
-	workshop, err := s.repository.FindById(getIdWorkshop.ID)
+func (s *service) UpdateWorkshop(slugs string, input CreateWorkshop, fileLocation string) (Workshop, error) {
+	workshop, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return workshop, err
 	}
 
+	oldSlug := workshop.Slug
 	// Update the workshop properties with the new values
 	workshop.Title = input.Title
 	workshop.Image = fileLocation
@@ -65,6 +84,15 @@ func (s *service) UpdateWorkshop(getIdWorkshop GetWorkshop, input CreateWorkshop
 	workshop.Date = input.Date
 	workshop.Url = input.Url
 	workshop.IsOpen = input.IsOpen
+
+	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+	slugTitle := strings.ToLower(workshop.Title)
+	mySlug := slug.Make(slugTitle)
+	randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+	workshop.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
+
+	// Ubah nilai slug kembali ke nilai slug lama untuk mencegah perubahan slug dalam database
+	workshop.Slug = oldSlug
 
 	// Update the workshop in the repository
 	newWorkshop, err := s.repository.Update(workshop)
@@ -75,8 +103,8 @@ func (s *service) UpdateWorkshop(getIdWorkshop GetWorkshop, input CreateWorkshop
 	return newWorkshop, nil
 }
 
-func (s *service) DeleteWorkshop(ID int) (Workshop, error) {
-	workshop, err := s.repository.FindById(ID)
+func (s *service) DeleteWorkshop(slugs string) (Workshop, error) {
+	workshop, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return workshop, err
 	}

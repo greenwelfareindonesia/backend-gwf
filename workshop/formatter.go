@@ -4,6 +4,7 @@ import "time"
 
 type WorkshopFormatter struct {
 	ID        int       `json:"id"`
+	Slug      string    `json:"slug"`
 	Title     string    `json:"title"`
 	Image     string    `json:"image"`
 	Desc      string    `json:"desc"`
@@ -17,6 +18,7 @@ type WorkshopFormatter struct {
 func FormatterWorkshop(workshop Workshop) WorkshopFormatter {
 	formatter := WorkshopFormatter{
 		ID:        workshop.ID,
+		Slug:      workshop.Slug,
 		Title:     workshop.Title,
 		Image:     workshop.Image,
 		Desc:      workshop.Desc,
