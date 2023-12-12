@@ -3,10 +3,10 @@ package feedback
 import "time"
 
 type FeedbackFormatter struct {
-	ID        int       `json:"id"`
-	Slug      string    `json:"slug"`
-	Email     string    `json:"email"`
-	Text      string    `json:"text"`
+	ID        int       `json:"ID"`
+	Slug      string    `json:"Slug"`
+	Email     string    `json:"Email"`
+	Text      string    `json:"Text"`
 	CreatedAt time.Time `json:"CreatedAt"`
 }
 
