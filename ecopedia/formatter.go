@@ -16,16 +16,6 @@ type EcopediaFormatter struct {
 	// Like []string `json:"like"`
 }
 
-// type FileNamesFormatter struct {
-// 	FileName string `json:"FileName"`
-// 	CreatedAt time.Time `json:"CreatedAr"`
-// }
-
-// type UserFormatter struct {
-// 	Username  string `json:"UserName"`
-// 	Email     string `json:"Email"`
-// }
-
 func GetOneEcopediaFormat(ecopedia_submit Ecopedia) EcopediaFormatter {
 	formatter := EcopediaFormatter{
 		ID:  ecopedia_submit.ID,
@@ -34,18 +24,18 @@ func GetOneEcopediaFormat(ecopedia_submit Ecopedia) EcopediaFormatter {
 		Deskripsi: ecopedia_submit.Deskripsi,
 		Srcgambar: ecopedia_submit.Srcgambar,
 		Referensi: ecopedia_submit.Referensi,
-		FileName: make([]string,len(ecopedia_submit.FileName)),
-		Comment: make([]string, len(ecopedia_submit.Comment)),
+		// FileName: make([]string,len(ecopedia_submit.FileName)),
+		// Comment: make([]string, len(ecopedia_submit.Comment)),
 		CreatedAt: ecopedia_submit.CreatedAt,
 	}
 
-	for i, comment := range ecopedia_submit.Comment {
-        formatter.Comment[i] = comment.Comment
-    }
+	for _, comment := range ecopedia_submit.Comment {
+		formatter.Comment = append(formatter.Comment, comment.Comment)
+	}
 
-	for i, fileName := range ecopedia_submit.FileName {
-        formatter.FileName[i] = fileName.FileName
-    }
+	for _, fileName := range ecopedia_submit.FileName {
+		formatter.FileName = append(formatter.FileName, fileName.FileName)
+	}
 
 	return formatter
 }

@@ -1,12 +1,21 @@
 package ecopedia
 
+import (
+	"fmt"
+	"math/rand"
+	"strings"
+	"time"
+
+	"github.com/gosimple/slug"
+)
+
 type Service interface {
 	GetAllEcopedia(input int) ([]Ecopedia, error)
-	GetEcopediaByID(id int) (Ecopedia, error)
+	GetEcopediaByID(slugs string) (Ecopedia, error)
 	CreateEcopedia(ecopedia EcopediaInput) (Ecopedia, error)
 	CreateEcopediaImage(ecopediaID int, FileName string) error
-	DeleteEcopedia(ID int) (Ecopedia, error)
-	UpdateEcopedia(getIdEcopedia EcopediaID, input EcopediaInput) (Ecopedia, error)
+	DeleteEcopedia(slugs string) (Ecopedia, error)
+	UpdateEcopedia(slugs string, input EcopediaInput) (Ecopedia, error)
 	UserActionToEcopedia(getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error)
 }
 
@@ -56,8 +65,8 @@ func (s *service) UserActionToEcopedia(getIdEcopedia EcopediaID, inputUser UserA
 
 }
 
-func (s *service) DeleteEcopedia(ID int) (Ecopedia, error) {
-	ecopedias, err := s.repository.FindById(ID)
+func (s *service) DeleteEcopedia(slugs string) (Ecopedia, error) {
+	ecopedias, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return ecopedias, err
 	}
@@ -69,8 +78,8 @@ func (s *service) DeleteEcopedia(ID int) (Ecopedia, error) {
 	return ecopedia, nil
 }
 
-func (s *service) UpdateEcopedia(getIdEcopedia EcopediaID, input EcopediaInput) (Ecopedia, error) {
-	ecopedia, err := s.repository.FindById(getIdEcopedia.ID)
+func (s *service) UpdateEcopedia(slugs string, input EcopediaInput) (Ecopedia, error) {
+	ecopedia, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return ecopedia, nil
 	}
@@ -80,6 +89,16 @@ func (s *service) UpdateEcopedia(getIdEcopedia EcopediaID, input EcopediaInput) 
 	ecopedia.Deskripsi = input.Deskripsi
 	ecopedia.Srcgambar = input.Srcgambar
 	ecopedia.Referensi = input.Referensi
+
+	oldSlug := ecopedia.Slug
+	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+    slugTitle := strings.ToLower(input.Judul)
+    mySlug := slug.Make(slugTitle)
+    randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+    ecopedia.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
+
+    // Ubah nilai slug kembali ke nilai slug lama untuk mencegah perubahan slug dalam database
+    ecopedia.Slug = oldSlug
 
 	newEcopedia, err := s.repository.Update(ecopedia)
 	if err != nil {
@@ -96,8 +115,8 @@ func (s *service) GetAllEcopedia(input int) ([]Ecopedia, error) {
 	return ecopedias, nil
 }
 
-func (s *service) GetEcopediaByID(id int) (Ecopedia, error) {
-	ecopedias, err := s.repository.FindById(id)
+func (s *service) GetEcopediaByID(slugs string) (Ecopedia, error) {
+	ecopedias, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return ecopedias, err
 	}
@@ -116,6 +135,16 @@ func (s *service) CreateEcopedia(ecopedia EcopediaInput) (Ecopedia, error) {
 	// newEcopedia.Gambar = ecopedia.Gambar
 	newEcopedia.Srcgambar = ecopedia.Srcgambar
 	newEcopedia.Referensi = ecopedia.Referensi
+	var seededRand *rand.Rand = rand.New(
+		rand.NewSource(time.Now().UnixNano()))
+
+	slugTitle := strings.ToLower(ecopedia.Judul)
+
+	mySlug := slug.Make(slugTitle)
+
+	randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+
+	newEcopedia.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
 
 	saveEcopedia, err := s.repository.Create(newEcopedia)
 

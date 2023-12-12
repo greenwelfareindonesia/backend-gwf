@@ -1,10 +1,15 @@
 package ecopedia
 
-import "gorm.io/gorm"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	FindAll() ([]Ecopedia, error)
 	FindById(id int) (Ecopedia, error)
+	FindBySlug (slug string) (Ecopedia, error)
 	FindEcopediaCommentID(Id int) (Comment, error)
 	// FindByUserCommentID (Id int) (Comment, error)
 	CreateImage(ecopedia EcopediaImage) (error)
@@ -31,6 +36,22 @@ func NewRepository(db *gorm.DB) *repository {
 //     }
 //     return nil
 // }
+
+func (r *repository) FindBySlug(slug string) (Ecopedia, error) {
+	var ecopedia Ecopedia
+
+	err := r.db.Where("slug = ?", slug).Find(&ecopedia).Error
+
+	if err != nil {
+		return ecopedia, err
+	}
+	if ecopedia.Slug == "" {
+        return ecopedia, errors.New("slug not found")
+    }
+	
+	return ecopedia, nil
+
+}
 
 func (r *repository) CreateImage(ecopedia EcopediaImage) (error) {
 	err := r.db.Create(&ecopedia).Error

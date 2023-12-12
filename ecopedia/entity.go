@@ -7,6 +7,7 @@ import (
 
 type Ecopedia struct {
 	ID        int 
+	Slug string
 	Judul     string
 	Subjudul  string
 	Deskripsi string

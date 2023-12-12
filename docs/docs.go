@@ -730,9 +730,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/ecopedia/{id}": {
+        "/ecopedia/{slug}": {
             "get": {
-                "description": "Dapatkan data Ecopedia berdasarkan ID yang diberikan",
+                "description": "Dapatkan data Ecopedia berdasarkan slug yang diberikan",
                 "consumes": [
                     "application/json"
                 ],
@@ -742,12 +742,12 @@ const docTemplate = `{
                 "tags": [
                     "Ecopedia"
                 ],
-                "summary": "Dapatkan data Ecopedia berdasarkan ID",
+                "summary": "Dapatkan data Ecopedia berdasarkan slug",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Ecopedia ID",
-                        "name": "id",
+                        "description": "Ecopedia slug",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -789,7 +789,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update data Ecopedia berdasarkan ID yang diberikan dengan informasi yang diberikan",
+                "description": "Update data Ecopedia berdasarkan IslugD yang diberikan dengan informasi yang diberikan",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -803,8 +803,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Ecopedia ID",
-                        "name": "id",
+                        "description": "Ecopedia Slug",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     },
@@ -881,7 +881,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Hapus data Ecopedia berdasarkan ID yang diberikan",
+                "description": "Hapus data Ecopedia berdasarkan slug yang diberikan",
                 "consumes": [
                     "application/json"
                 ],
@@ -891,12 +891,12 @@ const docTemplate = `{
                 "tags": [
                     "Ecopedia"
                 ],
-                "summary": "Hapus data Ecopedia berdasarkan ID",
+                "summary": "Hapus data Ecopedia berdasarkan slug",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Ecopedia ID",
-                        "name": "id",
+                        "description": "Ecopedia slug",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
