@@ -30,38 +30,12 @@ func NewFeedbackHandler(feedbackService feedback.Service) *feedbackHandler {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /feedback/{id} [delete]
-
-// func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
-// 	var input feedback.FeedbackID
-
-// 	err := c.ShouldBindUri(&input)
-
-// 	if err != nil {
-// 		errors := helper.FormatValidationError(err)
-// 		errorMessage := gin.H{"errors": errors}
-// 		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-// 		c.JSON(http.StatusUnprocessableEntity, response)
-// 		return
-// 	}
-
-// 	data, err := h.feedbackService.DeleteFeedback(input.ID)
-// 	if err != nil {
-
-// 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
-// 		c.JSON(http.StatusUnprocessableEntity, response)
-// 		return
-// 	}
-// 	response := helper.APIresponse(http.StatusOK, (data))
-// 	c.JSON(http.StatusOK, response)
-// }
-
 func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
-	param := c.Param("slug")
+	var input feedback.FeedbackID
 
-	newDel, err := h.feedbackService.DeleteFeedback(param)
+	err := c.ShouldBindUri(&input)
+
 	if err != nil {
-<<<<<<< HEAD
-=======
 		errors := helper.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errors}
 		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
@@ -72,23 +46,12 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 	_, err = h.feedbackService.DeleteFeedback(input.ID)
 	if err != nil {
 		
->>>>>>> 0075203b2f39f41648b074b4c80756123471ee58
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
-
 	}
-<<<<<<< Updated upstream
 	response := helper.APIresponse(http.StatusOK, "feedback has succesfuly deleted")
-=======
-<<<<<<< HEAD
-	response := helper.APIresponse(http.StatusOK, newDel)
-=======
-	response := helper.APIresponse(http.StatusOK, "feedback has succesfuly deleted")
->>>>>>> 0075203b2f39f41648b074b4c80756123471ee58
->>>>>>> Stashed changes
 	c.JSON(http.StatusOK, response)
-
 }
 
 // @Summary Dapatkan feedback berdasarkan ID
@@ -101,26 +64,29 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /feedback/{id} [get]
-func (h *feedbackHandler) GetFeedbackBySlug(c *gin.Context) {
-	param := c.Param("slug")
+func (h *feedbackHandler) GetFeedbackByID(c *gin.Context) {
+	var input feedback.FeedbackID
 
-	newDel, err := h.feedbackService.GetFeedbackBySlug(param)
+	err := c.ShouldBindUri(&input)
+
 	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	data, err := h.feedbackService.GetFeedbackByID(input.ID)
+	if err != nil {
+		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
 	response := helper.APIresponse(http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
->>>>>>> 0075203b2f39f41648b074b4c80756123471ee58
 
-	response := helper.APIresponse(http.StatusOK, newDel)
-	c.JSON(http.StatusOK, response)
 }
 
 // @Summary Dapatkan semua feedback atau feedback berdasarkan ID tertentu
@@ -138,7 +104,7 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 
 	data, err := h.feedbackService.GetAllFeedback(input)
 	if err != nil {
-
+		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return

@@ -84,9 +84,9 @@ func StartApp() {
 	work := router.Group("/workshop")
 	work.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.CreateWorkshop)
 	work.GET("/", workshopHandler.GetAllWorkshop)
-	work.GET("/:slug", workshopHandler.GetOneWorkshop)
-	work.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.UpdateWorkshop)
-	work.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.DeleteWorkshop)
+	work.GET("/:id", workshopHandler.GetOneWorkshop)
+	work.PUT("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.UpdateWorkshop)
+	work.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.DeleteWorkshop)
 
 	// ecopedia
 	ecopediaRepository := ecopedia.NewRepository(db)
@@ -145,9 +145,9 @@ func StartApp() {
 	fee := router.Group("/feedback")
 	fee.POST("/", feedbackHandler.PostFeedbackHandler)
 	fee.GET("/", feedbackHandler.GetAllFeedback)
-	fee.GET("/:slug", feedbackHandler.GetFeedbackBySlug)
+	fee.GET("/:id", feedbackHandler.GetFeedbackByID)
 	// fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
-	fee.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
+	fee.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
 
 	galleryRepository := gallery.NewRepository(db)
 	galleryService := gallery.NewService(galleryRepository)
