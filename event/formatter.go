@@ -29,6 +29,7 @@ func UpdatedFormatterEvent(artikel Event) CreateEventFormatter {
 	formatter := CreateEventFormatter{
 		ID:           artikel.ID,
 		Title:        artikel.Title,
+		Slug: artikel.Slug,
 		EventMessage: artikel.EventMessage,
 		FileName:     artikel.FileName,
 		UpdatedAt:    artikel.UpdatedAt,
