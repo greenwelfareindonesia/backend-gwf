@@ -8,7 +8,7 @@ type Artikel struct {
 	FullName string
 	Email string
 	Topic string
-	ArtikelMessage string
+	ArticleMessage string
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 }

@@ -44,13 +44,16 @@ func InitDb() (*gorm.DB, error){
 		fmt.Println("Nilai dbPort:", dbPort)
 		fmt.Println("Nilai dbName:", dbName)
 		fmt.Println("String Koneksi (DSN):", dsn)
+
+		// dsn := "root:@tcp(127.0.0.1:3306)/mencoba?charset=utf8mb4&parseTime=True&loc=Local"
+  		// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			log.Fatal("DB Connection Error")
 		}
 
 		// Auto Migration
-		db.AutoMigrate(&user.User{})
+		
 		db.AutoMigrate(&artikel.Artikel{})
 		db.AutoMigrate(&ecopedia.Ecopedia{})
 		db.AutoMigrate(&contact.Contact{})
@@ -59,11 +62,10 @@ func InitDb() (*gorm.DB, error){
 		db.AutoMigrate(&veganguide.Veganguide{})
 		db.AutoMigrate(&feedback.Feedback{})
 		db.AutoMigrate(&endpointcount.Statistics{})
-		db.AutoMigrate(&ecopedia.Comment{})
-		db.AutoMigrate(&ecopedia.IsLike{})
 		db.AutoMigrate(&gallery.Gallery{})
 		db.AutoMigrate(&gallery.GalleryImages{})
 		db.AutoMigrate(&ecopedia.EcopediaImage{})
+		db.AutoMigrate(&user.User{})
 
 		return db, nil
 

@@ -30,7 +30,8 @@ func NewGalleryHandler(galleryService gallery.Service, endpointService endpointc
 // @Produce json
 // @Tags Gallery
 // @Security BearerAuth
-// @Param File formData file true "File gambar"
+// @Param File1 formData file true "File gambar"
+// @Param File2 formData file true "File gambar"
 // @Param Alt formData string true "Alt"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -194,7 +195,6 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 // @Tags Gallery
 // @Security BearerAuth
 // @Param slug path int true "Slug Gallery"
-// @Param file formData file true "File gambar"
 // @Param Alt formData string true "Alt"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

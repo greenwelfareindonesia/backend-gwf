@@ -8,7 +8,7 @@ type CreateArtikelFormatter struct {
 	FullName       string    `json:"FullName"`
 	Email string `json:"Email"`
 	Topic string `json:"Topic"`
-	ArtikelMessage string    `json:"Message"`
+	ArticleMessage string    `json:"ArticleMessage"`
 	CreatedAt      time.Time `json:"CreatedAt"`
 	UpdatedAt      time.Time `json:"UpdatedAt"`
 }
@@ -20,7 +20,7 @@ func PostArticleFormat(artikel Artikel) CreateArtikelFormatter {
 		FullName: artikel.FullName,
 		Email: artikel.Email,
 		Topic: artikel.Topic,
-		ArtikelMessage:   artikel.ArtikelMessage,
+		ArticleMessage:   artikel.ArticleMessage,
 		CreatedAt: artikel.CreatedAt,
 	}
 	return formatter
@@ -33,7 +33,7 @@ func UpdatedArticleFormat(artikel Artikel) CreateArtikelFormatter {
 		FullName: artikel.FullName,
 		Email: artikel.Email,
 		Topic: artikel.Topic,
-		ArtikelMessage:   artikel.ArtikelMessage,
+		ArticleMessage:   artikel.ArticleMessage,
 		UpdatedAt: artikel.UpdatedAt,
 	}
 	return formatter

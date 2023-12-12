@@ -16,7 +16,6 @@ type Service interface {
 	CreateEcopediaImage(ecopediaID int, FileName string) error
 	DeleteEcopedia(ID int) (Ecopedia, error)
 	UpdateEcopedia(slugs string, input EcopediaInput) (Ecopedia, error)
-	UserActionToEcopedia(getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error)
 }
 
 type service struct {
@@ -40,48 +39,36 @@ func (s *service) CreateEcopediaImage(ecopediaID int, FileName string) error {
 	return nil
 }
 
-func (s *service) UserActionToEcopedia(getIdEcopedia EcopediaID, inputUser UserActionToEcopedia) (Comment, error) {
 
-	FindEcoId, err := s.repository.FindEcopediaCommentID(getIdEcopedia.ID)
-	if err != nil {
-		return FindEcoId, err
-	}
-
-	createComment := Comment{}
-
-	createComment.Comment = inputUser.Comment
-	createComment.UserId = inputUser.User.ID
-	createComment.EcopediaId = getIdEcopedia.ID
-	// FindUserId, err := s.repository.FindByUserId(FindEcoId.User.ID)
-	// if err != nil {
-	// 	return FindUserId, err
-	// }
-
-	create, err := s.repository.CreateComment(createComment)
-	if err != nil {
-		return create, err
-	}
-	return create, nil
-
-}
 
 func (s *service) DeleteEcopedia(ID int) (Ecopedia, error) {
-	ecopedias, err := s.repository.FindById(ID)
-	if err != nil {
-		return ecopedias, err
-	}
-
-	ecopedia, err := s.repository.DeleteEcopedia(ecopedias)
+	ecopedia, err := s.repository.FindById(ID)
 	if err != nil {
 		return ecopedia, err
 	}
-	
+
+	// Hapus entri terkait di tabel comments terlebih dahulu
+	// err = s.repository.DeleteComment(ecopedia.ID)
+	// if err != nil {
+	// 	return ecopedia, err
+	// }
 	err = s.repository.DeleteImages(ecopedia.ID)
 	if err != nil {
 		return ecopedia, err
 	}
+
+	// Hapus entri dari tabel ecopedia setelah entri terkait di comments dihapus
+	err = s.repository.DeleteEcopedia(ecopedia)
+	if err != nil {
+		return ecopedia, err
+	}
+
+	// Hapus entri terkait di tabel images setelah entri utama dihapus
+
+
 	return ecopedia, nil
 }
+
 
 func (s *service) UpdateEcopedia(slugs string, input EcopediaInput) (Ecopedia, error) {
 	ecopedia, err := s.repository.FindBySlug(slugs)
@@ -89,15 +76,15 @@ func (s *service) UpdateEcopedia(slugs string, input EcopediaInput) (Ecopedia, e
 		return ecopedia, nil
 	}
 
-	ecopedia.Judul = input.Judul
-	ecopedia.Subjudul = input.Subjudul
-	ecopedia.Deskripsi = input.Deskripsi
-	ecopedia.Srcgambar = input.Srcgambar
-	ecopedia.Referensi = input.Referensi
+	ecopedia.Title = input.Title
+	ecopedia.SubTitle = input.SubTitle
+	ecopedia.Description = input.Description
+	ecopedia.SrcFile = input.SrcFile
+	ecopedia.Reference = input.Reference
 
 	oldSlug := ecopedia.Slug
 	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
-    slugTitle := strings.ToLower(input.Judul)
+    slugTitle := strings.ToLower(input.Title)
     mySlug := slug.Make(slugTitle)
     randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
     ecopedia.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
@@ -134,16 +121,15 @@ func (s *service) GetEcopediaByID(slugs string) (Ecopedia, error) {
 func (s *service) CreateEcopedia(ecopedia EcopediaInput) (Ecopedia, error) {
 	newEcopedia := Ecopedia{}
 
-	newEcopedia.Judul = ecopedia.Judul
-	newEcopedia.Subjudul = ecopedia.Subjudul
-	newEcopedia.Deskripsi = ecopedia.Deskripsi
-	// newEcopedia.Gambar = ecopedia.Gambar
-	newEcopedia.Srcgambar = ecopedia.Srcgambar
-	newEcopedia.Referensi = ecopedia.Referensi
+	newEcopedia.Title = ecopedia.Title
+	newEcopedia.SubTitle = ecopedia.SubTitle
+	newEcopedia.Description = ecopedia.Description
+	newEcopedia.SrcFile = ecopedia.SrcFile
+	newEcopedia.Reference = ecopedia.Reference
 	var seededRand *rand.Rand = rand.New(
 		rand.NewSource(time.Now().UnixNano()))
 
-	slugTitle := strings.ToLower(ecopedia.Judul)
+	slugTitle := strings.ToLower(ecopedia.Title)
 
 	mySlug := slug.Make(slugTitle)
 

@@ -1,22 +1,18 @@
 package ecopedia
 
 import (
-	"greenwelfare/user"
 	"time"
 )
 
 type Ecopedia struct {
 	ID        int 
 	Slug string
-	Judul     string
-	Subjudul  string
-	Deskripsi string
-	Srcgambar string
-	Referensi string
-	// Like []IsLike
+	Title     string
+	SubTitle  string
+	Description string
+	SrcFile string
+	Reference string
 	FileName       []EcopediaImage `gorm:"foreignKey:EcopediaID"`
-	Comment []Comment `gorm:"foreignKey:EcopediaId"`
-	IsLike []IsLike `gorm:"foreignKey:EcopediaId"`
 	CreatedAt time.Time
     UpdatedAt time.Time 
 }
@@ -29,22 +25,3 @@ type EcopediaImage struct {
     UpdatedAt time.Time 
 }
 
-type Comment struct {
-	ID int
-	UserId int
-	EcopediaId int
-	Comment string
-	User user.User
-	CreatedAt time.Time
-    UpdatedAt time.Time
-}
-
-type IsLike struct {
-	ID int
-	UserId int
-	EcopediaId int
-	IsLike bool
-	User user.User
-	CreatedAt time.Time
-    UpdatedAt time.Time
-}

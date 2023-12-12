@@ -4,13 +4,14 @@ import "time"
 
 type EcopediaFormatter struct {
 	ID int `json:"ID"`
-	Judul     string `json:"Judul"`
-	Subjudul  string `json:"SubJudul"`
-	Deskripsi string `json:"Deskripsi"`
-	Srcgambar string `json:"SrcGambar"`
-	Referensi string `json:"Referensi"`
+	Title     string `json:"Title"`
+	Slug string `json:"Slug"`
+	SubTitle  string `json:"SubTitle"`
+	Description string `json:"Description"`
+	SrcFile string `json:"SrcFile"`
+	Reference string `json:"Reference"`
 	FileName []string `json:"FileNames"`
-	Comment []string `json:"Comment"`
+	// Comment []string `json:"Comment"`
 	CreatedAt time.Time `json:"CreatedAt"`
     UpdatedAt time.Time `json:"UpdatedAt"`
 	// Like []string `json:"like"`
@@ -19,19 +20,20 @@ type EcopediaFormatter struct {
 func GetOneEcopediaFormat(ecopedia_submit Ecopedia) EcopediaFormatter {
 	formatter := EcopediaFormatter{
 		ID:  ecopedia_submit.ID,
-		Judul:     ecopedia_submit.Judul,
-		Subjudul:  ecopedia_submit.Subjudul,
-		Deskripsi: ecopedia_submit.Deskripsi,
-		Srcgambar: ecopedia_submit.Srcgambar,
-		Referensi: ecopedia_submit.Referensi,
+		Title:     ecopedia_submit.Title,
+		Slug: ecopedia_submit.Slug,
+		SubTitle:  ecopedia_submit.SubTitle,
+		Description: ecopedia_submit.Description,
+		SrcFile: ecopedia_submit.SrcFile,
+		Reference: ecopedia_submit.Reference,
 		// FileName: make([]string,len(ecopedia_submit.FileName)),
 		// Comment: make([]string, len(ecopedia_submit.Comment)),
 		CreatedAt: ecopedia_submit.CreatedAt,
 	}
 
-	for _, comment := range ecopedia_submit.Comment {
-		formatter.Comment = append(formatter.Comment, comment.Comment)
-	}
+	// for _, comment := range ecopedia_submit.Comment {
+	// 	formatter.Comment = append(formatter.Comment, comment.Comment)
+	// }
 
 	for _, fileName := range ecopedia_submit.FileName {
 		formatter.FileName = append(formatter.FileName, fileName.FileName)
@@ -40,13 +42,25 @@ func GetOneEcopediaFormat(ecopedia_submit Ecopedia) EcopediaFormatter {
 	return formatter
 }
 
-func FormatterGetAllEcopedia (ecopedia []Ecopedia) []EcopediaFormatter {
-	newEcopediaGetFormatter := []EcopediaFormatter{}
+// func FormatterGetAllEcopedia (ecopedia []Ecopedia) []EcopediaFormatter {
+// 	newEcopediaGetFormatter := []EcopediaFormatter{}
 
-	for _, newPounds := range ecopedia {
-		newEcopediaFormatter := GetOneEcopediaFormat(newPounds)
-		newEcopediaGetFormatter = append(newEcopediaGetFormatter, newEcopediaFormatter)
-	}
+// 	for _, newPounds := range ecopedia {
+// 		newEcopediaFormatter := GetOneEcopediaFormat(newPounds)
+// 		newEcopediaGetFormatter = append(newEcopediaGetFormatter, newEcopediaFormatter)
+// 	}
 
-	return newEcopediaGetFormatter
+// 	return newEcopediaGetFormatter
+// }
+
+// Fungsi untuk mengonversi slice Ecopedia menjadi slice EcopediaFormatter
+func FormatterGetAllEcopedia(ecopedias []Ecopedia) []EcopediaFormatter {
+    var ecopediaFormatters []EcopediaFormatter
+
+    for _, ecopedia := range ecopedias {
+        ecopediaFormatter := GetOneEcopediaFormat(ecopedia)
+        ecopediaFormatters = append(ecopediaFormatters, ecopediaFormatter)
+    }
+
+    return ecopediaFormatters
 }

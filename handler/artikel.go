@@ -51,7 +51,7 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Artikel
-// @Param slug path int true "Artikel by slug"
+// @Param slug path string true "Artikel by slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}

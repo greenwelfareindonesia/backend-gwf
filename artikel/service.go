@@ -45,7 +45,7 @@ func (s *service) UpdateArtikel(input CreateArtikel, slugs string) (Artikel, err
 	artikel.FullName = input.FullName
 	artikel.Email = input.Email
 	artikel.Topic = input.Topic
-	artikel.ArtikelMessage = input.ArtikelMessage
+	artikel.ArticleMessage = input.ArtikelMessage
 
 	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
     slugTitle := strings.ToLower(artikel.FullName)
@@ -90,7 +90,7 @@ func (s *service) CreateArtikel(input CreateArtikel) (Artikel, error) {
 	createBerita.FullName = input.FullName
 	createBerita.Email = input.Email
 	createBerita.Topic = input.Topic
-	createBerita.ArtikelMessage = input.ArtikelMessage
+	createBerita.ArticleMessage = input.ArtikelMessage
 
 	var seededRand *rand.Rand = rand.New(
 		rand.NewSource(time.Now().UnixNano()))
