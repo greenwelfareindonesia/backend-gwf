@@ -46,7 +46,7 @@ func (r *repository) CreateImage(ecopedia EcopediaImage) (error) {
 }
 
 func (r *repository) DeleteImages(ecopediaID int) error {
-    err := r.db.Where("ecopedia_id = ?", ecopediaID).Delete(&Ecopedia{}).Error
+    err := r.db.Where("ecopedia_id = ?", ecopediaID).Delete(&EcopediaImage{}).Error
     if err != nil {
         return err
     }
