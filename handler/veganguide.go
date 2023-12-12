@@ -48,14 +48,14 @@ func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 		return
 	}
 
-	data, err := h.veganguideService.DeleteVeganguide(input.ID)
+	_, err = h.veganguideService.DeleteVeganguide(input.ID)
 	if err != nil {
 
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.APIresponse(http.StatusOK, (data))
+	response := helper.APIresponse(http.StatusOK, "veganguide has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }
 
@@ -201,15 +201,15 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 		return
 	}
 
-	_, err = h.veganguideService.CreateVeganguide(input, imageKitURL)
+	data, err := h.veganguideService.CreateVeganguide(input, imageKitURL)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	
+	response := helper.APIresponse(http.StatusOK, veganguide.PostFormatterWorkshop(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -270,7 +270,7 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 		return
 	}
 
-	veganguide, err := h.veganguideService.UpdateVeganguide(input, param, imageKitURL)
+	veganguides, err := h.veganguideService.UpdateVeganguide(input, param, imageKitURL)
 	if err != nil {
 
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -278,6 +278,6 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, veganguide)
+	response := helper.APIresponse(http.StatusOK, veganguide.UpdatedFormatterWorkshop(veganguides))
 	c.JSON(http.StatusOK, response)
 }

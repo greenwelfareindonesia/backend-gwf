@@ -3,19 +3,19 @@ package workshop
 import "time"
 
 type WorkshopFormatter struct {
-	ID        int       `json:"id"`
-	Slug      string    `json:"slug"`
-	Title     string    `json:"title"`
-	Image     string    `json:"image"`
-	Desc      string    `json:"desc"`
-	Date      string    `json:"date"`
-	Url       string    `json:"url"`
-	IsOpen    bool      `json:"is_open"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        int       `json:"ID"`
+	Slug      string    `json:"Slug"`
+	Title     string    `json:"Title"`
+	Image     string    `json:"Image"`
+	Desc      string    `json:"Description"`
+	Date      string    `json:"Date"`
+	Url       string    `json:"Url"`
+	IsOpen    bool      `json:"IsOpen"`
+	CreatedAt time.Time `json:"CreatedAt"`
+	UpdatedAt time.Time `json:"UpdatedAt"`
 }
 
-func FormatterWorkshop(workshop Workshop) WorkshopFormatter {
+func PostFormatterWorkshop(workshop Workshop) WorkshopFormatter {
 	formatter := WorkshopFormatter{
 		ID:        workshop.ID,
 		Slug:      workshop.Slug,
@@ -26,6 +26,20 @@ func FormatterWorkshop(workshop Workshop) WorkshopFormatter {
 		Url:       workshop.Url,
 		IsOpen:    workshop.IsOpen,
 		CreatedAt: workshop.CreatedAt,
+	}
+	return formatter
+}
+
+func UpdateFormatterWorkshop(workshop Workshop) WorkshopFormatter {
+	formatter := WorkshopFormatter{
+		ID:        workshop.ID,
+		Slug:      workshop.Slug,
+		Title:     workshop.Title,
+		Image:     workshop.Image,
+		Desc:      workshop.Desc,
+		Date:      workshop.Date,
+		Url:       workshop.Url,
+		IsOpen:    workshop.IsOpen,
 		UpdatedAt: workshop.UpdatedAt,
 	}
 	return formatter

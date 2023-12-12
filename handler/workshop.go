@@ -30,9 +30,9 @@ func NewWorkshopHandler(workshopService workshop.Service, endpointService endpoi
 // @Produce json
 // @Security BearerAuth
 // @Tags Workshop
-// @Param file formData file true "File gambar"
+// @Param File formData file true "File gambar"
 // @Param Title formData string true "Title"
-// @Param Desc formData string true "Desc"
+// @Param Description formData string true "Description"
 // @Param Date formData string true "Date"
 // @Param Url formData string true "Url"
 // @Param IsOpen formData boolean true "IsOpen"
@@ -41,7 +41,7 @@ func NewWorkshopHandler(workshopService workshop.Service, endpointService endpoi
 // @Failure 422 {object} map[string]interface{}
 // @Router /workshop [post]
 func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
-	file, _ := c.FormFile("file")
+	file, _ := c.FormFile("File")
 	src, err := file.Open()
 	if err != nil {
 		fmt.Printf("error when open file %v", err)
@@ -89,28 +89,28 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 		return
 	}
 
-	_, err = h.workshopService.CreateWorkshop(input, imageKitURL)
+	data, err := h.workshopService.CreateWorkshop(input, imageKitURL)
 	if err != nil {
 		// data := gin.H{"is_uploaded": false}
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	// data := gin.H{"is_uploaded": true}
+	response := helper.APIresponse(http.StatusOK, workshop.PostFormatterWorkshop(data))
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan satu workshop berdasarkan ID
-// @Description Dapatkan satu workshop berdasarkan ID yang diberikan
+// @Summary Dapatkan satu workshop berdasarkan slug
+// @Description Dapatkan satu workshop berdasarkan slug yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Workshop
-// @Param id path int true "ID Workshop"
+// @Param slug path int true "slug Workshop"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /workshop/{id} [get]
+// @Router /workshop/{slug} [get]
 func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -141,7 +141,7 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.APIresponse(http.StatusOK, (newDel))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -185,9 +185,9 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 // @Security BearerAuth
 // @Tags Workshop
 // @Param id path int true "ID Workshop"
-// @Param file formData file true "File gambar"
+// @Param File formData file true "File gambar"
 // @Param Title formData string true "title"
-// @Param Desc formData string true "desc"
+// @Param Description formData string true "Description"
 // @Param Date formData string true "date"
 // @Param Url formData string true "url"
 // @Param IsOpen formData boolean true "IsOpen"
@@ -196,7 +196,7 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 // @Failure 422 {object} map[string]interface{}
 // @Router /workshop/{id} [put]
 func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
-	file, _ := c.FormFile("file")
+	file, _ := c.FormFile("File")
 	src, err := file.Open()
 	if err != nil {
 		fmt.Printf("error when open file %v", err)
@@ -245,7 +245,7 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 		return
 	}
 
-	workshop, err := h.workshopService.UpdateWorkshop(param, input, imageKitURL)
+	data, err := h.workshopService.UpdateWorkshop(param, input, imageKitURL)
 	if err != nil {
 
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -253,21 +253,22 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, workshop)
+	// data := gin.H{"is_updated": true}
+	response := helper.APIresponse(http.StatusOK, workshop.UpdateFormatterWorkshop(data))
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Hapus workshop berdasarkan ID
-// @Description Hapus workshop berdasarkan ID yang diberikan
+// @Summary Hapus workshop berdasarkan slug
+// @Description Hapus workshop berdasarkan slug yang diberikan
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Tags Workshop
-// @Param id path int true "ID Workshop"
+// @Param slug path int true "slug Workshop"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /workshop/{id} [delete]
+// @Router /workshop/{slug} [delete]
 func (h *workshopHandler) DeleteWorkshop(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -280,7 +281,7 @@ func (h *workshopHandler) DeleteWorkshop(c *gin.Context) {
 		return
 	}
 
-	newDel, err := h.workshopService.DeleteWorkshop(param)
+	_, err = h.workshopService.DeleteWorkshop(param)
 	if err != nil {
 
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -288,6 +289,6 @@ func (h *workshopHandler) DeleteWorkshop(c *gin.Context) {
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.APIresponse(http.StatusOK, "workshop has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }

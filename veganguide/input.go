@@ -1,9 +1,9 @@
 package veganguide
 
 type VeganguideInput struct {
-	Judul     string `form:"judul" binding:"required"`
-	Deskripsi string `form:"deskripsi" binding:"required"`
-	Body      string `form:"body"`
+	Title     string `form:"Title" binding:"required"`
+	Description string `form:"Description" binding:"required"`
+	Body      string `form:"Body"`
 }
 
 type GetVeganguide struct {

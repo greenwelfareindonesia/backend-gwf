@@ -19,46 +19,22 @@ func NewFeedbackHandler(feedbackService feedback.Service) *feedbackHandler {
 	return &feedbackHandler{feedbackService}
 }
 
-// @Summary Hapus feedback berdasarkan ID
-// @Description Hapus feedback berdasarkan ID yang diberikan
+// @Summary Hapus feedback berdasarkan slug
+// @Description Hapus feedback berdasarkan slug yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Feedback
 // @Security BearerAuth
-// @Param id path int true "ID Feedback"
+// @Param slug path int true "slug Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /feedback/{id} [delete]
-
-// func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
-// 	var input feedback.FeedbackID
-
-// 	err := c.ShouldBindUri(&input)
-
-// 	if err != nil {
-// 		errors := helper.FormatValidationError(err)
-// 		errorMessage := gin.H{"errors": errors}
-// 		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-// 		c.JSON(http.StatusUnprocessableEntity, response)
-// 		return
-// 	}
-
-// 	data, err := h.feedbackService.DeleteFeedback(input.ID)
-// 	if err != nil {
-
-// 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
-// 		c.JSON(http.StatusUnprocessableEntity, response)
-// 		return
-// 	}
-// 	response := helper.APIresponse(http.StatusOK, (data))
-// 	c.JSON(http.StatusOK, response)
-// }
+// @Router /feedback/{slug} [delete]
 
 func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 	param := c.Param("slug")
 
-	newDel, err := h.feedbackService.DeleteFeedback(param)
+	_, err := h.feedbackService.DeleteFeedback(param)
 	if err != nil {
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
@@ -66,21 +42,21 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 
 	}
 
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.APIresponse(http.StatusOK, "feedback has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 
 }
 
-// @Summary Dapatkan feedback berdasarkan ID
-// @Description Dapatkan feedback berdasarkan ID yang diberikan
+// @Summary Dapatkan feedback berdasarkan slug
+// @Description Dapatkan feedback berdasarkan slug yang diberikan
 // @Accept json
 // @Produce json
 // @Tags Feedback
-// @Param id path int true "ID Feedback"
+// @Param slug path int true "slug Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /feedback/{id} [get]
+// @Router /feedback/{slug} [get]
 func (h *feedbackHandler) GetFeedbackBySlug(c *gin.Context) {
 	param := c.Param("slug")
 

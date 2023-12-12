@@ -151,7 +151,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, gallery.PostFormatterGallery(newDel))
+	response := helper.APIresponse(http.StatusOK, (newDel))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -214,7 +214,7 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 		return
 	}
 
-	gallery, err := h.galleryService.UpdateGallery(param, input)
+	_, err = h.galleryService.UpdateGallery(param, input)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -222,7 +222,8 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, gallery)
+	data := gin.H{"is_updated": true}
+	response := helper.APIresponse(http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -248,6 +249,6 @@ func (h *galleryHandler) DeleteGallery(c *gin.Context) {
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, "Gallery has succesfuly deleted")
+	response := helper.APIresponse(http.StatusOK, "gallery has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }

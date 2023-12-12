@@ -60,15 +60,15 @@ func (s *service) GetOneVeganguide(slugs string) (Veganguide, error) {
 func (s *service) CreateVeganguide(input VeganguideInput, FileName string) (Veganguide, error) {
 	newVeganguide := Veganguide{}
 
-	newVeganguide.Judul = input.Judul
-	newVeganguide.Deskripsi = input.Deskripsi
+	newVeganguide.Judul = input.Title
+	newVeganguide.Deskripsi = input.Description
 	newVeganguide.Body = input.Body
 	newVeganguide.Gambar = FileName
 
 	var seededRand *rand.Rand = rand.New(
 		rand.NewSource(time.Now().UnixNano()))
 
-	slugTitle := strings.ToLower(input.Judul)
+	slugTitle := strings.ToLower(input.Title)
 	mySlug := slug.Make(slugTitle)
 	randomNumber := seededRand.Intn(1000000)
 
@@ -90,8 +90,8 @@ func (s *service) UpdateVeganguide(input VeganguideInput, slugs string, FileName
 
 	oldSlug := veganguide.Slug
 
-	veganguide.Judul = input.Judul
-	veganguide.Deskripsi = input.Deskripsi
+	veganguide.Judul = input.Title
+	veganguide.Deskripsi = input.Description
 	veganguide.Body = input.Body
 	veganguide.Gambar = FileName
 

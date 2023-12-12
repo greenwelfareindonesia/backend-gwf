@@ -177,6 +177,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 		return
 	}
 
+	
 	response := helper.APIresponse(http.StatusOK, event.UpdatedFormatterEvent(events))
 	c.JSON(http.StatusOK, response)
 
