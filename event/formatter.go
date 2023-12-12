@@ -6,7 +6,7 @@ type CreateEventFormatter struct {
 	ID           int       `json:"ID"`
 	Slug         string    `json:"Slug"`
 	Title        string    `json:"Title"`
-	EventMessage string    `json:"Message"`
+	EventMessage string    `json:"EventMessage"`
 	FileName     string    `json:"FileName"`
 	CreatedAt    time.Time `json:"CreatedAt"`
 	UpdatedAt    time.Time `json:"UpdatedAt"`
