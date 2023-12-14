@@ -107,8 +107,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Message",
-                        "name": "Message",
+                        "description": "ArticleMessage",
+                        "name": "ArticleMessage",
                         "in": "formData",
                         "required": true
                     }
@@ -246,8 +246,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Message",
-                        "name": "Message",
+                        "description": "ArticleMessage",
+                        "name": "ArticleMessage",
                         "in": "formData",
                         "required": true
                     }

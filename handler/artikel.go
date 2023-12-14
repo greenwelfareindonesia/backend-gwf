@@ -92,7 +92,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
 // @Param Topic formData string true "Topic"
-// @Param Message formData string true "Message"
+// @Param ArticleMessage formData string true "ArticleMessage"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
@@ -135,7 +135,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 // @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
 // @Param Topic formData string true "Topic"
-// @Param Message formData string true "Message"
+// @Param ArticleMessage formData string true "ArticleMessage"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}

@@ -96,8 +96,8 @@
                     },
                     {
                         "type": "string",
-                        "description": "Message",
-                        "name": "Message",
+                        "description": "ArticleMessage",
+                        "name": "ArticleMessage",
                         "in": "formData",
                         "required": true
                     }
@@ -235,8 +235,8 @@
                     },
                     {
                         "type": "string",
-                        "description": "Message",
-                        "name": "Message",
+                        "description": "ArticleMessage",
+                        "name": "ArticleMessage",
                         "in": "formData",
                         "required": true
                     }

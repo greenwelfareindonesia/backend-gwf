@@ -115,9 +115,9 @@ paths:
         name: Topic
         required: true
         type: string
-      - description: Message
+      - description: ArticleMessage
         in: formData
-        name: Message
+        name: ArticleMessage
         required: true
         type: string
       produces:
@@ -248,9 +248,9 @@ paths:
         name: Topic
         required: true
         type: string
-      - description: Message
+      - description: ArticleMessage
         in: formData
-        name: Message
+        name: ArticleMessage
         required: true
         type: string
       produces:
