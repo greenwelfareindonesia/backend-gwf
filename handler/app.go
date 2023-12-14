@@ -59,7 +59,7 @@ func StartApp() {
 	// Inisialisasi handler
 	statisticsHandler := NewStatisticsHandler(statisticsService)
 	//--//
-	user := router.Group("/user")
+	user := router.Group("/api/user")
 	user.POST("/register", userHandler.RegisterUser)
 	user.POST("/login", userHandler.Login)
 	user.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), userHandler.DeletedUser)
@@ -70,7 +70,7 @@ func StartApp() {
 	contactService := contact.NewService(contactRepository)
 	contactHandler := NewContactHandler(contactService)
 	//--//
-	con := router.Group("/contact")
+	con := router.Group("/api/contact")
 	con.POST("/", contactHandler.SubmitContactForm)
 	con.GET("/", contactHandler.GetContactSubmissionsHandler)
 	con.GET("/:slug", contactHandler.GetContactSubmissionHandler)
@@ -81,7 +81,7 @@ func StartApp() {
 	workshopService := workshop.NewService(workshopRepository)
 	workshopHandler := NewWorkshopHandler(workshopService, statisticsService)
 	//--//
-	work := router.Group("/workshop")
+	work := router.Group("/api/workshop")
 	work.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.CreateWorkshop)
 	work.GET("/", workshopHandler.GetAllWorkshop)
 	work.GET("/:slug", workshopHandler.GetOneWorkshop)
@@ -93,7 +93,7 @@ func StartApp() {
 	ecopediaService := ecopedia.NewService(ecopediaRepository)
 	ecopediaHandler := NewEcopediaHandler(ecopediaService, statisticsService)
 
-	eco := router.Group("/ecopedia")
+	eco := router.Group("/api/ecopedia")
 	eco.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), ecopediaHandler.PostEcopediaHandler)
 	eco.GET("/", ecopediaHandler.GetAllEcopedia)
 	eco.GET("/:slug", ecopediaHandler.GetEcopediaByID)
@@ -105,7 +105,7 @@ func StartApp() {
 	artikelService := artikel.NewService(artikelRepository)
 	artikelHandler := NewArtikelHandler(artikelService, statisticsService)
 	//--//
-	art := router.Group("/article")
+	art := router.Group("/api/article")
 	art.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.CreateArtikel)
 	art.GET("/", artikelHandler.GetAllArtikel)
 	art.GET("/:slug", artikelHandler.GetOneArtikel)
@@ -117,7 +117,7 @@ func StartApp() {
 	eventService := event.NewService(eventRepository)
 	eventHandler := NewEventHandler(eventService, statisticsService)
 	//--//
-	eve := router.Group("/event")
+	eve := router.Group("/api/event")
 	eve.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.CreateEvent)
 	eve.GET("/", eventHandler.GetAllEvent)
 	eve.GET("/:slug", eventHandler.GetOneEvent)
@@ -129,7 +129,7 @@ func StartApp() {
 	veganguideService := veganguide.NewService(veganguideRepository)
 	veganguideHandler := NewVeganguideHandler(veganguideService, statisticsService)
 	//--//
-	veg := router.Group("/veganguide")
+	veg := router.Group("/api/veganguide")
 	veg.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.PostVeganguideHandler)
 	veg.GET("/", veganguideHandler.GetAllVeganguide)
 	veg.GET("/:slug", veganguideHandler.GetVeganguideByID)
@@ -141,7 +141,7 @@ func StartApp() {
 	feedbackService := feedback.NewService(feedbackRepository)
 	feedbackHandler := NewFeedbackHandler(feedbackService)
 	//--//
-	fee := router.Group("/feedback")
+	fee := router.Group("/api/feedback")
 	fee.POST("/", feedbackHandler.PostFeedbackHandler)
 	fee.GET("/", feedbackHandler.GetAllFeedback)
 	fee.GET("/:slug", feedbackHandler.GetFeedbackBySlug)
@@ -151,7 +151,7 @@ func StartApp() {
 	galleryRepository := gallery.NewRepository(db)
 	galleryService := gallery.NewService(galleryRepository)
 	galleryHandler := NewGalleryHandler(galleryService, statisticsService)
-	gallerys := router.Group("/gallery")
+	gallerys := router.Group("/api/gallery")
 	gallerys.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.CreateGallery)
 	gallerys.GET("/", galleryHandler.GetAllGallery)
 	gallerys.GET("/:slug", galleryHandler.GetOneGallery)

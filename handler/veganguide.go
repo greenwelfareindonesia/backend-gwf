@@ -24,17 +24,17 @@ func NewVeganguideHandler(veganguideService veganguide.Service, endpointService 
 	return &veganguideHandler{veganguideService, endpointService}
 }
 
-// @Summary Hapus data Veganguide berdasarkan ID
-// @Description Hapus data Veganguide berdasarkan ID yang diberikan
+// @Summary Delete Veganguide by slug
+// @Description Delete Veganguide by slug
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Tags VeganGuide
-// @Param id path int true "ID Veganguide"
+// @Param slug path string true "slug Veganguide"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /veganguide/{id} [delete]
+// @Router /api/veganguide/{slug} [delete]
 func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -49,16 +49,16 @@ func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan Veganguide berdasarkan ID
-// @Description Dapatkan Veganguide berdasarkan ID yang diberikan
+// @Summary Get One Veganguide by slug
+// @Description Get One Veganguide by slug
 // @Accept json
 // @Produce json
 // @Tags VeganGuide
-// @Param id path int true "ID Veganguide"
+// @Param slug path string true "slug Veganguide"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /veganguide/{id} [get]
+// @Router /api/veganguide/{slug} [get]
 func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 	// var input veganguide.GetVeganguide
 	param := c.Param("slug")
@@ -95,16 +95,16 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 
 }
 
-// @Summary Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu
-// @Description Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu
+// @Summary Get All Veganguide
+// @Description Get All Veganguide
 // @Accept json
 // @Produce json
 // @Tags VeganGuide
-// @Param id query int false "ID Veganguide"
+// @Param slug query string false "slug Veganguide"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /veganguide [get]
+// @Router /api/veganguide [get]
 func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -129,20 +129,20 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Buat data Veganguide baru
-// @Description Buat data Veganguide baru dengan informasi yang diberikan
+// @Summary Create New Veganguide 
+// @Description Create New Veganguide
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Tags VeganGuide
-// @Param File formData file true "File gambar"
+// @Param File formData file true "File"
 // @Param Judul formData string true "Judul"
 // @Param Deskripsi formData string true "Deskripsi"
 // @Param body formData string false "Body"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /veganguide [post]
+// @Router /api/veganguide [post]
 func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 	file, _ := c.FormFile("File")
 	src, err := file.Open()
@@ -203,13 +203,13 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Update data Veganguide berdasarkan ID
-// @Description Update data Veganguide berdasarkan ID yang diberikan
+// @Summary Update Veganguide by slug
+// @Description Update Veganguide by slug
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Tags VeganGuide
-// @Param id path int true "ID Veganguide"
+// @Param slug path string true "slug Veganguide"
 // @Param File formData file true "File gambar"
 // @Param Judul formData string true "Judul"
 // @Param Deskripsi formData string true "Deskripsi"
@@ -217,7 +217,7 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /veganguide/{id} [put]
+// @Router /api/veganguide/{slug} [put]
 func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 	file, _ := c.FormFile("File")
 	src, err := file.Open()

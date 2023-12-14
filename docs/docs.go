@@ -15,9 +15,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/artikel": {
+        "/api/article": {
             "get": {
-                "description": "Mendapatkan semua artikel",
+                "description": "get all article",
                 "consumes": [
                     "application/json"
                 ],
@@ -25,9 +25,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Artikel"
+                    "Article"
                 ],
-                "summary": "Mendapatkan semua artikel",
+                "summary": "get all article",
                 "parameters": [
                     {
                         "type": "integer",
@@ -73,7 +73,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Menambahkan entri artikel baru",
+                "description": "Create new article",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -81,20 +81,20 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Artikel"
+                    "Article"
                 ],
-                "summary": "Menambahkan artikel baru",
+                "summary": "Create new article",
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "File gambar",
+                        "description": "File",
                         "name": "File",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Nama lengkap",
+                        "description": "FullName",
                         "name": "FullName",
                         "in": "formData",
                         "required": true
@@ -108,14 +108,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Topik",
+                        "description": "Topic",
                         "name": "Topic",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Pesan artikel",
+                        "description": "Message",
                         "name": "Message",
                         "in": "formData",
                         "required": true
@@ -153,9 +153,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/artikel/{slug}": {
+        "/api/article/{slug}": {
             "get": {
-                "description": "Mendapatkan satu artikel by slug",
+                "description": "get one article by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -163,13 +163,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Artikel"
+                    "Article"
                 ],
-                "summary": "Mendapatkan satu artikel by slug",
+                "summary": "Get one article by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Artikel by slug",
+                        "type": "string",
+                        "description": "Article by slug",
                         "name": "slug",
                         "in": "path",
                         "required": true
@@ -212,7 +212,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Memperbarui artikel dengan informasi yang diberikan",
+                "description": "update article",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -220,27 +220,20 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Artikel"
+                    "Article"
                 ],
-                "summary": "Memperbarui artikel",
+                "summary": "update article",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Artikel slug",
+                        "type": "string",
+                        "description": "Article by Slug",
                         "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "type": "file",
-                        "description": "File gambar",
-                        "name": "File",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
                         "type": "string",
-                        "description": "Nama lengkap",
+                        "description": "FullName",
                         "name": "FullName",
                         "in": "formData",
                         "required": true
@@ -254,14 +247,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Topik",
+                        "description": "Topic",
                         "name": "Topic",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Pesan artikel",
+                        "description": "Message",
                         "name": "Message",
                         "in": "formData",
                         "required": true
@@ -304,7 +297,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Menghapus artikel by slug",
+                "description": "Delete article by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -312,13 +305,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Artikel"
+                    "Article"
                 ],
-                "summary": "Menghapus artikel by slug",
+                "summary": "Delete article by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Artikel ID",
+                        "type": "string",
+                        "description": "Article By Slug",
                         "name": "slug",
                         "in": "path",
                         "required": true
@@ -356,7 +349,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/contact": {
+        "/api/contact": {
             "get": {
                 "description": "Get all contact form submissions",
                 "consumes": [
@@ -427,9 +420,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/contact/{slug}": {
+        "/api/contact/{slug}": {
             "get": {
-                "description": "Get a contact form submission by ID",
+                "description": "Get a contact form submission by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -439,12 +432,12 @@ const docTemplate = `{
                 "tags": [
                     "Contact"
                 ],
-                "summary": "Get Contact Submission by ID",
+                "summary": "Get Contact Submission by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Contact Submission ID",
-                        "name": "id",
+                        "type": "string",
+                        "description": "Contact Submission slug",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -467,7 +460,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Delete a contact form submission by ID",
+                "description": "Delete a contact form submission by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -477,12 +470,12 @@ const docTemplate = `{
                 "tags": [
                     "Contact"
                 ],
-                "summary": "Delete Contact Submission by ID",
+                "summary": "Delete Contact Submission by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Contact Submission ID",
-                        "name": "id",
+                        "type": "string",
+                        "description": "Contact Submission slug",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -512,9 +505,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/ecopedia": {
+        "/api/ecopedia": {
             "get": {
-                "description": "Dapatkan semua data Ecopedia dengan opsi ID sebagai parameter query opsional",
+                "description": "Get All Ecopedia",
                 "consumes": [
                     "application/json"
                 ],
@@ -524,7 +517,7 @@ const docTemplate = `{
                 "tags": [
                     "Ecopedia"
                 ],
-                "summary": "Dapatkan semua data Ecopedia",
+                "summary": "Get All Ecopedia",
                 "parameters": [
                     {
                         "type": "integer",
@@ -570,7 +563,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Buat data Ecopedia baru dengan informasi yang diberikan",
+                "description": "Create New Ecopedia",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -580,7 +573,7 @@ const docTemplate = `{
                 "tags": [
                     "Ecopedia"
                 ],
-                "summary": "Buat data Ecopedia baru",
+                "summary": "Create New Ecopedia",
                 "parameters": [
                     {
                         "type": "file",
@@ -598,36 +591,36 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Judul",
-                        "name": "Judul",
+                        "description": "Title",
+                        "name": "Title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "SubJudul",
-                        "name": "SubJudul",
+                        "description": "SubTitle",
+                        "name": "SubTitle",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Deskripsi",
-                        "name": "Deskripsi",
+                        "description": "Description",
+                        "name": "Description",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "SrcGambar",
-                        "name": "SrcGambar",
+                        "description": "SrcFile",
+                        "name": "SrcFile",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Referensi",
-                        "name": "Referensi",
+                        "description": "Reference",
+                        "name": "Reference",
                         "in": "formData",
                         "required": true
                     }
@@ -664,80 +657,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/ecopedia/comment/{id}": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Tambahkan komentar atau tindakan pengguna terhadap Ecopedia berdasarkan ID yang diberikan",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Ecopedia"
-                ],
-                "summary": "Tambahkan komentar atau tindakan pengguna terhadap Ecopedia",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Ecopedia",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Komentar",
-                        "name": "Comment",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/ecopedia/{id}": {
+        "/api/ecopedia/{id}": {
             "delete": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Hapus data Ecopedia berdasarkan id yang diberikan",
+                "description": "Delete Ecopedia by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -747,7 +674,7 @@ const docTemplate = `{
                 "tags": [
                     "Ecopedia"
                 ],
-                "summary": "Hapus data Ecopedia berdasarkan id",
+                "summary": "Delete Ecopedia by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -789,9 +716,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/ecopedia/{slug}": {
+        "/api/ecopedia/{slug}": {
             "get": {
-                "description": "Dapatkan data Ecopedia berdasarkan slug yang diberikan",
+                "description": "Get One Ecopedia by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -801,10 +728,10 @@ const docTemplate = `{
                 "tags": [
                     "Ecopedia"
                 ],
-                "summary": "Dapatkan data Ecopedia berdasarkan slug",
+                "summary": "Get One Ecopedia by slug",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Ecopedia slug",
                         "name": "slug",
                         "in": "path",
@@ -848,7 +775,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update data Ecopedia berdasarkan IslugD yang diberikan dengan informasi yang diberikan",
+                "description": "Update Ecopedia by slug",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -858,10 +785,10 @@ const docTemplate = `{
                 "tags": [
                     "Ecopedia"
                 ],
-                "summary": "Update data Ecopedia",
+                "summary": "Update Ecopedia",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Ecopedia Slug",
                         "name": "slug",
                         "in": "path",
@@ -869,36 +796,36 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Judul",
-                        "name": "Judul",
+                        "description": "Title",
+                        "name": "Title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "SubJudul",
-                        "name": "SubJudul",
+                        "description": "SubTitle",
+                        "name": "SubTitle",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Deskripsi",
-                        "name": "Deskripsi",
+                        "description": "Description",
+                        "name": "Description",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "SrcGambar",
-                        "name": "SrcGambar",
+                        "description": "SrcFile",
+                        "name": "SrcFile",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Referensi",
-                        "name": "Referensi",
+                        "description": "Reference",
+                        "name": "Reference",
                         "in": "formData",
                         "required": true
                     }
@@ -935,9 +862,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/event": {
+        "/api/event": {
             "get": {
-                "description": "Dapatkan semua event atau event berdasarkan ID tertentu",
+                "description": "Get All Event",
                 "consumes": [
                     "application/json"
                 ],
@@ -947,7 +874,7 @@ const docTemplate = `{
                 "tags": [
                     "Event"
                 ],
-                "summary": "Dapatkan semua event atau event berdasarkan ID tertentu",
+                "summary": "Get All Event",
                 "parameters": [
                     {
                         "type": "integer",
@@ -986,7 +913,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Buat event baru dengan informasi yang diberikan",
+                "description": "Create New Event",
                 "consumes": [
                     "application/json"
                 ],
@@ -996,7 +923,7 @@ const docTemplate = `{
                 "tags": [
                     "Event"
                 ],
-                "summary": "Buat event baru",
+                "summary": "Create New Event",
                 "parameters": [
                     {
                         "type": "file",
@@ -1045,9 +972,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/event/{id}": {
+        "/api/event/{slug}": {
             "get": {
-                "description": "Dapatkan satu event berdasarkan ID yang diberikan",
+                "description": "Get One Event by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -1057,12 +984,12 @@ const docTemplate = `{
                 "tags": [
                     "Event"
                 ],
-                "summary": "Dapatkan satu event berdasarkan ID",
+                "summary": "Get One Event",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Event",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug event",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -1097,7 +1024,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update event berdasarkan ID yang diberikan",
+                "description": "Update event by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -1107,12 +1034,12 @@ const docTemplate = `{
                 "tags": [
                     "Event"
                 ],
-                "summary": "Update event berdasarkan ID",
+                "summary": "Update event by slug",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID Event",
-                        "name": "id",
+                        "description": "slug event",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     },
@@ -1168,7 +1095,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Hapus event berdasarkan ID yang diberikan",
+                "description": "Delete event by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -1178,12 +1105,12 @@ const docTemplate = `{
                 "tags": [
                     "Event"
                 ],
-                "summary": "Hapus event berdasarkan ID",
+                "summary": "Delete event by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Event",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Event",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -1213,9 +1140,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/feedback": {
+        "/api/feedback": {
             "get": {
-                "description": "Dapatkan semua feedback atau feedback berdasarkan ID tertentu",
+                "description": "Get All feedback",
                 "consumes": [
                     "application/json"
                 ],
@@ -1225,7 +1152,7 @@ const docTemplate = `{
                 "tags": [
                     "Feedback"
                 ],
-                "summary": "Dapatkan semua feedback atau feedback berdasarkan ID tertentu",
+                "summary": "Get All feedback",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1259,7 +1186,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Buat feedback baru dengan informasi yang diberikan",
+                "description": "Create New feedback",
                 "consumes": [
                     "application/json"
                 ],
@@ -1269,10 +1196,10 @@ const docTemplate = `{
                 "tags": [
                     "Feedback"
                 ],
-                "summary": "Buat feedback baru",
+                "summary": "Create New feedback",
                 "parameters": [
                     {
-                        "description": "Data Feedback yang ingin dibuat",
+                        "description": "Data for Create Feedback",
                         "name": "Input",
                         "in": "body",
                         "required": true,
@@ -1306,9 +1233,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/feedback/{id}": {
+        "/api/feedback/{slug}": {
             "get": {
-                "description": "Dapatkan feedback berdasarkan ID yang diberikan",
+                "description": "Get one feedback by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -1318,62 +1245,12 @@ const docTemplate = `{
                 "tags": [
                     "Feedback"
                 ],
-                "summary": "Dapatkan feedback berdasarkan ID",
+                "summary": "Get one feedback by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Feedback",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Hapus feedback berdasarkan ID yang diberikan",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Feedback"
-                ],
-                "summary": "Hapus feedback berdasarkan ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Feedback",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Feedback",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -1403,9 +1280,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/gallery": {
+        "/api/gallery": {
             "get": {
-                "description": "Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu",
+                "description": "Get All Gallery",
                 "consumes": [
                     "application/json"
                 ],
@@ -1415,7 +1292,7 @@ const docTemplate = `{
                 "tags": [
                     "Gallery"
                 ],
-                "summary": "Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu",
+                "summary": "Get All Gallery",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1454,7 +1331,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Buat data Gallery baru dengan informasi yang diberikan",
+                "description": "Create New Gallery",
                 "consumes": [
                     "application/json"
                 ],
@@ -1464,12 +1341,19 @@ const docTemplate = `{
                 "tags": [
                     "Gallery"
                 ],
-                "summary": "Buat data Gallery baru",
+                "summary": "Create New Gallery",
                 "parameters": [
                     {
                         "type": "file",
                         "description": "File gambar",
-                        "name": "File",
+                        "name": "File1",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "File gambar",
+                        "name": "File2",
                         "in": "formData",
                         "required": true
                     },
@@ -1506,9 +1390,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/gallery/{slug}": {
-            "get": {
-                "description": "Dapatkan satu data Gallery berdasarkan slug yang diberikan",
+        "/api/gallery/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Gallery by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -1518,10 +1407,57 @@ const docTemplate = `{
                 "tags": [
                     "Gallery"
                 ],
-                "summary": "Dapatkan satu data Gallery berdasarkan slug",
+                "summary": "Delete Gallery by id",
                 "parameters": [
                     {
                         "type": "integer",
+                        "description": "id Gallery",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/gallery/{slug}": {
+            "get": {
+                "description": "Get One Gallery by slug",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Gallery"
+                ],
+                "summary": "Get One Gallery by slug",
+                "parameters": [
+                    {
+                        "type": "string",
                         "description": "slug Gallery",
                         "name": "slug",
                         "in": "path",
@@ -1558,7 +1494,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update data Gallery berdasarkan Slug yang diberikan",
+                "description": "Update Gallery by Slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -1568,20 +1504,13 @@ const docTemplate = `{
                 "tags": [
                     "Gallery"
                 ],
-                "summary": "Update data Gallery berdasarkan Slug",
+                "summary": "Update Gallery by Slug",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "Slug Gallery",
                         "name": "slug",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "File gambar",
-                        "name": "file",
-                        "in": "formData",
                         "required": true
                     },
                     {
@@ -1615,59 +1544,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Hapus data Gallery berdasarkan Slug yang diberikan",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Gallery"
-                ],
-                "summary": "Hapus data Gallery berdasarkan Slug",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Slug Gallery",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
             }
         },
-        "/user/login": {
+        "/api/user/login": {
             "post": {
                 "description": "Log in an existing user using email and password",
                 "consumes": [
@@ -1723,7 +1602,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/register": {
+        "/api/user/register": {
             "post": {
                 "description": "Register a new user with the provided information",
                 "consumes": [
@@ -1786,7 +1665,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/{slug}": {
+        "/api/user/{slug}": {
             "put": {
                 "security": [
                     {
@@ -1806,7 +1685,7 @@ const docTemplate = `{
                 "summary": "Update user information",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "User Slug",
                         "name": "slug",
                         "in": "path",
@@ -1869,7 +1748,7 @@ const docTemplate = `{
                 "summary": "Delete user",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Slug User ID",
                         "name": "slug",
                         "in": "path",
@@ -1908,9 +1787,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/veganguide": {
+        "/api/veganguide": {
             "get": {
-                "description": "Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu",
+                "description": "Get All Veganguide",
                 "consumes": [
                     "application/json"
                 ],
@@ -1920,12 +1799,12 @@ const docTemplate = `{
                 "tags": [
                     "VeganGuide"
                 ],
-                "summary": "Dapatkan semua Veganguide atau Veganguide berdasarkan ID tertentu",
+                "summary": "Get All Veganguide",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Veganguide",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Veganguide",
+                        "name": "slug",
                         "in": "query"
                     }
                 ],
@@ -1959,7 +1838,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Buat data Veganguide baru dengan informasi yang diberikan",
+                "description": "Create New Veganguide",
                 "consumes": [
                     "application/json"
                 ],
@@ -1969,26 +1848,26 @@ const docTemplate = `{
                 "tags": [
                     "VeganGuide"
                 ],
-                "summary": "Buat data Veganguide baru",
+                "summary": "Create New Veganguide",
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "file",
+                        "description": "File",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Judul",
-                        "name": "judul",
+                        "name": "Judul",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Deskripsi",
-                        "name": "deskripsi",
+                        "name": "Deskripsi",
                         "in": "formData",
                         "required": true
                     },
@@ -2024,9 +1903,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/veganguide/{id}": {
+        "/api/veganguide/{slug}": {
             "get": {
-                "description": "Dapatkan Veganguide berdasarkan ID yang diberikan",
+                "description": "Get One Veganguide by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -2036,12 +1915,12 @@ const docTemplate = `{
                 "tags": [
                     "VeganGuide"
                 ],
-                "summary": "Dapatkan Veganguide berdasarkan ID",
+                "summary": "Get One Veganguide by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Veganguide",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Veganguide",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -2076,7 +1955,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update data Veganguide berdasarkan ID yang diberikan",
+                "description": "Update Veganguide by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -2086,40 +1965,40 @@ const docTemplate = `{
                 "tags": [
                     "VeganGuide"
                 ],
-                "summary": "Update data Veganguide berdasarkan ID",
+                "summary": "Update Veganguide by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Veganguide",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Veganguide",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "file",
                         "description": "File gambar",
-                        "name": "file",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Judul",
-                        "name": "judul",
+                        "name": "Judul",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Deskripsi",
-                        "name": "deskripsi",
+                        "name": "Deskripsi",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Body",
-                        "name": "body",
+                        "name": "Body",
                         "in": "formData"
                     }
                 ],
@@ -2153,7 +2032,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Hapus data Veganguide berdasarkan ID yang diberikan",
+                "description": "Delete Veganguide by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -2163,12 +2042,12 @@ const docTemplate = `{
                 "tags": [
                     "VeganGuide"
                 ],
-                "summary": "Hapus data Veganguide berdasarkan ID",
+                "summary": "Delete Veganguide by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Veganguide",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Veganguide",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -2198,9 +2077,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/workshop": {
+        "/api/workshop": {
             "get": {
-                "description": "Dapatkan semua workshop atau workshop berdasarkan ID tertentu",
+                "description": "Get All Workshop",
                 "consumes": [
                     "application/json"
                 ],
@@ -2210,7 +2089,7 @@ const docTemplate = `{
                 "tags": [
                     "Workshop"
                 ],
-                "summary": "Dapatkan semua workshop atau workshop berdasarkan ID tertentu",
+                "summary": "Get All Workshop",
                 "parameters": [
                     {
                         "type": "integer",
@@ -2249,7 +2128,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Buat workshop baru dengan informasi yang diberikan",
+                "description": "Create New Workshop",
                 "consumes": [
                     "application/json"
                 ],
@@ -2259,12 +2138,12 @@ const docTemplate = `{
                 "tags": [
                     "Workshop"
                 ],
-                "summary": "Buat workshop baru",
+                "summary": "Create New Workshop",
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "file",
+                        "description": "File",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
@@ -2277,8 +2156,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Desc",
-                        "name": "Desc",
+                        "description": "Description",
+                        "name": "Description",
                         "in": "formData",
                         "required": true
                     },
@@ -2329,9 +2208,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/workshop/{id}": {
+        "/api/workshop/{slug}": {
             "get": {
-                "description": "Dapatkan satu workshop berdasarkan ID yang diberikan",
+                "description": "Get One Workshop by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -2341,12 +2220,12 @@ const docTemplate = `{
                 "tags": [
                     "Workshop"
                 ],
-                "summary": "Dapatkan satu workshop berdasarkan ID",
+                "summary": "Get One Workshop by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Workshop",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Workshop",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }
@@ -2381,7 +2260,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Update workshop berdasarkan ID yang diberikan",
+                "description": "Update workshop by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -2391,46 +2270,46 @@ const docTemplate = `{
                 "tags": [
                     "Workshop"
                 ],
-                "summary": "Update workshop berdasarkan ID",
+                "summary": "Update workshop by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Workshop",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Workshop",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "file",
+                        "description": "File",
+                        "name": "File",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "title",
+                        "description": "Title",
                         "name": "Title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "desc",
-                        "name": "Desc",
+                        "description": "Description",
+                        "name": "Description",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "date",
+                        "description": "Date",
                         "name": "Date",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "url",
+                        "description": "Url",
                         "name": "Url",
                         "in": "formData",
                         "required": true
@@ -2473,7 +2352,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Hapus workshop berdasarkan ID yang diberikan",
+                "description": "Delete workshop by slug",
                 "consumes": [
                     "application/json"
                 ],
@@ -2483,12 +2362,12 @@ const docTemplate = `{
                 "tags": [
                     "Workshop"
                 ],
-                "summary": "Hapus workshop berdasarkan ID",
+                "summary": "Delete workshop by slug",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID Workshop",
-                        "name": "id",
+                        "type": "string",
+                        "description": "slug Workshop",
+                        "name": "slug",
                         "in": "path",
                         "required": true
                     }

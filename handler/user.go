@@ -29,7 +29,7 @@ func NewUserHandler(userService user.Service, authService auth.Service) *userHan
 // @Failure 409 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /user/register [post]
+// @Router /api/user/register [post]
 func (h *userHandler) RegisterUser(c *gin.Context) {
     var input user.RegisterUserInput
 
@@ -81,7 +81,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /user/login [post]
+// @Router /api/user/login [post]
 func (h *userHandler) Login(c *gin.Context) {
 	var input user.LoginInput
 
@@ -116,12 +116,12 @@ func (h *userHandler) Login(c *gin.Context) {
 // @Security BearerAuth
 // @Produce json
 // @Tags Users
-// @Param slug path int true "Slug User ID"
+// @Param slug path string true "Slug User ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /user/{slug} [delete]
+// @Router /api/user/{slug} [delete]
 func (h *userHandler) DeletedUser(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -143,13 +143,13 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Users
-// @Param slug path int true "User Slug"
+// @Param slug path string true "User Slug"
 // @Param body body user.UpdateUserInput true "User information for update"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /user/{slug} [put]
+// @Router /api/user/{slug} [put]
 func (h *userHandler) UpdateUser(c *gin.Context) {
 	param := c.Param("slug")
 	var input user.UpdateUserInput

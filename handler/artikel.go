@@ -25,12 +25,12 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 // @Produce json
 // @Tags Article
 // @Security BearerAuth
-// @Param slug path int true "Article By Slug"
+// @Param slug path string true "Article By Slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /article/{slug} [delete]
+// @Router /api/article/{slug} [delete]
 func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -56,7 +56,7 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /article/{slug} [get]
+// @Router /api/article/{slug} [get]
 func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -88,7 +88,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Produce json
 // @Tags Article
 // @Security BearerAuth
-// @Param slug path int true "Article by Slug"
+// @Param slug path string true "Article by Slug"
 // @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
 // @Param Topic formData string true "Topic"
@@ -97,7 +97,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /article/{slug} [put]
+// @Router /api/article/{slug} [put]
 func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 
 	var input artikel.CreateArtikel
@@ -140,7 +140,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /article [post]
+// @Router /api/article [post]
 func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	var input artikel.CreateArtikel
 
@@ -181,7 +181,7 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /article [get]
+// @Router /api/article [get]
 func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 

@@ -24,17 +24,17 @@ func NewEventHandler(eventService event.Service, endpointService endpointcount.S
 	return &eventHandler{eventService, endpointService}
 }
 
-// @Summary Hapus event berdasarkan ID
-// @Description Hapus event berdasarkan ID yang diberikan
+// @Summary Delete event by slug
+// @Description Delete event by slug 
 // @Accept json
 // @Produce json
 // @Tags Event
 // @Security BearerAuth
-// @Param id path int true "ID Event"
+// @Param slug path string true "slug Event"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /event/{id} [delete]
+// @Router /api/event/{slug} [delete]
 func (h *eventHandler) DeleteEvent(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -50,16 +50,16 @@ func (h *eventHandler) DeleteEvent(c *gin.Context) {
 
 }
 
-// @Summary Dapatkan satu event berdasarkan ID
-// @Description Dapatkan satu event berdasarkan ID yang diberikan
+// @Summary Get One Event 
+// @Description Get One Event by slug
 // @Accept json
 // @Produce json
 // @Tags Event
-// @Param id path int true "ID Event"
+// @Param slug path string true "slug event"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /event/{id} [get]
+// @Router /api/event/{slug} [get]
 func (h *eventHandler) GetOneEvent(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -86,20 +86,20 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 
 }
 
-// @Summary Update event berdasarkan ID
-// @Description Update event berdasarkan ID yang diberikan
+// @Summary Update event by slug
+// @Description Update event by slug 
 // @Accept json
 // @Produce json
 // @Tags Event
 // @Security BearerAuth
-// @Param id path int true "ID Event"
+// @Param slug path int true "slug event"
 // @Param File formData file true "File gambar"
 // @Param Judul formData string true "Judul"
 // @Param Message formData string true "Pesan Event"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /event/{id} [put]
+// @Router /api/event/{slug} [put]
 func (h *eventHandler) UpdateEvent(c *gin.Context) {
 	file, _ := c.FormFile("File")
 	src, err := file.Open()
@@ -156,8 +156,8 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 
 }
 
-// @Summary Buat event baru
-// @Description Buat event baru dengan informasi yang diberikan
+// @Summary Create New Event
+// @Description Create New Event 
 // @Accept json
 // @Produce json
 // @Tags Event
@@ -168,7 +168,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /event [post]
+// @Router /api/event [post]
 func (h *eventHandler) CreateEvent(c *gin.Context) {
 	file, _ := c.FormFile("File")
 	src, err := file.Open()
@@ -230,8 +230,8 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan semua event atau event berdasarkan ID tertentu
-// @Description Dapatkan semua event atau event berdasarkan ID tertentu
+// @Summary Get All Event
+// @Description Get All Event
 // @Accept json
 // @Produce json
 // @Tags Event
@@ -239,7 +239,7 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /event [get]
+// @Router /api/event [get]
 func (h *eventHandler) GetAllEvent(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 

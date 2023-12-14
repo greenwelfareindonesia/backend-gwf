@@ -24,8 +24,8 @@ func NewGalleryHandler(galleryService gallery.Service, endpointService endpointc
 	return &galleryHandler{galleryService, endpointService}
 }
 
-// @Summary Buat data Gallery baru
-// @Description Buat data Gallery baru dengan informasi yang diberikan
+// @Summary Create New Gallery 
+// @Description Create New Gallery 
 // @Accept json
 // @Produce json
 // @Tags Gallery
@@ -36,7 +36,7 @@ func NewGalleryHandler(galleryService gallery.Service, endpointService endpointc
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /gallery [post]
+// @Router /api/gallery [post]
 func (h *galleryHandler) CreateGallery(c *gin.Context) {
 	var imagesKitURLs []string
 
@@ -121,16 +121,16 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 		c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan satu data Gallery berdasarkan slug
-// @Description Dapatkan satu data Gallery berdasarkan slug yang diberikan
+// @Summary Get One Gallery by slug
+// @Description Get One Gallery by slug 
 // @Accept json
 // @Produce json
 // @Tags Gallery
-// @Param slug path int true "slug Gallery"
+// @Param slug path string true "slug Gallery"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /gallery/{slug} [get]
+// @Router /api/gallery/{slug} [get]
 func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -157,8 +157,8 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 
 }
 
-// @Summary Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu
-// @Description Dapatkan semua data Gallery atau Gallery berdasarkan ID tertentu
+// @Summary Get All Gallery 
+// @Description Get All Gallery 
 // @Accept json
 // @Produce json
 // @Tags Gallery
@@ -166,7 +166,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /gallery [get]
+// @Router /api/gallery [get]
 func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -189,8 +189,8 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Update data Gallery berdasarkan Slug
-// @Description Update data Gallery berdasarkan Slug yang diberikan
+// @Summary Update Gallery by Slug
+// @Description Update Gallery by Slug 
 // @Accept json
 // @Produce json
 // @Tags Gallery
@@ -200,7 +200,7 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /gallery/{slug} [put]
+// @Router /api/gallery/{slug} [put]
 func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 
 	param := c.Param("slug")
@@ -228,17 +228,17 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Hapus data Gallery berdasarkan Slug
-// @Description Hapus data Gallery berdasarkan Slug yang diberikan
+// @Summary Delete Gallery by id
+// @Description Delete Gallery by id 
 // @Accept json
 // @Produce json
 // @Tags Gallery
 // @Security BearerAuth
-// @Param slug path int true "Slug Gallery"
+// @Param id path int true "id Gallery"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /gallery/{slug} [delete]
+// @Router /api/gallery/{id} [delete]
 func (h *galleryHandler) DeleteGallery(c *gin.Context) {
 	param := c.Param("id")
 	conv, _ := strconv.Atoi(param)

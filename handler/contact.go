@@ -26,7 +26,7 @@ func NewContactHandler(contactService contact.Service) *contactHandler {
 // @Param requestBody body contact.ContactSubmissionInput true "Contact form input"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
-// @Router /contact [post]
+// @Router /api/contact [post]
 func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 	var input contact.ContactSubmissionInput
 	
@@ -67,7 +67,7 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 // @Tags Contact
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
-// @Router /contact [get]
+// @Router /api/contact [get]
 func (h *contactHandler) GetContactSubmissionsHandler(c *gin.Context) {
 	contact_submissions, err := h.contactService.GetAllContactSubmission()
 	if err != nil {
@@ -80,15 +80,15 @@ func (h *contactHandler) GetContactSubmissionsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Get Contact Submission by ID
-// @Description Get a contact form submission by ID
+// @Summary Get Contact Submission by slug
+// @Description Get a contact form submission by slug
 // @Accept json
 // @Produce json
 // @Tags Contact
-// @Param id path int true "Contact Submission ID"
+// @Param slug path string true "Contact Submission slug"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
-// @Router /contact/{slug} [get]
+// @Router /api/contact/{slug} [get]
 func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -103,16 +103,16 @@ func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Delete Contact Submission by ID
-// @Description Delete a contact form submission by ID
+// @Summary Delete Contact Submission by slug
+// @Description Delete a contact form submission by slug
 // @Accept json
 // @Produce json
 // @Tags Contact
-// @Param id path int true "Contact Submission ID"
+// @Param slug path string true "Contact Submission slug"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /contact/{slug} [delete]
+// @Router /api/contact/{slug} [delete]
 func (h *contactHandler) DeleteContactSubmissionHandler(c *gin.Context) {
 	param := c.Param("slug")
 

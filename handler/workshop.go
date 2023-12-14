@@ -24,13 +24,13 @@ func NewWorkshopHandler(workshopService workshop.Service, endpointService endpoi
 	return &workshopHandler{workshopService, endpointService}
 }
 
-// @Summary Buat workshop baru
-// @Description Buat workshop baru dengan informasi yang diberikan
+// @Summary Create New Workshop
+// @Description Create New Workshop
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Tags Workshop
-// @Param File formData file true "File gambar"
+// @Param File formData file true "File"
 // @Param Title formData string true "Title"
 // @Param Description formData string true "Description"
 // @Param Date formData string true "Date"
@@ -39,7 +39,7 @@ func NewWorkshopHandler(workshopService workshop.Service, endpointService endpoi
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /workshop [post]
+// @Router /api/workshop [post]
 func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 	file, _ := c.FormFile("File")
 	src, err := file.Open()
@@ -101,16 +101,16 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan satu workshop berdasarkan slug
-// @Description Dapatkan satu workshop berdasarkan slug yang diberikan
+// @Summary Get One Workshop by slug 
+// @Description Get One Workshop by slug 
 // @Accept json
 // @Produce json
 // @Tags Workshop
-// @Param slug path int true "slug Workshop"
+// @Param slug path string true "slug Workshop"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /workshop/{slug} [get]
+// @Router /api/workshop/{slug} [get]
 func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -146,8 +146,8 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 
 }
 
-// @Summary Dapatkan semua workshop atau workshop berdasarkan ID tertentu
-// @Description Dapatkan semua workshop atau workshop berdasarkan ID tertentu
+// @Summary Get All Workshop
+// @Description Get All Workshop
 // @Accept json
 // @Produce json
 // @Tags Workshop
@@ -155,7 +155,7 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /workshop [get]
+// @Router /api/workshop [get]
 func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -178,23 +178,23 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Update workshop berdasarkan ID
-// @Description Update workshop berdasarkan ID yang diberikan
+// @Summary Update workshop by slug
+// @Description Update workshop by slug 
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Tags Workshop
-// @Param id path int true "ID Workshop"
-// @Param File formData file true "File gambar"
-// @Param Title formData string true "title"
+// @Param slug path string true "slug Workshop"
+// @Param File formData file true "File"
+// @Param Title formData string true "Title"
 // @Param Description formData string true "Description"
-// @Param Date formData string true "date"
-// @Param Url formData string true "url"
+// @Param Date formData string true "Date"
+// @Param Url formData string true "Url"
 // @Param IsOpen formData boolean true "IsOpen"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /workshop/{id} [put]
+// @Router /api/workshop/{slug} [put]
 func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 	file, _ := c.FormFile("File")
 	src, err := file.Open()
@@ -258,17 +258,17 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Hapus workshop berdasarkan slug
-// @Description Hapus workshop berdasarkan slug yang diberikan
+// @Summary Delete workshop by slug
+// @Description Delete workshop by slug
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Tags Workshop
-// @Param slug path int true "slug Workshop"
+// @Param slug path string true "slug Workshop"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /workshop/{slug} [delete]
+// @Router /api/workshop/{slug} [delete]
 func (h *workshopHandler) DeleteWorkshop(c *gin.Context) {
 	param := c.Param("slug")
 

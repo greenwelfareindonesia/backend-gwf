@@ -19,17 +19,17 @@ func NewFeedbackHandler(feedbackService feedback.Service) *feedbackHandler {
 	return &feedbackHandler{feedbackService}
 }
 
-// @Summary Hapus feedback berdasarkan slug
-// @Description Hapus feedback berdasarkan slug yang diberikan
+// @Summary Delete feedback slug
+// @Description Delete feedback slug 
 // @Accept json
 // @Produce json
 // @Tags Feedback
 // @Security BearerAuth
-// @Param slug path int true "slug Feedback"
+// @Param slug path string true "slug Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /feedback/{slug} [delete]
+// @Router /api/feedback/{slug} [delete]
 
 func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 	param := c.Param("slug")
@@ -47,16 +47,16 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 
 }
 
-// @Summary Dapatkan feedback berdasarkan slug
-// @Description Dapatkan feedback berdasarkan slug yang diberikan
+// @Summary Get one feedback by slug
+// @Description Get one feedback by slug 
 // @Accept json
 // @Produce json
 // @Tags Feedback
-// @Param slug path int true "slug Feedback"
+// @Param slug path string true "slug Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /feedback/{slug} [get]
+// @Router /api/feedback/{slug} [get]
 func (h *feedbackHandler) GetFeedbackBySlug(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -71,8 +71,8 @@ func (h *feedbackHandler) GetFeedbackBySlug(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan semua feedback atau feedback berdasarkan ID tertentu
-// @Description Dapatkan semua feedback atau feedback berdasarkan ID tertentu
+// @Summary Get All feedback 
+// @Description Get All feedback 
 // @Accept json
 // @Produce json
 // @Tags Feedback
@@ -80,7 +80,7 @@ func (h *feedbackHandler) GetFeedbackBySlug(c *gin.Context) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /feedback [get]
+// @Router /api/feedback [get]
 func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -95,16 +95,16 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Buat feedback baru
-// @Description Buat feedback baru dengan informasi yang diberikan
+// @Summary Create New feedback 
+// @Description Create New feedback 
 // @Accept json
 // @Produce json
 // @Tags Feedback
-// @Param Input body feedback.FeedbackInput true "Data Feedback yang ingin dibuat"
+// @Param Input body feedback.FeedbackInput true "Data for Create Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
-// @Router /feedback [post]
+// @Router /api/feedback [post]
 func (h *feedbackHandler) PostFeedbackHandler(c *gin.Context) {
 	var feedbackInput feedback.FeedbackInput
 

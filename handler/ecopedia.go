@@ -25,8 +25,8 @@ func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpoi
 }
 
 
-// @Summary Hapus data Ecopedia berdasarkan id
-// @Description Hapus data Ecopedia berdasarkan id yang diberikan
+// @Summary Delete Ecopedia by id
+// @Description Delete Ecopedia by id
 // @Accept json
 // @Produce json
 // @Tags Ecopedia
@@ -36,7 +36,7 @@ func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpoi
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia/{id} [delete]
+// @Router /api/ecopedia/{id} [delete]
 func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
 	var inputID ecopedia.EcopediaID
 
@@ -58,17 +58,17 @@ func (h *ecopediaHandler) DeleteEcopedia (c *gin.Context){
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Dapatkan data Ecopedia berdasarkan slug
-// @Description Dapatkan data Ecopedia berdasarkan slug yang diberikan
+// @Summary Get One Ecopedia by slug
+// @Description Get One Ecopedia by slug
 // @Accept json
 // @Produce json
 // @Tags Ecopedia
-// @Param slug path int true "Ecopedia slug"
+// @Param slug path string true "Ecopedia slug"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia/{slug} [get]
+// @Router /api/ecopedia/{slug} [get]
 func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 	param := c.Param("slug")
 
@@ -94,8 +94,8 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 
 }
 
-// @Summary Dapatkan semua data Ecopedia
-// @Description Dapatkan semua data Ecopedia dengan opsi ID sebagai parameter query opsional
+// @Summary Get All Ecopedia
+// @Description Get All Ecopedia 
 // @Accept json
 // @Produce json
 // @Tags Ecopedia
@@ -104,7 +104,7 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia [get]
+// @Router /api/ecopedia [get]
 func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 	input, _ := strconv.Atoi(c.Query("id"))
 
@@ -128,13 +128,13 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Update data Ecopedia
-// @Description Update data Ecopedia berdasarkan IslugD yang diberikan dengan informasi yang diberikan
+// @Summary Update Ecopedia
+// @Description Update Ecopedia by slug
 // @Accept multipart/form-data
 // @Security BearerAuth
 // @Produce json
 // @Tags Ecopedia
-// @Param slug path int true "Ecopedia Slug"
+// @Param slug path string true "Ecopedia Slug"
 // @Param Title formData string true "Title"
 // @Param SubTitle formData string true "SubTitle"
 // @Param Description formData string true "Description"
@@ -144,7 +144,7 @@ func (h *ecopediaHandler) GetAllEcopedia (c *gin.Context){
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia/{slug} [put]
+// @Router /api/ecopedia/{slug} [put]
 func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 	var input ecopedia.EcopediaInput
 
@@ -179,8 +179,8 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 
 }
 
-// @Summary Buat data Ecopedia baru
-// @Description Buat data Ecopedia baru dengan informasi yang diberikan
+// @Summary Create New Ecopedia 
+// @Description Create New Ecopedia
 // @Accept multipart/form-data
 // @Security BearerAuth
 // @Produce json
@@ -196,7 +196,7 @@ func (h *ecopediaHandler) UpdateEcopedia (c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /ecopedia [post]
+// @Router /api/ecopedia [post]
 func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 	var imagesKitURLs []string
 
