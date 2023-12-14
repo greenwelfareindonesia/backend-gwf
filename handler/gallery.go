@@ -152,7 +152,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, (newDel))
+	response := helper.APIresponse(http.StatusOK, gallery.PostFormatterGallery(newDel))
 	c.JSON(http.StatusOK, response)
 
 }

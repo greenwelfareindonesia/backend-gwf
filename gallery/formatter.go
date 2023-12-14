@@ -7,6 +7,7 @@ import (
 type GalleryFormatter struct {
 	ID    int    `json:"ID"`
 	Alt   string `json:"Alt"`
+	Slug string `json:"Slug"`
 	GalleryImages     []string `json:"FileNames"`     
 	CreatedAt time.Time `json:"CreatedAt"`
 	UpdatedAt time.Time `json:"UpdatedAt"`
@@ -15,11 +16,16 @@ type GalleryFormatter struct {
 func PostFormatterGallery(gallery Gallery) GalleryFormatter {
 	formatter := GalleryFormatter{
 		ID:    gallery.ID,
+		Slug: gallery.Slug,
 		Alt:   gallery.Alt,
-		GalleryImages: make([]string,len(gallery.FileName)),
 		CreatedAt: gallery.CreatedAt,
 		UpdatedAt: gallery.UpdatedAt,
 	}
+
+	for _, fileName := range gallery.FileName {
+		formatter.GalleryImages = append(formatter.GalleryImages, fileName.FileName)
+	}
+
 	return formatter
 }
 
