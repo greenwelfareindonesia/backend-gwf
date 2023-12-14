@@ -27,7 +27,7 @@ func NewRepository(db *gorm.DB) *repository {
 func (r *repository) FindBySlug(slug string) (Gallery, error) {
 	var gallery Gallery
 
-	err := r.db.Where("slug = ?", slug).Find(&gallery).Error
+	err := r.db.Where("slug = ?", slug).Preload("FileName").Find(&gallery).Error
 
 	if err != nil {
 		return gallery, err
@@ -60,7 +60,7 @@ func (r *repository) CreateImage(gallery GalleryImages) (error) {
 func (r *repository) FindAll() ([]Gallery, error) {
 	var gallery []Gallery
 
-	err := r.db.Find(&gallery).Error
+	err := r.db.Preload("FileName").Find(&gallery).Error
 
 	if err != nil {
 		return gallery, err
