@@ -44,7 +44,7 @@ func (s *service) CreateGallery(input InputGallery) (Gallery, error) {
 
 	// addGalleryImage.Image = fileLocation
 	var seededRand *rand.Rand = rand.New(
-		rand.NewSource(time.Now().UnixNano()))
+	rand.NewSource(time.Now().UnixNano()))
 	addGalleryImage.Alt = input.Alt
 
 	slugTitle := strings.ToLower(input.Alt)

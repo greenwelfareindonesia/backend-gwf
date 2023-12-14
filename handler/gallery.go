@@ -84,36 +84,38 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
         imagesKitURLs = append(imagesKitURLs, imageKitURL)
 		}
 
-		var input gallery.InputGallery
+		var ecopediaInput gallery.InputGallery
 
-		err := c.ShouldBindJSON(&input)
+		err := c.ShouldBind(&ecopediaInput)
 
 		if err != nil {
-			
-			response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+			errors := helper.FormatValidationError(err)
+			errorMessage := gin.H{"errors": errors}
+			response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
 			c.JSON(http.StatusUnprocessableEntity, response)
 			return
 		}
 
 		// Create a new news item with the provided input
-		newNews, err := h.galleryService.CreateGallery(input)
+		newNews, err := h.galleryService.CreateGallery(ecopediaInput)
+		fmt.Println(newNews)
 		if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
+			response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+			c.JSON(http.StatusUnprocessableEntity, response)
+			return
 		}
-		
+
 		// Associate the uploaded images with the news item
 		for _, imageURL := range imagesKitURLs {
-		// Create a new BeritaImage record for each image and associate it with the news item
-		err := h.galleryService.CreateImageGallery(newNews.ID, imageURL)
-		if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
+			// Create a new BeritaImage record for each image and associate it with the news item
+			err := h.galleryService.CreateImageGallery(newNews.ID, imageURL)
+			if err != nil {
+				response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+				c.JSON(http.StatusUnprocessableEntity, response)
+				return
+			}
 		}
-	}
-		
+
 		data := gin.H{"is_uploaded": true}
 		response := helper.APIresponse(http.StatusOK, data)
 		c.JSON(http.StatusOK, response)
