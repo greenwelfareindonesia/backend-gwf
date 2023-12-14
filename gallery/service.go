@@ -45,7 +45,6 @@ func (s *service) CreateGallery(input InputGallery) (Gallery, error) {
 	// addGalleryImage.Image = fileLocation
 	var seededRand *rand.Rand = rand.New(
 		rand.NewSource(time.Now().UnixNano()))
-		
 	addGalleryImage.Alt = input.Alt
 
 	slugTitle := strings.ToLower(input.Alt)
@@ -56,7 +55,6 @@ func (s *service) CreateGallery(input InputGallery) (Gallery, error) {
 
 	addGalleryImage.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
 
-	addGalleryImage.Alt = input.Alt
 	//addGalleryImage.Likes = input.Likes
 
 	newGalleryImage, err := s.repository.Create(addGalleryImage)

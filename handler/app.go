@@ -105,7 +105,7 @@ func StartApp() {
 	artikelService := artikel.NewService(artikelRepository)
 	artikelHandler := NewArtikelHandler(artikelService, statisticsService)
 	//--//
-	art := router.Group("/artikel")
+	art := router.Group("/article")
 	art.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.CreateArtikel)
 	art.GET("/", artikelHandler.GetAllArtikel)
 	art.GET("/:slug", artikelHandler.GetOneArtikel)

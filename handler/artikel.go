@@ -19,18 +19,18 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 	return &artikelHandler{artikelService, endpointService}
 }
 
-// @Summary Menghapus artikel by slug
-// @Description Menghapus artikel by slug
+// @Summary Delete article by slug
+// @Description Delete article by slug
 // @Accept json
 // @Produce json
-// @Tags Artikel
+// @Tags Article
 // @Security BearerAuth
-// @Param slug path int true "Artikel ID"
+// @Param slug path int true "Article By Slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /artikel/{slug} [delete]
+// @Router /article/{slug} [delete]
 func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -46,17 +46,17 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 
 }
 
-// @Summary Mendapatkan satu artikel by slug
-// @Description Mendapatkan satu artikel by slug
+// @Summary Get one article by slug
+// @Description get one article by slug
 // @Accept json
 // @Produce json
-// @Tags Artikel
-// @Param slug path string true "Artikel by slug"
+// @Tags Article
+// @Param slug path string true "Article by slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /artikel/{slug} [get]
+// @Router /article/{slug} [get]
 func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 	param := c.Param("slug")
 
@@ -82,23 +82,22 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 
 }
 
-// @Summary Memperbarui artikel
-// @Description Memperbarui artikel dengan informasi yang diberikan
+// @Summary update article
+// @Description update article 
 // @Accept multipart/form-data
 // @Produce json
-// @Tags Artikel
+// @Tags Article
 // @Security BearerAuth
-// @Param slug path int true "Artikel slug"
-// @Param File formData file true "File gambar"
-// @Param FullName formData string true "Nama lengkap"
+// @Param slug path int true "Article by Slug"
+// @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
-// @Param Topic formData string true "Topik"
-// @Param Message formData string true "Pesan artikel"
+// @Param Topic formData string true "Topic"
+// @Param Message formData string true "Message"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /artikel/{slug} [put]
+// @Router /article/{slug} [put]
 func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 
 	var input artikel.CreateArtikel
@@ -126,22 +125,22 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Menambahkan artikel baru
-// @Description Menambahkan entri artikel baru
+// @Summary Create new article 
+// @Description Create new article
 // @Accept multipart/form-data
 // @Produce json
-// @Tags Artikel
+// @Tags Article
 // @Security BearerAuth
-// @Param File formData file true "File gambar"
-// @Param FullName formData string true "Nama lengkap"
+// @Param File formData file true "File"
+// @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
-// @Param Topic formData string true "Topik"
-// @Param Message formData string true "Pesan artikel"
+// @Param Topic formData string true "Topic"
+// @Param Message formData string true "Message"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /artikel [post]
+// @Router /article [post]
 func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	var input artikel.CreateArtikel
 
@@ -172,17 +171,17 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Mendapatkan semua artikel
-// @Description Mendapatkan semua artikel
+// @Summary get all article
+// @Description get all article
 // @Accept json
 // @Produce json
-// @Tags Artikel
+// @Tags Article
 // @Param id query int false "ID"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
-// @Router /artikel [get]
+// @Router /article [get]
 func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 	input, _ := strconv.Atoi(c.Query("id"))
 
