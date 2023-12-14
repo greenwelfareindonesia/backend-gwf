@@ -9,6 +9,11 @@
     "paths": {
         "/api/article": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "get all article",
                 "consumes": [
                     "application/json"
@@ -52,11 +57,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "Create new article",
                 "consumes": [
                     "multipart/form-data"
@@ -132,6 +132,11 @@
         },
         "/api/article/{slug}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "get one article by slug",
                 "consumes": [
                     "application/json"
@@ -264,6 +269,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete article by slug",
                 "consumes": [
                     "application/json"
@@ -318,6 +328,11 @@
         },
         "/api/contact": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get all contact form submissions",
                 "consumes": [
                     "application/json"
@@ -389,6 +404,11 @@
         },
         "/api/contact/{slug}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get a contact form submission by slug",
                 "consumes": [
                     "application/json"
@@ -427,6 +447,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a contact form submission by slug",
                 "consumes": [
                     "application/json"
@@ -1093,6 +1118,11 @@
         },
         "/api/feedback": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get All feedback",
                 "consumes": [
                     "application/json"
@@ -1178,6 +1208,11 @@
         },
         "/api/feedback/{slug}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get one feedback by slug",
                 "consumes": [
                     "application/json"

@@ -90,6 +90,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: get all article
       tags:
       - Article
@@ -141,8 +143,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: Create new article
       tags:
       - Article
@@ -180,6 +180,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete article by slug
       tags:
       - Article
@@ -216,6 +218,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get one article by slug
       tags:
       - Article
@@ -293,6 +297,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get All Contact Submissions
       tags:
       - Contact
@@ -352,6 +358,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete Contact Submission by slug
       tags:
       - Contact
@@ -378,6 +386,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get Contact Submission by slug
       tags:
       - Contact
@@ -824,6 +834,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get All feedback
       tags:
       - Feedback
@@ -888,6 +900,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get one feedback by slug
       tags:
       - Feedback

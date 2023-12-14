@@ -65,6 +65,7 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Contact
+// @Security BearerAuth
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Router /api/contact [get]
@@ -85,6 +86,7 @@ func (h *contactHandler) GetContactSubmissionsHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Contact
+// @Security BearerAuth
 // @Param slug path string true "Contact Submission slug"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -108,6 +110,7 @@ func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Contact
+// @Security BearerAuth
 // @Param slug path string true "Contact Submission slug"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}

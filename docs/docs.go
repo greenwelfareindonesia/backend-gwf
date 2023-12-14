@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/api/article": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "get all article",
                 "consumes": [
                     "application/json"
@@ -60,11 +65,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "Create new article",
                 "consumes": [
                     "multipart/form-data"
@@ -140,6 +140,11 @@ const docTemplate = `{
         },
         "/api/article/{slug}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "get one article by slug",
                 "consumes": [
                     "application/json"
@@ -272,6 +277,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete article by slug",
                 "consumes": [
                     "application/json"
@@ -326,6 +336,11 @@ const docTemplate = `{
         },
         "/api/contact": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get all contact form submissions",
                 "consumes": [
                     "application/json"
@@ -397,6 +412,11 @@ const docTemplate = `{
         },
         "/api/contact/{slug}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get a contact form submission by slug",
                 "consumes": [
                     "application/json"
@@ -435,6 +455,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a contact form submission by slug",
                 "consumes": [
                     "application/json"
@@ -1101,6 +1126,11 @@ const docTemplate = `{
         },
         "/api/feedback": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get All feedback",
                 "consumes": [
                     "application/json"
@@ -1186,6 +1216,11 @@ const docTemplate = `{
         },
         "/api/feedback/{slug}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get one feedback by slug",
                 "consumes": [
                     "application/json"

@@ -52,6 +52,7 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Feedback
+// @Security BearerAuth
 // @Param slug path string true "slug Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -76,6 +77,7 @@ func (h *feedbackHandler) GetFeedbackBySlug(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Feedback
+// @Security BearerAuth
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

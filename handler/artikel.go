@@ -24,6 +24,7 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 // @Accept json
 // @Produce json
 // @Tags Article
+// @Security BearerAuth
 // @Param slug path string true "Article By Slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
@@ -50,6 +51,7 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Article
+// @Security BearerAuth
 // @Param slug path string true "Article by slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
@@ -128,7 +130,6 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 // @Accept multipart/form-data
 // @Produce json
 // @Tags Article
-// @Security BearerAuth
 // @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
 // @Param Topic formData string true "Topic"
@@ -173,6 +174,7 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Article
+// @Security BearerAuth
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}

@@ -64,8 +64,8 @@ func StartApp() {
 	//--//
 	con := router.Group("/api/contact")
 	con.POST("/", contactHandler.SubmitContactForm)
-	con.GET("/", contactHandler.GetContactSubmissionsHandler)
-	con.GET("/:slug", contactHandler.GetContactSubmissionHandler)
+	con.GET("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), contactHandler.GetContactSubmissionsHandler)
+	con.GET("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), contactHandler.GetContactSubmissionHandler)
 	con.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), contactHandler.DeleteContactSubmissionHandler)
 
 	// workshop
@@ -99,8 +99,8 @@ func StartApp() {
 	//--//
 	art := router.Group("/api/article")
 	art.POST("/", middleware.AuthMiddleware(authService, userService), artikelHandler.CreateArtikel)
-	art.GET("/", artikelHandler.GetAllArtikel)
-	art.GET("/:slug", artikelHandler.GetOneArtikel)
+	art.GET("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.GetAllArtikel)
+	art.GET("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.GetOneArtikel)
 	art.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.UpdateArtikel)
 	art.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.DeleteArtikel)
 
@@ -135,14 +135,15 @@ func StartApp() {
 	//--//
 	fee := router.Group("/api/feedback")
 	fee.POST("/", feedbackHandler.PostFeedbackHandler)
-	fee.GET("/", feedbackHandler.GetAllFeedback)
-	fee.GET("/:slug", feedbackHandler.GetFeedbackBySlug)
+	fee.GET("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.GetAllFeedback)
+	fee.GET("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.GetFeedbackBySlug)
 	// fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
 	fee.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
 
 	galleryRepository := gallery.NewRepository(db)
 	galleryService := gallery.NewService(galleryRepository)
 	galleryHandler := NewGalleryHandler(galleryService, statisticsService)
+
 	gallerys := router.Group("/api/gallery")
 	gallerys.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.CreateGallery)
 	gallerys.GET("/", galleryHandler.GetAllGallery)
