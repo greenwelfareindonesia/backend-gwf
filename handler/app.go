@@ -23,7 +23,6 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-
 func StartApp() {
 	db, err := database.InitDb()
 	if err != nil {
