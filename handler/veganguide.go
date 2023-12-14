@@ -36,19 +36,9 @@ func NewVeganguideHandler(veganguideService veganguide.Service, endpointService 
 // @Failure 422 {object} map[string]interface{}
 // @Router /veganguide/{id} [delete]
 func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
-	var input veganguide.GetVeganguide
+	param := c.Param("slug")
 
-	err := c.ShouldBindUri(&input)
-
-	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	_, err = h.veganguideService.DeleteVeganguide(input.ID)
+	_, err := h.veganguideService.DeleteVeganguide(param)
 	if err != nil {
 
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
@@ -145,16 +135,16 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Tags VeganGuide
-// @Param file formData file true "File gambar"
-// @Param judul formData string true "Judul"
-// @Param deskripsi formData string true "Deskripsi"
+// @Param File formData file true "File gambar"
+// @Param Judul formData string true "Judul"
+// @Param Deskripsi formData string true "Deskripsi"
 // @Param body formData string false "Body"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /veganguide [post]
 func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
-	file, _ := c.FormFile("file")
+	file, _ := c.FormFile("File")
 	src, err := file.Open()
 	if err != nil {
 		fmt.Printf("error when open file %v", err)
@@ -220,16 +210,16 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 // @Security BearerAuth
 // @Tags VeganGuide
 // @Param id path int true "ID Veganguide"
-// @Param file formData file true "File gambar"
-// @Param judul formData string true "Judul"
-// @Param deskripsi formData string true "Deskripsi"
-// @Param body formData string false "Body"
+// @Param File formData file true "File gambar"
+// @Param Judul formData string true "Judul"
+// @Param Deskripsi formData string true "Deskripsi"
+// @Param Body formData string false "Body"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /veganguide/{id} [put]
 func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
-	file, _ := c.FormFile("file")
+	file, _ := c.FormFile("File")
 	src, err := file.Open()
 	if err != nil {
 		fmt.Printf("error when open file %v", err)

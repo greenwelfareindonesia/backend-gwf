@@ -13,7 +13,7 @@ type Service interface {
 	GetAllVeganguide(input int) ([]Veganguide, error)
 	GetOneVeganguide(slugs string) (Veganguide, error)
 	CreateVeganguide(veganguide VeganguideInput, FileName string) (Veganguide, error)
-	DeleteVeganguide(ID int) (Veganguide, error)
+	DeleteVeganguide(slug string) (Veganguide, error)
 	UpdateVeganguide(input VeganguideInput, slugs string, FileName string) (Veganguide, error)
 }
 
@@ -25,8 +25,8 @@ func NewService(repository Repository) *service {
 	return &service{repository}
 }
 
-func (s *service) DeleteVeganguide(ID int) (Veganguide, error) {
-	veganguides, err := s.repository.FindById(ID)
+func (s *service) DeleteVeganguide(slug string) (Veganguide, error) {
+	veganguides, err := s.repository.FindBySlug(slug)
 	if err != nil {
 		return veganguides, err
 	}
