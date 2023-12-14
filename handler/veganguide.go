@@ -100,7 +100,6 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags VeganGuide
-// @Param slug query string false "slug Veganguide"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

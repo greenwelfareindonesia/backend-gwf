@@ -99,7 +99,6 @@ func (h *ecopediaHandler) GetEcopediaByID (c *gin.Context){
 // @Accept json
 // @Produce json
 // @Tags Ecopedia
-// @Param id query int false "ID Ecopedia (opsional)"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

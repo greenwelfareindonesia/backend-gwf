@@ -1,11 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Sweager service API in Go using Gin framework",
-        "title": "Sweager Service API",
         "contact": {}
     },
-    "host": "backend-gwf-production.up.railway.app",
     "paths": {
         "/api/article": {
             "get": {
@@ -20,14 +17,6 @@
                     "Article"
                 ],
                 "summary": "get all article",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -510,14 +499,6 @@
                     "Ecopedia"
                 ],
                 "summary": "Get All Ecopedia",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Ecopedia (opsional)",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -867,14 +848,6 @@
                     "Event"
                 ],
                 "summary": "Get All Event",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Event",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1145,14 +1118,6 @@
                     "Feedback"
                 ],
                 "summary": "Get All feedback",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Feedback",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1285,14 +1250,6 @@
                     "Gallery"
                 ],
                 "summary": "Get All Gallery",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Gallery",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1792,14 +1749,6 @@
                     "VeganGuide"
                 ],
                 "summary": "Get All Veganguide",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "slug Veganguide",
-                        "name": "slug",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2082,14 +2031,6 @@
                     "Workshop"
                 ],
                 "summary": "Get All Workshop",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Workshop",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2475,13 +2416,6 @@
                     "type": "string"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }

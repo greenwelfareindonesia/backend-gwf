@@ -56,22 +56,14 @@ definitions:
       Username:
         type: string
     type: object
-host: backend-gwf-production.up.railway.app
 info:
   contact: {}
-  description: Sweager service API in Go using Gin framework
-  title: Sweager Service API
 paths:
   /api/article:
     get:
       consumes:
       - application/json
       description: get all article
-      parameters:
-      - description: ID
-        in: query
-        name: id
-        type: integer
       produces:
       - application/json
       responses:
@@ -400,11 +392,6 @@ paths:
       consumes:
       - application/json
       description: Get All Ecopedia
-      parameters:
-      - description: ID Ecopedia (opsional)
-        in: query
-        name: id
-        type: integer
       produces:
       - application/json
       responses:
@@ -643,11 +630,6 @@ paths:
       consumes:
       - application/json
       description: Get All Event
-      parameters:
-      - description: ID Event
-        in: query
-        name: id
-        type: integer
       produces:
       - application/json
       responses:
@@ -830,11 +812,6 @@ paths:
       consumes:
       - application/json
       description: Get All feedback
-      parameters:
-      - description: ID Feedback
-        in: query
-        name: id
-        type: integer
       produces:
       - application/json
       responses:
@@ -925,11 +902,6 @@ paths:
       consumes:
       - application/json
       description: Get All Gallery
-      parameters:
-      - description: ID Gallery
-        in: query
-        name: id
-        type: integer
       produces:
       - application/json
       responses:
@@ -1265,11 +1237,6 @@ paths:
       consumes:
       - application/json
       description: Get All Veganguide
-      parameters:
-      - description: slug Veganguide
-        in: query
-        name: slug
-        type: string
       produces:
       - application/json
       responses:
@@ -1460,11 +1427,6 @@ paths:
       consumes:
       - application/json
       description: Get All Workshop
-      parameters:
-      - description: ID Workshop
-        in: query
-        name: id
-        type: integer
       produces:
       - application/json
       responses:
@@ -1672,9 +1634,4 @@ paths:
       summary: Update workshop by slug
       tags:
       - Workshop
-securityDefinitions:
-  BearerAuth:
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

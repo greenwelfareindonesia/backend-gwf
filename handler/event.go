@@ -235,7 +235,6 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Event
-// @Param id query int false "ID Event"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

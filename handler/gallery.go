@@ -162,7 +162,6 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Gallery
-// @Param id query int false "ID Gallery"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

@@ -28,14 +28,6 @@ const docTemplate = `{
                     "Article"
                 ],
                 "summary": "get all article",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -518,14 +510,6 @@ const docTemplate = `{
                     "Ecopedia"
                 ],
                 "summary": "Get All Ecopedia",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Ecopedia (opsional)",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -875,14 +859,6 @@ const docTemplate = `{
                     "Event"
                 ],
                 "summary": "Get All Event",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Event",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1153,14 +1129,6 @@ const docTemplate = `{
                     "Feedback"
                 ],
                 "summary": "Get All feedback",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Feedback",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1293,14 +1261,6 @@ const docTemplate = `{
                     "Gallery"
                 ],
                 "summary": "Get All Gallery",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Gallery",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1800,14 +1760,6 @@ const docTemplate = `{
                     "VeganGuide"
                 ],
                 "summary": "Get All Veganguide",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "slug Veganguide",
-                        "name": "slug",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2090,14 +2042,6 @@ const docTemplate = `{
                     "Workshop"
                 ],
                 "summary": "Get All Workshop",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID Workshop",
-                        "name": "id",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2484,24 +2428,17 @@ const docTemplate = `{
                 }
             }
         }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
-	Host:             "backend-gwf-production.up.railway.app",
+	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Sweager Service API",
-	Description:      "Sweager service API in Go using Gin framework",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

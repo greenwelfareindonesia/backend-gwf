@@ -176,7 +176,6 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Article
-// @Param id query int false "ID"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
