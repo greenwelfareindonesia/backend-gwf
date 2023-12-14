@@ -12,6 +12,7 @@ type Repository interface {
 	FindById(ID int) (Gallery, error)
 	FindBySlug(slug string) (Gallery, error)
 	CreateImage(gallery GalleryImages) (error)
+	DeleteImages(galleryID int) error
 	Update(gallery Gallery) (Gallery, error)
 	Delete(gallery Gallery) (Gallery, error)
 }
@@ -23,6 +24,16 @@ type repository struct {
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
+
+func (r *repository) DeleteImages(galleryID int) error {
+    err := r.db.Where("gallery_id = ?", galleryID).Delete(&GalleryImages{}).Error
+    if err != nil {
+        return err
+    }
+
+    return nil
+}
+
 
 func (r *repository) FindBySlug(slug string) (Gallery, error) {
 	var gallery Gallery

@@ -15,7 +15,7 @@ type Service interface {
 	GetAllGallery(input int) ([]Gallery, error)
 	GetOneGallery(slug string) (Gallery, error)
 	UpdateGallery(slug string, input InputGallery) (Gallery, error)
-	DeleteGallery(slug string) (Gallery, error)
+	DeleteGallery(ID int) (Gallery, error)
 }
 
 type service struct {
@@ -113,8 +113,13 @@ func (s *service) UpdateGallery(slugs string, input InputGallery) (Gallery, erro
 	return newGalleryImage, nil
 }
 
-func (s *service) DeleteGallery(slug string) (Gallery, error) {
-	galleryImage, err := s.repository.FindBySlug(slug)
+func (s *service) DeleteGallery(ID int) (Gallery, error) {
+	galleryImage, err := s.repository.FindById(ID)
+	if err != nil {
+		return galleryImage, err
+	}
+
+	err = s.repository.DeleteImages(galleryImage.ID)
 	if err != nil {
 		return galleryImage, err
 	}

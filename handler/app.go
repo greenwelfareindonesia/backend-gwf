@@ -156,7 +156,7 @@ func StartApp() {
 	gallerys.GET("/", galleryHandler.GetAllGallery)
 	gallerys.GET("/:slug", galleryHandler.GetOneGallery)
 	gallerys.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.UpdateGallery)
-	gallerys.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.DeleteGallery)
+	gallerys.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.DeleteGallery)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)

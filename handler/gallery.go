@@ -240,9 +240,10 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 // @Failure 422 {object} map[string]interface{}
 // @Router /gallery/{slug} [delete]
 func (h *galleryHandler) DeleteGallery(c *gin.Context) {
-	param := c.Param("slug")
+	param := c.Param("id")
+	conv, _ := strconv.Atoi(param)
 
-	_, err := h.galleryService.DeleteGallery(param)
+	_, err := h.galleryService.DeleteGallery(conv)
 	if err != nil {
 		
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
