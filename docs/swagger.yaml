@@ -98,11 +98,6 @@ paths:
       - multipart/form-data
       description: Create new article
       parameters:
-      - description: File
-        in: formData
-        name: File
-        required: true
-        type: file
       - description: FullName
         in: formData
         name: FullName
@@ -185,8 +180,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: Delete article by slug
       tags:
       - Article
@@ -279,8 +272,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: update article
       tags:
       - Article

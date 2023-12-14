@@ -78,13 +78,6 @@ const docTemplate = `{
                 "summary": "Create new article",
                 "parameters": [
                     {
-                        "type": "file",
-                        "description": "File",
-                        "name": "File",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
                         "type": "string",
                         "description": "FullName",
                         "name": "FullName",
@@ -199,11 +192,6 @@ const docTemplate = `{
                 }
             },
             "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "update article",
                 "consumes": [
                     "multipart/form-data"
@@ -284,11 +272,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "Delete article by slug",
                 "consumes": [
                     "application/json"

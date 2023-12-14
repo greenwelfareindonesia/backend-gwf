@@ -24,7 +24,6 @@ func NewArtikelHandler(artikelService artikel.Service, endpointService endpointc
 // @Accept json
 // @Produce json
 // @Tags Article
-// @Security BearerAuth
 // @Param slug path string true "Article By Slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
@@ -87,7 +86,6 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Accept multipart/form-data
 // @Produce json
 // @Tags Article
-// @Security BearerAuth
 // @Param slug path string true "Article by Slug"
 // @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
@@ -131,7 +129,6 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 // @Produce json
 // @Tags Article
 // @Security BearerAuth
-// @Param File formData file true "File"
 // @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
 // @Param Topic formData string true "Topic"
