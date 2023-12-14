@@ -12,7 +12,7 @@ type Ecopedia struct {
 	Description string
 	SrcFile string
 	Reference string
-	FileName       []EcopediaImage `gorm:"foreignKey:EcopediaID"`
+	FileName  []EcopediaImage `gorm:"foreignKey:EcopediaID"`
 	CreatedAt time.Time
     UpdatedAt time.Time 
 }
@@ -20,7 +20,7 @@ type Ecopedia struct {
 type EcopediaImage struct {
 	ID        int      `gorm:"primaryKey"`
     FileName  string    
-	EcopediaID  int      
+	EcopediaID int      
 	CreatedAt time.Time 
     UpdatedAt time.Time 
 }

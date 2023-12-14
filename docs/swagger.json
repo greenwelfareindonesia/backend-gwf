@@ -1,8 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
+        "description": "Sweager service API in Go using Gin framework",
+        "title": "Sweager Service API",
         "contact": {}
     },
+    "host": "backend-gwf-production.up.railway.app",
     "paths": {
         "/api/article": {
             "get": {
@@ -2416,6 +2419,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }
