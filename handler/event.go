@@ -92,7 +92,7 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 // @Produce json
 // @Tags Event
 // @Security BearerAuth
-// @Param slug path int true "slug event"
+// @Param slug path string true "slug event"
 // @Param File formData file true "File gambar"
 // @Param Judul formData string true "Judul"
 // @Param Message formData string true "Pesan Event"
