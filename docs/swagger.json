@@ -189,6 +189,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "update article",
                 "consumes": [
                     "multipart/form-data"
@@ -1013,7 +1018,7 @@
                 "summary": "Update event by slug",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "slug event",
                         "name": "slug",
                         "in": "path",

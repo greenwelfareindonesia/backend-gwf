@@ -197,6 +197,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "update article",
                 "consumes": [
                     "multipart/form-data"
@@ -1021,7 +1026,7 @@ const docTemplate = `{
                 "summary": "Update event by slug",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "slug event",
                         "name": "slug",
                         "in": "path",

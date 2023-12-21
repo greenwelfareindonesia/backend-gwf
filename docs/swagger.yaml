@@ -276,6 +276,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: update article
       tags:
       - Article
@@ -772,7 +774,7 @@ paths:
         in: path
         name: slug
         required: true
-        type: integer
+        type: string
       - description: File gambar
         in: formData
         name: File

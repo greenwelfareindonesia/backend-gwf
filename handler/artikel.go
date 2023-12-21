@@ -88,6 +88,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Accept multipart/form-data
 // @Produce json
 // @Tags Article
+// @Security BearerAuth
 // @Param slug path string true "Article by Slug"
 // @Param FullName formData string true "FullName"
 // @Param Email formData string true "Email"
