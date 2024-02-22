@@ -33,7 +33,7 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	user := User{}
 
 	var seededRand *rand.Rand = rand.New(
-	rand.NewSource(time.Now().UnixNano()))
+		rand.NewSource(time.Now().UnixNano()))
 
 	slugTitle := strings.ToLower(input.Username)
 
@@ -137,13 +137,13 @@ func (s *service) UpdateUser(slugs string, input UpdateUserInput) (User, error) 
 	oldSlug := user.Slug
 
 	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
-    slugTitle := strings.ToLower(input.Username)
-    mySlug := slug.Make(slugTitle)
-    randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
-    user.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
+	slugTitle := strings.ToLower(input.Username)
+	mySlug := slug.Make(slugTitle)
+	randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+	user.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
 
-    // Ubah nilai slug kembali ke nilai slug lama untuk mencegah perubahan slug dalam database
-    user.Slug = oldSlug
+	// Ubah nilai slug kembali ke nilai slug lama untuk mencegah perubahan slug dalam database
+	user.Slug = oldSlug
 
 	user.Username = input.Username
 	user.Email = input.Email

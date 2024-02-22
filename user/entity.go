@@ -6,11 +6,11 @@ import (
 
 type User struct {
 	ID        int
-	Slug string
+	Slug      string
 	Username  string
 	Email     string
 	Password  string
-	Role int
+	Role      int
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

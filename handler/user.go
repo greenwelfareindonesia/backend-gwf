@@ -174,3 +174,6 @@ func (h *userHandler) UpdateUser(c *gin.Context) {
 	response := helper.APIresponse(http.StatusOK, user)
 	c.JSON(http.StatusOK, response)
 }
+
+
+//create folder

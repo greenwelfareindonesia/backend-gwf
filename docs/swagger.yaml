@@ -56,7 +56,7 @@ definitions:
       Username:
         type: string
     type: object
-host: backend-gwf-production.up.railway.app
+host: localhost:8080/
 info:
   contact: {}
   description: Sweager service API in Go using Gin framework
