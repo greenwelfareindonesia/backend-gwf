@@ -11,11 +11,11 @@ import (
 )
 
 type artikelHandler struct {
-	artikelService artikel.Service
+	artikelService  artikel.Service
 	endpointService endpointcount.StatisticsService
 }
 
-func NewArtikelHandler(artikelService artikel.Service, endpointService endpointcount.StatisticsService	) *artikelHandler {
+func NewArtikelHandler(artikelService artikel.Service, endpointService endpointcount.StatisticsService) *artikelHandler {
 	return &artikelHandler{artikelService, endpointService}
 }
 
@@ -72,11 +72,11 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 	userAgent := c.GetHeader("User-Agent")
 
 	err = h.endpointService.IncrementCount("GetByIDArtikel /Artikel/GetByIDArtikel", userAgent)
-    if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+	if err != nil {
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
-    }
+	}
 
 	response := helper.APIresponse(http.StatusOK, newDel)
 	c.JSON(http.StatusOK, response)
@@ -84,7 +84,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 }
 
 // @Summary update article
-// @Description update article 
+// @Description update article
 // @Accept multipart/form-data
 // @Produce json
 // @Tags Article
@@ -99,7 +99,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Success 422 {object} map[string]interface{}
 // @Success 500 {object} map[string]interface{}
 // @Router /api/article/{slug} [put]
-func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
+func (h *artikelHandler) UpdateArtikel(c *gin.Context) {
 
 	var input artikel.CreateArtikel
 
@@ -116,7 +116,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 
 	artikels, err := h.artikelService.UpdateArtikel(input, param)
 	if err != nil {
-		
+
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
@@ -126,7 +126,7 @@ func (h *artikelHandler) UpdateArtikel (c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// @Summary Create new article 
+// @Summary Create new article
 // @Description Create new article
 // @Accept multipart/form-data
 // @Produce json
@@ -194,11 +194,11 @@ func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 	userAgent := c.GetHeader("User-Agent")
 
 	err = h.endpointService.IncrementCount("GetAllArtikel /Artikel/GetAllArtikel", userAgent)
-    if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+	if err != nil {
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
-    }
+	}
 
 	response := helper.APIresponse(http.StatusOK, newBerita)
 	c.JSON(http.StatusOK, response)
