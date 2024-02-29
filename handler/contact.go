@@ -29,21 +29,20 @@ func NewContactHandler(contactService contact.Service) *contactHandler {
 // @Router /api/contact [post]
 func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 	var input contact.ContactSubmissionInput
-	
 
 	err := c.ShouldBindJSON(&input)
 	// fmt.Println(err)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	newContactSubmission, err := h.contactService.SubmitContactSubmission(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -51,12 +50,12 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 	// emailBody := "Terima kasih atas pesan Anda. Kami akan segera menghubungi Anda."
 	err = email.SendEmail("raihanalfarisi2@gmail.com", input.Subject, input.Name, input.Email, input.Message)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	
-	response := helper.APIresponse(http.StatusOK, newContactSubmission)
+
+	response := helper.SuccessfulResponse1(newContactSubmission)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -72,12 +71,12 @@ func (h *contactHandler) SubmitContactForm(c *gin.Context) {
 func (h *contactHandler) GetContactSubmissionsHandler(c *gin.Context) {
 	contact_submissions, err := h.contactService.GetAllContactSubmission()
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), contact_submissions)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, contact_submissions)
+	response := helper.SuccessfulResponse1(contact_submissions)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -96,12 +95,12 @@ func (h *contactHandler) GetContactSubmissionHandler(c *gin.Context) {
 
 	contact_submission, err := h.contactService.GetContactSubmissionById(param)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, contact_submission)
+	response := helper.SuccessfulResponse1(contact_submission)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -121,11 +120,11 @@ func (h *contactHandler) DeleteContactSubmissionHandler(c *gin.Context) {
 
 	_, err := h.contactService.DeleteContactSubmission(param)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, "Contact submission deleted")
+	response := helper.SuccessfulResponse1("Contact submission deleted")
 	c.JSON(http.StatusOK, response)
 }

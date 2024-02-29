@@ -40,12 +40,12 @@ func (h *eventHandler) DeleteEvent(c *gin.Context) {
 
 	_, err := h.eventService.DeleteEvent(param)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, "event has succesfuly deleted")
+	response := helper.SuccessfulResponse1("event has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 
 }
@@ -66,7 +66,7 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 	newDel, err := h.eventService.GetOneEvent(param)
 	if err != nil {
 		
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newDel)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -81,7 +81,7 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 		return
     }
 
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.SuccessfulResponse1(newDel)
 	c.JSON(http.StatusOK, response)
 
 }
@@ -135,9 +135,9 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 	var input event.CreateEvents
 	err = c.ShouldBind(&input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -151,7 +151,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 	}
 
 
-	response := helper.APIresponse(http.StatusOK, event.UpdatedFormatterEvent(events))
+	response := helper.SuccessfulResponse1(event.UpdatedFormatterEvent(events))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -204,9 +204,9 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 	err = c.ShouldBind(&input)
 
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -226,7 +226,7 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.APIresponse(http.StatusOK, event.PostFormatterEvent(data))
+	response := helper.SuccessfulResponse1(event.PostFormatterEvent(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -244,7 +244,7 @@ func (h *eventHandler) GetAllEvent(c *gin.Context) {
 
 	newBerita, err := h.eventService.GetAllEvent(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newBerita)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -258,6 +258,6 @@ func (h *eventHandler) GetAllEvent(c *gin.Context) {
 		return
     }
 
-	response := helper.APIresponse(http.StatusOK, newBerita)
+	response := helper.SuccessfulResponse1(newBerita)
 	c.JSON(http.StatusOK, response)
 }

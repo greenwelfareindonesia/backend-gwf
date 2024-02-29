@@ -4,16 +4,16 @@ import "time"
 
 type EcopediaFormatter struct {
 	ID int `json:"ID"`
-	Title     string `json:"Title"`
-	Slug string `json:"Slug"`
-	SubTitle  string `json:"SubTitle"`
-	Description string `json:"Description"`
-	SrcFile string `json:"SrcFile"`
-	Reference string `json:"Reference"`
-	FileName []string `json:"FileNames"`
-	// Comment []string `json:"Comment"`
-	CreatedAt time.Time `json:"CreatedAt"`
-    UpdatedAt time.Time `json:"UpdatedAt"`
+	Title     string `json:"title"`
+	Slug string `json:"slug"`
+	SubTitle  string `json:"subTitle"`
+	Description string `json:"description"`
+	SrcFile string `json:"srcFile"`
+	Reference string `json:"reference"`
+	FileName []string `json:"fileNames"`
+	// Comment []string `json:"comment"`
+	CreatedAt time.Time `json:"createdAt"`
+    UpdatedAt time.Time `json:"updatedAt"`
 	// Like []string `json:"like"`
 }
 
