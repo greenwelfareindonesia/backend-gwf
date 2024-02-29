@@ -4,13 +4,13 @@ import "time"
 
 type CreateArtikelFormatter struct {
 	ID             int `json:"ID"`
-	Slug           string `json:"Slug"`
-	FullName       string    `json:"FullName"`
-	Email string `json:"Email"`
-	Topic string `json:"Topic"`
-	ArticleMessage string    `json:"ArticleMessage"`
-	CreatedAt      time.Time `json:"CreatedAt"`
-	UpdatedAt      time.Time `json:"UpdatedAt"`
+	Slug           string `json:"slug"`
+	FullName       string    `json:"fullName"`
+	Email string `json:"email"`
+	Topic string `json:"topic"`
+	ArticleMessage string    `json:"articleMessage"`
+	CreatedAt      time.Time `json:"createdAt"`
+	UpdatedAt      time.Time `json:"updatedAt"`
 }
 
 func PostArticleFormat(artikel Artikel) CreateArtikelFormatter {

@@ -3,13 +3,13 @@ package contact
 import "time"
 
 type ContactFormatter struct {
-	ID        int       `json:"Id"`
-	Name      string    `json:"Name"`
-	Slug      string    `json:"Slug"`
-	Email     string    `json:"Email"`
-	Subject   string    `json:"Subject"`
-	Message   string    `json:"Message"`
-	CreatedAt time.Time `json:"CreatedAt"`
+	ID int `json:"ID"`
+	Name string `json:"name"`
+	Slug string `json:"slug"`
+	Email string `json:"email"`
+	Subject string `json:"subject"`
+	Message string `json:"message"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 func FormatterContact(contact_submission Contact) ContactFormatter {

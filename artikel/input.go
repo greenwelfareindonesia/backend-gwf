@@ -1,10 +1,10 @@
 package artikel
 
 type CreateArtikel struct {
-	FullName       string `form:"FullName" binding:"required"`
-	Email          string `form:"Email" binding:"required"`
-	Topic          string `form:"Topic" binding:"required"`
-	ArticleMessage string `form:"ArticleMessage" binding:"required"`
+	FullName       string `form:"fullName" binding:"required"`
+	Email          string `form:"email" binding:"required"`
+	Topic          string `form:"topic" binding:"required"`
+	ArticleMessage string `form:"articleMessage" binding:"required"`
 }
 
 type GetArtikel struct {
