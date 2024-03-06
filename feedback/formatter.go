@@ -4,10 +4,10 @@ import "time"
 
 type FeedbackFormatter struct {
 	ID        int       `json:"ID"`
-	Slug      string    `json:"Slug"`
-	Email     string    `json:"Email"`
-	Text      string    `json:"Text"`
-	CreatedAt time.Time `json:"CreatedAt"`
+	Slug      string    `json:"slug"`
+	Email     string    `json:"email"`
+	Text      string    `json:"text"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 func PostFormatterFeedback(feedback_submission Feedback) FeedbackFormatter {

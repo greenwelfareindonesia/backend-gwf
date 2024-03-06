@@ -41,11 +41,11 @@ func (h *veganguideHandler) DeleteVeganguide(c *gin.Context) {
 	_, err := h.veganguideService.DeleteVeganguide(param)
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.APIresponse(http.StatusOK, "veganguide has succesfuly deleted")
+	response := helper.SuccessfulResponse1("veganguide has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }
 
@@ -67,16 +67,16 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 	data, err := h.veganguideService.GetOneVeganguide(param)
 
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), data)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -90,7 +90,7 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, (data))
+	response := helper.SuccessfulResponse1((data))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -110,7 +110,7 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 	data, err := h.veganguideService.GetAllVeganguide(input)
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), data)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -124,7 +124,7 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, (data))
+	response := helper.SuccessfulResponse1((data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -176,9 +176,9 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 
 	err = c.ShouldBind(&input)
 	if err != nil {
-		errorMessages := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errorMessages}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errorMessages := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errorMessages}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -198,7 +198,7 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 	}
 
 	
-	response := helper.APIresponse(http.StatusOK, veganguide.PostFormatterWorkshop(data))
+	response := helper.SuccessfulResponse1(veganguide.PostFormatterWorkshop(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -252,9 +252,9 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 	var input veganguide.VeganguideInput
 	err = c.ShouldBind(&input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -262,11 +262,11 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 	veganguides, err := h.veganguideService.UpdateVeganguide(input, param, imageKitURL)
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), veganguides)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, veganguide.UpdatedFormatterWorkshop(veganguides))
+	response := helper.SuccessfulResponse1(veganguide.UpdatedFormatterWorkshop(veganguides))
 	c.JSON(http.StatusOK, response)
 }

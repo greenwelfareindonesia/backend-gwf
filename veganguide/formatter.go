@@ -4,13 +4,13 @@ import "time"
 
 type VeganguideFormatter struct {
 	ID        int    `json:"ID"`
-	Slug      string `json:"Slug"`
-	Judul     string `json:"Title"`
-	Deskripsi string `json:"Description"`
-	Body      string `json:"Body"`
-	Gambar    string `json:"FileName"`
-	CreatedAt time.Time `json:"CreatedAt"`
-	UpdatedAt time.Time `json:"UpdatedAt"`
+	Slug      string `json:"slug"`
+	Judul     string `json:"title"`
+	Deskripsi string `json:"description"`
+	Body      string `json:"body"`
+	Gambar    string `json:"fileName"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 

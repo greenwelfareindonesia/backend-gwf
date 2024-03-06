@@ -75,16 +75,16 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 	err = c.ShouldBind(&input)
 
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -97,7 +97,7 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 		return
 	}
 	// data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, workshop.PostFormatterWorkshop(data))
+	response := helper.SuccessfulResponse1(workshop.PostFormatterWorkshop(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -116,9 +116,9 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 
 	err := c.ShouldBindUri(&param)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -126,7 +126,7 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 	newDel, err := h.workshopService.GetOneWorkshop(param)
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newDel)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -141,7 +141,7 @@ func (h *workshopHandler) GetOneWorkshop(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, (newDel))
+	response := helper.SuccessfulResponse1((newDel))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -160,7 +160,7 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 
 	newBerita, err := h.workshopService.GetAllWorkshop(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newBerita)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -173,7 +173,7 @@ func (h *workshopHandler) GetAllWorkshop(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, newBerita)
+	response := helper.SuccessfulResponse1(newBerita)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -227,9 +227,9 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 	param := c.Param("slug")
 	err = c.ShouldBindUri(&param)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -237,9 +237,9 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 	var input workshop.CreateWorkshop
 	err = c.ShouldBind(&input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -253,7 +253,7 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 	}
 
 	// data := gin.H{"is_updated": true}
-	response := helper.APIresponse(http.StatusOK, workshop.UpdateFormatterWorkshop(data))
+	response := helper.SuccessfulResponse1(workshop.UpdateFormatterWorkshop(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -273,9 +273,9 @@ func (h *workshopHandler) DeleteWorkshop(c *gin.Context) {
 
 	err := c.ShouldBindUri(&param)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -283,11 +283,11 @@ func (h *workshopHandler) DeleteWorkshop(c *gin.Context) {
 	_, err = h.workshopService.DeleteWorkshop(param)
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(),err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, "workshop has succesfuly deleted")
+	response := helper.SuccessfulResponse1("workshop has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }
