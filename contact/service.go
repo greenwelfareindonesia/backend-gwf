@@ -64,7 +64,7 @@ func (s *service) GetContactSubmissionById(slug string) (Contact, error) {
 	if err != nil {
 		return contact_submission, err
 	}
-	
+
 	return contact_submission, nil
 }
 

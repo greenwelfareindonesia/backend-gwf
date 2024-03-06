@@ -30,14 +30,14 @@ func AuthMiddleware(authService auth.Service, userService user.Service) gin.Hand
 		token, err := authService.ValidasiToken(tokenString)
 		fmt.Println(token, err)
 		if err != nil {
-			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			response := helper.FailedResponse1(http.StatusUnauthorized, err.Error(), token)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
 		claim, ok := token.Claims.(jwt.MapClaims)
 		fmt.Println(claim, ok)
 		if !ok || !token.Valid {
-			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			response := helper.FailedResponse1(http.StatusUnauthorized, err.Error(), claim)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
@@ -46,7 +46,7 @@ func AuthMiddleware(authService auth.Service, userService user.Service) gin.Hand
 		user, err := userService.GetUserByid(userID)
 		fmt.Println(user, err)
 		if err != nil {
-			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			response := helper.FailedResponse1(http.StatusUnauthorized, err.Error(), user)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
@@ -72,14 +72,14 @@ func AuthRole(authService auth.Service, userService user.Service) gin.HandlerFun
 		token, err := authService.ValidasiToken(tokenString)
 		// fmt.Println(token, err)
 		if err != nil {
-			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			response := helper.FailedResponse1(http.StatusUnauthorized, err.Error(), token)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
 		claim, ok := token.Claims.(jwt.MapClaims)
 		// fmt.Println(claim, ok)
 		if !ok || !token.Valid {
-			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			response := helper.FailedResponse1(http.StatusUnauthorized, err.Error(), claim)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
@@ -94,7 +94,7 @@ func AuthRole(authService auth.Service, userService user.Service) gin.HandlerFun
 		user, err := userService.GetUserByid(userID)
 		// fmt.Println(user, err)
 		if err != nil {
-			response := helper.APIresponse(http.StatusUnauthorized, nil)
+			response := helper.FailedResponse1(http.StatusUnauthorized, err.Error(), user)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}

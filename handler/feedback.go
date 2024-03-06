@@ -36,13 +36,13 @@ func (h *feedbackHandler) DeleteFeedback(c *gin.Context) {
 
 	_, err := h.feedbackService.DeleteFeedback(param)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
 	}
 
-	response := helper.APIresponse(http.StatusOK, "feedback has succesfuly deleted")
+	response := helper.SuccessfulResponse1("feedback has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 
 }
@@ -63,12 +63,12 @@ func (h *feedbackHandler) GetFeedbackBySlug(c *gin.Context) {
 
 	newDel, err := h.feedbackService.GetFeedbackBySlug(param)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newDel)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.SuccessfulResponse1(newDel)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -87,12 +87,11 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 
 	data, err := h.feedbackService.GetAllFeedback(input)
 	if err != nil {
-
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), data)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.APIresponse(http.StatusOK, data)
+	response := helper.SuccessfulResponse1(data)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -111,16 +110,16 @@ func (h *feedbackHandler) PostFeedbackHandler(c *gin.Context) {
 
 	err := c.ShouldBind(&feedbackInput)
 	if err != nil {
-		errorMessages := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errorMessages}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errorMessages := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errorMessages}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), feedbackInput)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	newFeedbackPost, err := h.feedbackService.CreateFeedback(feedbackInput)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, "nil")
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, "nil", newFeedbackPost)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -130,11 +129,11 @@ func (h *feedbackHandler) PostFeedbackHandler(c *gin.Context) {
 		// Handle kesalahan pengiriman email di sini.
 		// Mungkin menampilkan pesan kesalahan kepada pengguna atau mencatatnya.
 		fmt.Println("Error sending email:", err)
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, feedback.PostFormatterFeedback(newFeedbackPost))
+	response := helper.SuccessfulResponse1(feedback.PostFormatterFeedback(newFeedbackPost))
 	c.JSON(http.StatusOK, response)
 }

@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -20,10 +21,34 @@ func NewService() *jwtService {
 	return &jwtService{}
 }
 
+type Claims struct {
+	UserID int `json:"user_id"`
+	Role   int `json:"role"`
+	jwt.StandardClaims
+}
+
+// func (s *jwtService) GenerateToken(userID int, role int) (string, error) {
+// 	claim := jwt.MapClaims{}
+// 	claim["user_id"] = userID
+// 	claim["role"] = role
+// 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
+// 	signedToken, err := token.SignedString(SECRET_KEY)
+// 	if err != nil {
+// 		return signedToken, err
+// 	}
+// 	return signedToken, nil
+// }
+
 func (s *jwtService) GenerateToken(userID int, role int) (string, error) {
-	claim := jwt.MapClaims{}
-	claim["user_id"] = userID
-	claim["role"] = role
+	expirationTime := time.Now().Add(5 * time.Minute)
+	claim := &Claims{
+		UserID: userID,
+		Role:   role,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+	
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
 	signedToken, err := token.SignedString(SECRET_KEY)
 	if err != nil {

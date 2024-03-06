@@ -41,19 +41,19 @@ func (h *ecopediaHandler) DeleteEcopedia(c *gin.Context) {
 
 	err := c.ShouldBindUri(&inputID)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), inputID)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	_, err = h.ecopediaService.DeleteEcopedia(inputID.ID)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), inputID)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, "ecopedia has succesfuly deleted")
+	response := helper.SuccessfulResponse1("ecopedia has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }
 
@@ -74,7 +74,7 @@ func (h *ecopediaHandler) GetEcopediaByID(c *gin.Context) {
 	data, err := h.ecopediaService.GetEcopediaByID(param)
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -88,7 +88,7 @@ func (h *ecopediaHandler) GetEcopediaByID(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, ecopedia.GetOneEcopediaFormat(data))
+	response := helper.SuccessfulResponse1(ecopedia.GetOneEcopediaFormat(data))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -108,7 +108,7 @@ func (h *ecopediaHandler) GetAllEcopedia(c *gin.Context) {
 
 	data, err := h.ecopediaService.GetAllEcopedia(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -122,7 +122,7 @@ func (h *ecopediaHandler) GetAllEcopedia(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, ecopedia.FormatterGetAllEcopedia(data))
+	response := helper.SuccessfulResponse1(ecopedia.FormatterGetAllEcopedia(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -150,28 +150,22 @@ func (h *ecopediaHandler) UpdateEcopedia(c *gin.Context) {
 
 	err := c.ShouldBind(&input)
 	if err != nil {
-		errorMessages := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errorMessages}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errorMessages := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errorMessages}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-
-	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
+	
 	_, err = h.ecopediaService.UpdateEcopedia(param, input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	data := gin.H{"is_updated": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	response := helper.SuccessfulResponse1(data)
 	c.JSON(http.StatusOK, response)
 
 }
@@ -246,9 +240,9 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 	err := c.ShouldBind(&ecopediaInput)
 
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), ecopediaInput)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -257,7 +251,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 	newNews, err := h.ecopediaService.CreateEcopedia(ecopediaInput)
 	// fmt.Println(newNews)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newNews)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -274,7 +268,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 	}
 
 	data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	response := helper.SuccessfulResponse1(data)
 	c.JSON(http.StatusOK, response)
 
 }

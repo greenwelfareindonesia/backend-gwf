@@ -36,12 +36,12 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 
 	_, err := h.artikelService.DeleteArtikel(param)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, "article has successfully deleted")
+	response := helper.SuccessfulResponse1("article has successfully deleted")
 	c.JSON(http.StatusOK, response)
 
 }
@@ -63,7 +63,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 
 	newDel, err := h.artikelService.GetOneArtikel(param)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -78,7 +78,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, newDel)
+	response := helper.SuccessfulResponse1(newDel)
 	c.JSON(http.StatusOK, response)
 
 }
@@ -107,9 +107,9 @@ func (h *artikelHandler) UpdateArtikel(c *gin.Context) {
 
 	err := c.ShouldBind(&input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -117,12 +117,12 @@ func (h *artikelHandler) UpdateArtikel(c *gin.Context) {
 	artikels, err := h.artikelService.UpdateArtikel(input, param)
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), artikels)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, artikel.UpdatedArticleFormat(artikels))
+	response := helper.SuccessfulResponse1(artikel.UpdatedArticleFormat(artikels))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -146,15 +146,15 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 	err := c.ShouldBind(&input)
 
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -166,7 +166,7 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 		return
 	}
 	// data := gin.H{"is_uploaded": true}
-	response := helper.APIresponse(http.StatusOK, artikel.PostArticleFormat(data))
+	response := helper.SuccessfulResponse1(artikel.PostArticleFormat(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -186,7 +186,7 @@ func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 
 	newBerita, err := h.artikelService.GetAllArtikel(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -200,6 +200,6 @@ func (h *artikelHandler) GetAllArtikel(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, newBerita)
+	response := helper.SuccessfulResponse1(newBerita)
 	c.JSON(http.StatusOK, response)
 }
