@@ -1,11 +1,11 @@
 package workshop
 
 type CreateWorkshop struct {
-	Title  string `json:"Title" binding:"required"`
-	Description   string `json:"Description" binding:"required"`
-	Date   string `json:"Date" binding:"required"`
-	Url    string `json:"Url" binding:"required"`
-	IsOpen bool   `json:"IsOpen" binding:"required"`
+	Title  string `form:"Title" binding:"required"`
+	Description   string `form:"Description" binding:"required"`
+	Date   string `form:"Date" binding:"required"`
+	Url    string `form:"Url" binding:"required"`
+	IsOpen bool   `form:"IsOpen" binding:"required"`
 }
 
 

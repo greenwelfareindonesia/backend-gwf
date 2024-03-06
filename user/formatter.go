@@ -4,11 +4,11 @@ import "time"
 
 type UserFormatter struct {
 	ID        int       `json:"ID"`
-	Username  string    `json:"Name"`
-	Email     string    `json:"Email"`
-	Token     string    `json:"Token"`
-	CreatedAt time.Time `json:"CreatedAt"`
-	UpdatedAt time.Time `json:"UpdatedAt"`
+	Username  string    `json:"name"`
+	Email     string    `json:"email"`
+	Token     string    `json:"token"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func PostFormatterUser(user User, Token string) UserFormatter {

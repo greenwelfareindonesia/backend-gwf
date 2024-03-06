@@ -89,9 +89,9 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 		err := c.ShouldBind(&ecopediaInput)
 
 		if err != nil {
-			errors := helper.FormatValidationError(err)
-			errorMessage := gin.H{"errors": errors}
-			response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+			// errors := helper.FormatValidationError(err)
+			// errorMessage := gin.H{"errors": errors}
+			response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), ecopediaInput)
 			c.JSON(http.StatusUnprocessableEntity, response)
 			return
 		}
@@ -100,7 +100,7 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 		newNews, err := h.galleryService.CreateGallery(ecopediaInput)
 		fmt.Println(newNews)
 		if err != nil {
-			response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+			response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newNews)
 			c.JSON(http.StatusUnprocessableEntity, response)
 			return
 		}
@@ -117,7 +117,7 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 		}
 
 		data := gin.H{"is_uploaded": true}
-		response := helper.APIresponse(http.StatusOK, data)
+		response := helper.SuccessfulResponse1(data)
 		c.JSON(http.StatusOK, response)
 }
 
@@ -137,7 +137,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 	newDel, err := h.galleryService.GetOneGallery(param)
 	if err != nil {
 		
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
@@ -152,7 +152,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, gallery.PostFormatterGallery(newDel))
+	response := helper.SuccessfulResponse1(gallery.PostFormatterGallery(newDel))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -171,7 +171,7 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 
 	newGalleryImage, err := h.galleryService.GetAllGallery(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), input)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -184,7 +184,7 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, gallery.FormatterGetAllGallery(newGalleryImage))
+	response := helper.SuccessfulResponse1(gallery.FormatterGetAllGallery(newGalleryImage))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -207,9 +207,9 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 	var input gallery.InputGallery
 	err := c.ShouldBind(&input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -217,13 +217,13 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 	_, err = h.galleryService.UpdateGallery(param, input)
 	if err != nil {
 		
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	data := gin.H{"is_updated": true}
-	response := helper.APIresponse(http.StatusOK, data)
+	response := helper.SuccessfulResponse1(data)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -245,11 +245,11 @@ func (h *galleryHandler) DeleteGallery(c *gin.Context) {
 	_, err := h.galleryService.DeleteGallery(conv)
 	if err != nil {
 		
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 
 	}
-	response := helper.APIresponse(http.StatusOK, "gallery has succesfuly deleted")
+	response := helper.SuccessfulResponse1("gallery has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }
