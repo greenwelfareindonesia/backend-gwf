@@ -6,11 +6,11 @@ import (
 
 type GalleryFormatter struct {
 	ID    int    `json:"ID"`
-	Alt   string `json:"Alt"`
-	Slug string `json:"Slug"`
-	GalleryImages     []string `json:"FileNames"`     
-	CreatedAt time.Time `json:"CreatedAt"`
-	UpdatedAt time.Time `json:"UpdatedAt"`
+	Alt   string `json:"alt"`
+	Slug string `json:"slug"`
+	GalleryImages     []string `json:"fileNames"`     
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func PostFormatterGallery(gallery Gallery) GalleryFormatter {

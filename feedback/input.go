@@ -1,8 +1,8 @@
 package feedback
 
 type FeedbackInput struct {
-	Email string `json:"Email" binding:"required"`
-	Text  string `json:"Text" binding:"required"`
+	Email string `json:"email" binding:"required"`
+	Text  string `json:"text" binding:"required"`
 }
 
 type FeedbackID struct {

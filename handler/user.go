@@ -86,27 +86,27 @@ func (h *userHandler) Login(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	loggedinUser, err := h.userService.Login(input)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), loggedinUser)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 	token, err := h.authService.GenerateToken(loggedinUser.ID, loggedinUser.Role)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), token)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 	formatter := user.PostFormatterUser(loggedinUser, token)
-	response := helper.APIresponse(http.StatusOK, formatter)
+	response := helper.SuccessfulResponse1(formatter)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -126,13 +126,13 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 
 	_, err := h.userService.DeleteUser(param)
 	if err != nil {
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	// formatter := user.FormatterUser(newDel, "nil")
-	response := helper.APIresponse(http.StatusOK, "Account has succesfuly deleted")
+	response := helper.SuccessfulResponse1("Account has succesfuly deleted")
 	c.JSON(http.StatusOK, response)
 }
 
@@ -150,14 +150,15 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/user/{slug} [put]
 func (h *userHandler) UpdateUser(c *gin.Context) {
-	param := c.Param("slug")
 	var input user.UpdateUserInput
+
+	param := c.Param("slug")
 
 	err := c.ShouldBind(&input)
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-		errorMessage := gin.H{"errors": errors}
-		response := helper.APIresponse(http.StatusUnprocessableEntity, errorMessage)
+		// errors := helper.FormatValidationError(err)
+		// errorMessage := gin.H{"errors": errors}
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -165,12 +166,12 @@ func (h *userHandler) UpdateUser(c *gin.Context) {
 	user, err := h.userService.UpdateUser(param, input)
 	if err != nil {
 
-		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), user)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	response := helper.APIresponse(http.StatusOK, user)
+	response := helper.SuccessfulResponse1(user)
 	c.JSON(http.StatusOK, response)
 }
 
