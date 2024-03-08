@@ -2,16 +2,19 @@ package payment
 
 import (
 	"fmt"
-	orders "greenwelfare/order"
+	"greenwelfare/order"
+	"strconv"
 )
 
 type SubmitPaymentRequest struct {
-	OrderID string
-	Amount  int64
-	Dest    string
+	OrderID      string
+	Amount       int64
+	BankTransfer string
+	PaymentType  string
 }
 
 type Response struct {
+	Status string
 }
 
 type CompletePaymentRequest struct {
@@ -33,10 +36,10 @@ type Service interface {
 
 type service struct {
 	gw    Gateway
-	order orders.RepositoryOrder
+	order order.RepositoryOrder
 }
 
-func NewService(repo orders.RepositoryOrder, gateway Gateway) Service {
+func NewService(repo order.RepositoryOrder, gateway Gateway) Service {
 	return &service{
 		gw:    gateway,
 		order: repo,
@@ -44,27 +47,36 @@ func NewService(repo orders.RepositoryOrder, gateway Gateway) Service {
 }
 
 func (s *service) DoPayment(req *SubmitPaymentRequest) error {
-	or, err := s.order.FindById()
+	orderIDConv, _ := strconv.Atoi(req.OrderID)
+
+	findOrderID, err := s.order.FindById(orderIDConv)
 	if err != nil {
 		return err
 	}
 
-	or.Status = "PROCESSING"
-	s.order.Update(or)
+	findOrderID.Status = "PROCESSING"
+	req.OrderID = strconv.Itoa(findOrderID.ID)
+	req.Amount = int64(findOrderID.TotalPrice)
+	// req.BankTransfer =
 
-	resp, err := s.gw.SubmitPayment(nil)
+	_, err = s.order.Update(findOrderID)
+	if err != nil {
+		return err
+	}
+
+	resp, err := s.gw.SubmitPayment(req)
 	if err != nil {
 		return err
 	}
 
 	if resp.Status != "SUCCESS" {
-		or.Status == "FAILED"
-		s.order.Update(or)
+		findOrderID.Status = "FAILED"
+		s.order.Update(findOrderID)
 		return fmt.Errorf("failed to do payment")
 	}
 
-	or.Status = "PENDING"
-	s.order.Update(or)
+	findOrderID.Status = "PENDING"
+	s.order.Update(findOrderID)
 
 	return nil
 }

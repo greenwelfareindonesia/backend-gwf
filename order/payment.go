@@ -1,4 +1,4 @@
-package transactions
+package order
 
 func (s *serviceOrder) Pay(req *PaymentRequest) (*PaymentResponse, error) {
 

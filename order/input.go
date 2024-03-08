@@ -1,4 +1,4 @@
-package transactions
+package order
 
 type OrderInput struct {
 	Quantity int `json:"quantity" binding:"required"`

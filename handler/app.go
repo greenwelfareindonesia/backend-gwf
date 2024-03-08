@@ -13,6 +13,7 @@ import (
 	"greenwelfare/gallery"
 	"greenwelfare/infrastructure/midtrans"
 	"greenwelfare/middleware"
+	"greenwelfare/order"
 	"greenwelfare/payment"
 	"greenwelfare/user"
 	"greenwelfare/veganguide"
@@ -46,12 +47,18 @@ func StartApp() {
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 	userHandler := NewUserHandler(userService, authService)
+
 	gateway, err := midtrans.NewMidtransGateway(&midtrans.Config{ServerKey: "SB-Mid-server-BFlMmv-cbMM4bZnM7r_glYYe"})
 	if err != nil {
 		panic(err)
 	}
 
-	payment.NewService(nil, gateway)
+	orderRepository := order.NewRepositoryOrder(db)
+
+	paymentService := payment.NewService(orderRepository, gateway)
+	paymentHandler := NewPaymentHandler(paymentService)
+
+	router.POST("/api/payment", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), paymentHandler.DoPayment)
 
 	statisticsRepository := endpointcount.NewStatisticsRepository(db)
 	// Inisialisasi service
