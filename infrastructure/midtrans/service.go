@@ -3,6 +3,7 @@ package midtrans
 import (
 	"fmt"
 	"github.com/midtrans/midtrans-go"
+	orders "greenwelfare/order"
 	"greenwelfare/payment"
 )
 import "github.com/midtrans/midtrans-go/coreapi"
@@ -17,6 +18,7 @@ var (
 
 type midtransGateway struct {
 	client *coreapi.Client
+	order  orders.RepositoryOrder
 }
 
 type Config struct {
@@ -33,10 +35,10 @@ func NewMidtransGateway(cfg *Config) (payment.Gateway, error) {
 
 // SubmitPayment call charge api
 func (m *midtransGateway) SubmitPayment(req *payment.SubmitPaymentRequest) (*payment.Response, error) {
-	chosenBank := ""
+	var chosenBank midtrans.Bank
 	for _, bank := range listOfBank {
 		if string(bank) == req.Dest {
-			chosenBank = req.Dest
+			chosenBank = bank
 		}
 	}
 
@@ -45,13 +47,13 @@ func (m *midtransGateway) SubmitPayment(req *payment.SubmitPaymentRequest) (*pay
 	}
 
 	resp, err := m.client.ChargeTransaction(&coreapi.ChargeReq{
-		PaymentType: "",
+		PaymentType: coreapi.PaymentTypeBankTransfer,
 		TransactionDetails: midtrans.TransactionDetails{
 			OrderID:  req.OrderID,
 			GrossAmt: req.Amount,
 		},
 		BankTransfer: &coreapi.BankTransferDetails{
-			Bank: midtrans.BankBca,
+			Bank: chosenBank,
 		},
 	})
 

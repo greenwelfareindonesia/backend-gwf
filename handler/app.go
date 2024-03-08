@@ -13,6 +13,7 @@ import (
 	"greenwelfare/gallery"
 	"greenwelfare/infrastructure/midtrans"
 	"greenwelfare/middleware"
+	"greenwelfare/payment"
 	"greenwelfare/user"
 	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
@@ -50,7 +51,7 @@ func StartApp() {
 		panic(err)
 	}
 
-	gateway.SubmitPayment()
+	payment.NewService(nil, gateway)
 
 	statisticsRepository := endpointcount.NewStatisticsRepository(db)
 	// Inisialisasi service
