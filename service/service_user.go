@@ -1,8 +1,11 @@
-package user
+package service
 
 import (
 	"errors"
 	"fmt"
+	"greenwelfare/dto"
+	"greenwelfare/entity"
+	"greenwelfare/repository"
 	"math/rand"
 	"strings"
 	"time"
@@ -11,26 +14,26 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type Service interface {
-	RegisterUser(input RegisterUserInput) (User, error)
-	Login(input LoginInput) (User, error)
+type ServiceUser interface {
+	RegisterUser(input dto.RegisterUserInput) (*entity.User, error)
+	Login(input dto.LoginInput) (*entity.User, error)
 	IsEmaillAvailabilty(input string) (bool, error)
-	GetUserByid(ID int) (User, error)
-	DeleteUser(slug string) (User, error)
+	GetUserByid(ID int) (*entity.User, error)
+	DeleteUser(slug string) (*entity.User, error)
 	// SaveAvatar(ID int, fileLocation string) (User, error)
-	UpdateUser(slugs string, input UpdateUserInput) (User, error)
+	UpdateUser(slugs string, input dto.UpdateUserInput) (*entity.User, error)
 }
 
-type service struct {
-	repository Repository
+type service_user struct {
+	repository repository.RepositoryUser
 }
 
-func NewService(repository Repository) *service {
-	return &service{repository}
+func NewServiceUser(repository repository.RepositoryUser) *service_user {
+	return &service_user{repository}
 }
 
-func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
-	user := User{}
+func (s *service_user) RegisterUser(input dto.RegisterUserInput) (*entity.User, error) {
+	user := &entity.User{}
 
 	var seededRand *rand.Rand = rand.New(
 		rand.NewSource(time.Now().UnixNano()))
@@ -60,7 +63,8 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	return newUser, nil
 }
 
-func (s *service) Login(input LoginInput) (User, error) {
+func (s *service_user) Login(input dto.LoginInput) (*entity.User, error) {
+
 	email := input.Email
 	password := input.Password
 
@@ -69,7 +73,7 @@ func (s *service) Login(input LoginInput) (User, error) {
 		return user, err
 	}
 	if user.ID == 0 {
-		return user, errors.New("User not found that email")
+		return user, errors.New("user not found that email")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
@@ -80,7 +84,7 @@ func (s *service) Login(input LoginInput) (User, error) {
 
 }
 
-func (s *service) DeleteUser(slug string) (User, error) {
+func (s *service_user) DeleteUser(slug string) (*entity.User, error) {
 	user, err := s.repository.FindBySlug(slug)
 	if err != nil {
 		return user, err
@@ -93,9 +97,9 @@ func (s *service) DeleteUser(slug string) (User, error) {
 	return userDel, nil
 }
 
-func (s *service) IsEmaillAvailabilty(input string) (bool, error) {
+func (s *service_user) IsEmaillAvailabilty(input string) (bool, error) {
 	//karena hanya email maka di inisiasi hanya email
-	emailUser := User{}
+	emailUser := &entity.User{}
 	emailUser.Email = input
 
 	//pengambilan algoritmanya repository yaitu findbyemail
@@ -113,7 +117,7 @@ func (s *service) IsEmaillAvailabilty(input string) (bool, error) {
 	return false, nil
 }
 
-func (s *service) GetUserByid(ID int) (User, error) {
+func (s *service_user) GetUserByid(ID int) (*entity.User, error) {
 	user, err := s.repository.FindById(ID)
 
 	if err != nil {
@@ -121,14 +125,14 @@ func (s *service) GetUserByid(ID int) (User, error) {
 	}
 
 	if user.ID == 0 {
-		return user, errors.New("User Not Found With That ID")
+		return user, errors.New("user Not Found With That ID")
 	}
 
 	return user, nil
 
 }
 
-func (s *service) UpdateUser(slugs string, input UpdateUserInput) (User, error) {
+func (s *service_user) UpdateUser(slugs string, input dto.UpdateUserInput) (*entity.User, error) {
 	user, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return user, err

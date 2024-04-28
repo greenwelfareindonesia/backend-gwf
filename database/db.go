@@ -6,10 +6,10 @@ import (
 	"greenwelfare/contact"
 	"greenwelfare/ecopedia"
 	endpointcount "greenwelfare/endpointCount"
+	"greenwelfare/entity"
 	"greenwelfare/event"
 	"greenwelfare/feedback"
 	"greenwelfare/gallery"
-	"greenwelfare/user"
 	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
 	"log"
@@ -43,7 +43,7 @@ func InitDb() (*gorm.DB, error) {
 	fmt.Println("Nilai dbHost:", dbHost)
 	fmt.Println("Nilai dbPort:", dbPort)
 	fmt.Println("Nilai dbName:", dbName)
-	fmt.Println("String Koneksi (DSN):", dsn)
+	// fmt.Println("String Koneksi (DSN):", dsn)
 
 	// dsn := "root:@tcp(127.0.0.1:3306)/mencoba?charset=utf8mb4&parseTime=True&loc=Local"
 	// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -65,7 +65,7 @@ func InitDb() (*gorm.DB, error) {
 	db.AutoMigrate(&gallery.Gallery{})
 	db.AutoMigrate(&gallery.GalleryImages{})
 	db.AutoMigrate(&ecopedia.EcopediaImage{})
-	db.AutoMigrate(&user.User{})
+	db.AutoMigrate(&entity.User{})
 
 	return db, nil
 

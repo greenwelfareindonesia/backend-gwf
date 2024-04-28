@@ -12,7 +12,8 @@ import (
 	"greenwelfare/feedback"
 	"greenwelfare/gallery"
 	"greenwelfare/middleware"
-	"greenwelfare/user"
+	"greenwelfare/repository"
+	"greenwelfare/service"
 	"greenwelfare/veganguide"
 	"greenwelfare/workshop"
 	"log"
@@ -40,8 +41,8 @@ func StartApp() {
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// user
-	userRepository := user.NewRepository(db)
-	userService := user.NewService(userRepository)
+	userRepository := repository.NewRepositoryUser(db)
+	userService := service.NewServiceUser(userRepository)
 	authService := auth.NewService()
 	userHandler := NewUserHandler(userService, authService)
 
