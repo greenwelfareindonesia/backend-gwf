@@ -3,8 +3,10 @@ package handler
 import (
 	"fmt"
 	"greenwelfare/email"
-	"greenwelfare/feedback"
 	"greenwelfare/helper"
+	"greenwelfare/dto"
+	"greenwelfare/formatter"
+	"greenwelfare/service"
 	"net/http"
 	"strconv"
 
@@ -12,10 +14,10 @@ import (
 )
 
 type feedbackHandler struct {
-	feedbackService feedback.Service
+	feedbackService service.ServiceFeedback
 }
 
-func NewFeedbackHandler(feedbackService feedback.Service) *feedbackHandler {
+func NewFeedbackHandler(feedbackService service.ServiceFeedback) *feedbackHandler {
 	return &feedbackHandler{feedbackService}
 }
 
@@ -106,7 +108,7 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 // @Failure 422 {object} map[string]interface{}
 // @Router /api/feedback [post]
 func (h *feedbackHandler) PostFeedbackHandler(c *gin.Context) {
-	var feedbackInput feedback.FeedbackInput
+	var feedbackInput dto.FeedbackInput
 
 	err := c.ShouldBind(&feedbackInput)
 	if err != nil {
@@ -134,6 +136,6 @@ func (h *feedbackHandler) PostFeedbackHandler(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1(feedback.PostFormatterFeedback(newFeedbackPost))
+	response := helper.SuccessfulResponse1(formatter.PostFormatterFeedback(newFeedbackPost))
 	c.JSON(http.StatusOK, response)
 }

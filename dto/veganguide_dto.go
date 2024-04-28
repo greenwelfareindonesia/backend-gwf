@@ -1,4 +1,4 @@
-package veganguide
+package dto
 
 type VeganguideInput struct {
 	Title     string `form:"Title" binding:"required"`

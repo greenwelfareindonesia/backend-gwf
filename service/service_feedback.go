@@ -1,7 +1,10 @@
-package feedback
+package service
 
 import (
 	"fmt"
+	"greenwelfare/dto"
+	"greenwelfare/entity"
+	"greenwelfare/repository"
 	"math/rand"
 	"strings"
 	"time"
@@ -9,22 +12,22 @@ import (
 	"github.com/gosimple/slug"
 )
 
-type Service interface {
-	GetAllFeedback(input int) ([]Feedback, error)
-	GetFeedbackBySlug(slugs string) (Feedback, error)
-	CreateFeedback(feedback FeedbackInput) (Feedback, error)
-	DeleteFeedback(slugs string) (Feedback, error)
+type ServiceFeedback interface {
+	GetAllFeedback(input int) ([]*entity.Feedback, error)
+	GetFeedbackBySlug(slugs string) (*entity.Feedback, error)
+	CreateFeedback(input dto.FeedbackInput) (*entity.Feedback, error)
+	DeleteFeedback(slugs string) (*entity.Feedback, error)
 }
 
-type service struct {
-	repository Repository
+type service_feedback struct {
+	repository repository.RepositoryFeedback
 }
 
-func NewService(repository Repository) *service {
-	return &service{repository}
+func NewServiceFeedback(repository repository.RepositoryFeedback) *service_feedback {
+	return &service_feedback{repository}
 }
 
-func (s *service) DeleteFeedback(slugs string) (Feedback, error) {
+func (s *service_feedback) DeleteFeedback(slugs string) (*entity.Feedback, error) {
 	feedbacks, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return feedbacks, err
@@ -37,7 +40,7 @@ func (s *service) DeleteFeedback(slugs string) (Feedback, error) {
 	return feedback, nil
 }
 
-func (s *service) GetAllFeedback(input int) ([]Feedback, error) {
+func (s *service_feedback) GetAllFeedback(input int) ([]*entity.Feedback, error) {
 	feedbacks, err := s.repository.FindAll()
 	if err != nil {
 		return feedbacks, err
@@ -45,7 +48,7 @@ func (s *service) GetAllFeedback(input int) ([]Feedback, error) {
 	return feedbacks, nil
 }
 
-func (s *service) GetFeedbackBySlug(slugs string) (Feedback, error) {
+func (s *service_feedback) GetFeedbackBySlug(slugs string) (*entity.Feedback, error) {
 	feedbacks, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return feedbacks, err
@@ -54,8 +57,8 @@ func (s *service) GetFeedbackBySlug(slugs string) (Feedback, error) {
 	return feedbacks, nil
 }
 
-func (s *service) CreateFeedback(feedback FeedbackInput) (Feedback, error) {
-	newFeedback := Feedback{}
+func (s *service_feedback) CreateFeedback(feedback dto.FeedbackInput) (*entity.Feedback, error) {
+	newFeedback := &entity.Feedback{}
 
 	newFeedback.Email = feedback.Email
 	newFeedback.Text = feedback.Text

@@ -1,4 +1,4 @@
-package veganguide
+package entity
 
 import "time"
 

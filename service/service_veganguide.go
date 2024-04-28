@@ -1,7 +1,10 @@
-package veganguide
+package service
 
 import (
 	"fmt"
+	"greenwelfare/dto"
+	"greenwelfare/entity"
+	"greenwelfare/repository"
 	"math/rand"
 	"strings"
 	"time"
@@ -9,23 +12,23 @@ import (
 	"github.com/gosimple/slug"
 )
 
-type Service interface {
-	GetAllVeganguide(input int) ([]Veganguide, error)
-	GetOneVeganguide(slugs string) (Veganguide, error)
-	CreateVeganguide(veganguide VeganguideInput, FileName string) (Veganguide, error)
-	DeleteVeganguide(slug string) (Veganguide, error)
-	UpdateVeganguide(input VeganguideInput, slugs string, FileName string) (Veganguide, error)
+type ServiceVeganguide interface {
+	GetAllVeganguide(input int) ([]*entity.Veganguide, error)
+	GetOneVeganguide(slugs string) (*entity.Veganguide, error)
+	CreateVeganguide(veganguide dto.VeganguideInput, FileName string) (*entity.Veganguide, error)
+	DeleteVeganguide(slug string) (*entity.Veganguide, error)
+	UpdateVeganguide(input dto.VeganguideInput, slugs string, FileName string) (*entity.Veganguide, error)
 }
 
-type service struct {
-	repository Repository
+type service_veganguide struct {
+	repository repository.RepositoryVeganguide
 }
 
-func NewService(repository Repository) *service {
-	return &service{repository}
+func NewServiceVeganguide(repository repository.RepositoryVeganguide) *service_veganguide {
+	return &service_veganguide{repository}
 }
 
-func (s *service) DeleteVeganguide(slug string) (Veganguide, error) {
+func (s *service_veganguide) DeleteVeganguide(slug string) (*entity.Veganguide, error) {
 	veganguides, err := s.repository.FindBySlug(slug)
 	if err != nil {
 		return veganguides, err
@@ -38,7 +41,7 @@ func (s *service) DeleteVeganguide(slug string) (Veganguide, error) {
 	return veganguide, nil
 }
 
-func (s *service) GetAllVeganguide(input int) ([]Veganguide, error) {
+func (s *service_veganguide) GetAllVeganguide(input int) ([]*entity.Veganguide, error) {
 	veganguides, err := s.repository.FindAll()
 	if err != nil {
 		return veganguides, err
@@ -46,7 +49,7 @@ func (s *service) GetAllVeganguide(input int) ([]Veganguide, error) {
 	return veganguides, nil
 }
 
-func (s *service) GetOneVeganguide(slugs string) (Veganguide, error) {
+func (s *service_veganguide) GetOneVeganguide(slugs string) (*entity.Veganguide, error) {
 	veganguides, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return veganguides, err
@@ -57,8 +60,8 @@ func (s *service) GetOneVeganguide(slugs string) (Veganguide, error) {
 	return veganguides, nil
 }
 
-func (s *service) CreateVeganguide(input VeganguideInput, FileName string) (Veganguide, error) {
-	newVeganguide := Veganguide{}
+func (s *service_veganguide) CreateVeganguide(input dto.VeganguideInput, FileName string) (*entity.Veganguide, error) {
+	newVeganguide := &entity.Veganguide{}
 
 	newVeganguide.Judul = input.Title
 	newVeganguide.Deskripsi = input.Description
@@ -82,7 +85,7 @@ func (s *service) CreateVeganguide(input VeganguideInput, FileName string) (Vega
 	return saveVeganGuide, nil
 }
 
-func (s *service) UpdateVeganguide(input VeganguideInput, slugs string, FileName string) (Veganguide, error) {
+func (s *service_veganguide) UpdateVeganguide(input dto.VeganguideInput, slugs string, FileName string) (*entity.Veganguide, error) {
 	veganguide, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return veganguide, err

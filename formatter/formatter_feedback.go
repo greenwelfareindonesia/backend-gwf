@@ -1,6 +1,9 @@
-package feedback
+package formatter
 
-import "time"
+import (
+	"greenwelfare/entity"
+	"time"
+)
 
 type FeedbackFormatter struct {
 	ID        int       `json:"ID"`
@@ -10,7 +13,7 @@ type FeedbackFormatter struct {
 	CreatedAt time.Time `json:"createdAt"`
 }
 
-func PostFormatterFeedback(feedback_submission Feedback) FeedbackFormatter {
+func PostFormatterFeedback(feedback_submission *entity.Feedback) FeedbackFormatter {
 	formatter := FeedbackFormatter{
 		ID:        feedback_submission.ID,
 		Slug:      feedback_submission.Slug,
@@ -20,3 +23,4 @@ func PostFormatterFeedback(feedback_submission Feedback) FeedbackFormatter {
 	}
 	return formatter
 }
+

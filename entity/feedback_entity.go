@@ -1,4 +1,4 @@
-package feedback
+package entity
 
 import "time"
 

@@ -1,6 +1,9 @@
-package workshop
+package formatter
 
-import "time"
+import (
+	"greenwelfare/entity"
+	"time"
+)
 
 type WorkshopFormatter struct {
 	ID        int       `json:"ID"`
@@ -15,7 +18,7 @@ type WorkshopFormatter struct {
 	UpdatedAt time.Time `json:"UpdatedAt"`
 }
 
-func PostFormatterWorkshop(workshop Workshop) WorkshopFormatter {
+func PostFormatterWorkshop(workshop *entity.Workshop) WorkshopFormatter {
 	formatter := WorkshopFormatter{
 		ID:        workshop.ID,
 		Slug:      workshop.Slug,
@@ -30,7 +33,7 @@ func PostFormatterWorkshop(workshop Workshop) WorkshopFormatter {
 	return formatter
 }
 
-func UpdateFormatterWorkshop(workshop Workshop) WorkshopFormatter {
+func UpdateFormatterWorkshop(workshop *entity.Workshop) WorkshopFormatter {
 	formatter := WorkshopFormatter{
 		ID:        workshop.ID,
 		Slug:      workshop.Slug,

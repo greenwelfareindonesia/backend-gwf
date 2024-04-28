@@ -1,7 +1,10 @@
-package workshop
+package service
 
 import (
 	"fmt"
+	"greenwelfare/dto"
+	"greenwelfare/entity"
+	"greenwelfare/repository"
 	"math/rand"
 	"strings"
 	"time"
@@ -9,24 +12,24 @@ import (
 	"github.com/gosimple/slug"
 )
 
-type Service interface {
-	CreateWorkshop(input CreateWorkshop, fileLocation string) (Workshop, error)
-	GetAllWorkshop(input int) ([]Workshop, error)
-	GetOneWorkshop(slugs string) (Workshop, error)
-	DeleteWorkshop(slugs string) (Workshop, error)
-	UpdateWorkshop(slugs string, input CreateWorkshop, fileLocation string) (Workshop, error)
+type ServiceWorkshop interface {
+	CreateWorkshop(input dto.CreateWorkshop, fileLocation string) (*entity.Workshop, error)
+	GetAllWorkshop(input int) ([]*entity.Workshop, error)
+	GetOneWorkshop(slugs string) (*entity.Workshop, error)
+	DeleteWorkshop(slugs string) (*entity.Workshop, error)
+	UpdateWorkshop(slugs string, input dto.CreateWorkshop, fileLocation string) (*entity.Workshop, error)
 }
 
-type service struct {
-	repository Repository
+type service_workshop struct {
+	repository repository.RepositoryWorkshop
 }
 
-func NewService(repository Repository) *service {
-	return &service{repository}
+func NewServiceWorkshop(repository repository.RepositoryWorkshop) *service_workshop {
+	return &service_workshop{repository}
 }
 
-func (s *service) CreateWorkshop(input CreateWorkshop, fileLocation string) (Workshop, error) {
-	createWorkshop := Workshop{}
+func (s *service_workshop) CreateWorkshop(input dto.CreateWorkshop, fileLocation string) (*entity.Workshop, error) {
+	createWorkshop := &entity.Workshop{}
 
 	createWorkshop.Title = input.Title
 	createWorkshop.Image = fileLocation
@@ -53,7 +56,7 @@ func (s *service) CreateWorkshop(input CreateWorkshop, fileLocation string) (Wor
 	return newWorkshop, nil
 }
 
-func (s *service) GetAllWorkshop(input int) ([]Workshop, error) {
+func (s *service_workshop) GetAllWorkshop(input int) ([]*entity.Workshop, error) {
 	workshop, err := s.repository.FindAll()
 	if err != nil {
 		return workshop, err
@@ -61,7 +64,7 @@ func (s *service) GetAllWorkshop(input int) ([]Workshop, error) {
 	return workshop, nil
 }
 
-func (s *service) GetOneWorkshop(slugs string) (Workshop, error) {
+func (s *service_workshop) GetOneWorkshop(slugs string) (*entity.Workshop, error) {
 	workshop, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return workshop, err
@@ -70,7 +73,7 @@ func (s *service) GetOneWorkshop(slugs string) (Workshop, error) {
 	return workshop, nil
 }
 
-func (s *service) UpdateWorkshop(slugs string, input CreateWorkshop, fileLocation string) (Workshop, error) {
+func (s *service_workshop) UpdateWorkshop(slugs string, input dto.CreateWorkshop, fileLocation string) (*entity.Workshop, error) {
 	workshop, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return workshop, err
@@ -103,7 +106,7 @@ func (s *service) UpdateWorkshop(slugs string, input CreateWorkshop, fileLocatio
 	return newWorkshop, nil
 }
 
-func (s *service) DeleteWorkshop(slugs string) (Workshop, error) {
+func (s *service_workshop) DeleteWorkshop(slugs string) (*entity.Workshop, error) {
 	workshop, err := s.repository.FindBySlug(slugs)
 	if err != nil {
 		return workshop, err

@@ -1,4 +1,4 @@
-package feedback
+package dto
 
 type FeedbackInput struct {
 	Email string `json:"email" binding:"required"`

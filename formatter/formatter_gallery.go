@@ -1,6 +1,7 @@
-package gallery
+package formatter
 
 import (
+	"greenwelfare/entity"
 	"time"
 )
 
@@ -13,7 +14,7 @@ type GalleryFormatter struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func PostFormatterGallery(gallery Gallery) GalleryFormatter {
+func PostFormatterGallery(gallery *entity.Gallery) GalleryFormatter {
 	formatter := GalleryFormatter{
 		ID:    gallery.ID,
 		Slug: gallery.Slug,
@@ -29,7 +30,7 @@ func PostFormatterGallery(gallery Gallery) GalleryFormatter {
 	return formatter
 }
 
-func FormatterGetAllGallery (gallery []Gallery) []GalleryFormatter {
+func FormatterGetAllGallery (gallery []*entity.Gallery) []GalleryFormatter {
 	newGalleryGetFormatter := []GalleryFormatter{}
 
 	for _, newGallery := range gallery {

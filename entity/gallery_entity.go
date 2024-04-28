@@ -1,4 +1,4 @@
-package gallery
+package entity
 
 import (
 	"time"

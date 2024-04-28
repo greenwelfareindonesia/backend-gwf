@@ -1,4 +1,4 @@
-package workshop
+package dto
 
 type CreateWorkshop struct {
 	Title  string `form:"Title" binding:"required"`

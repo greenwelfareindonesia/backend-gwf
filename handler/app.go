@@ -9,13 +9,9 @@ import (
 	"greenwelfare/ecopedia"
 	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/event"
-	"greenwelfare/feedback"
-	"greenwelfare/gallery"
 	"greenwelfare/middleware"
 	"greenwelfare/repository"
 	"greenwelfare/service"
-	"greenwelfare/veganguide"
-	"greenwelfare/workshop"
 	"log"
 
 	"github.com/gin-contrib/cors"
@@ -70,8 +66,8 @@ func StartApp() {
 	con.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), contactHandler.DeleteContactSubmissionHandler)
 
 	// workshop
-	workshopRepository := workshop.NewRepository(db)
-	workshopService := workshop.NewService(workshopRepository)
+	workshopRepository := repository.NewRepositoryWorkshop(db)
+	workshopService := service.NewServiceWorkshop(workshopRepository)
 	workshopHandler := NewWorkshopHandler(workshopService, statisticsService)
 	//--//
 	work := router.Group("/api/workshop")
@@ -118,8 +114,8 @@ func StartApp() {
 	eve.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.DeleteEvent)
 
 	// veganguide
-	veganguideRepository := veganguide.NewRepository(db)
-	veganguideService := veganguide.NewService(veganguideRepository)
+	veganguideRepository := repository.NewRepositoryVeganguide(db)
+	veganguideService := service.NewServiceVeganguide(veganguideRepository)
 	veganguideHandler := NewVeganguideHandler(veganguideService, statisticsService)
 	//--//
 	veg := router.Group("/api/veganguide")
@@ -130,8 +126,8 @@ func StartApp() {
 	veg.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.DeleteVeganguide)
 
 	// feedback
-	feedbackRepository := feedback.NewRepository(db)
-	feedbackService := feedback.NewService(feedbackRepository)
+	feedbackRepository := repository.NewRepositoryFeedback(db)
+	feedbackService := service.NewServiceFeedback(feedbackRepository)
 	feedbackHandler := NewFeedbackHandler(feedbackService)
 	//--//
 	fee := router.Group("/api/feedback")
@@ -141,8 +137,8 @@ func StartApp() {
 	// fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
 	fee.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
 
-	galleryRepository := gallery.NewRepository(db)
-	galleryService := gallery.NewService(galleryRepository)
+	galleryRepository := repository.NewRepositoryGallery(db)
+	galleryService := service.NewServiceGallery(galleryRepository)
 	galleryHandler := NewGalleryHandler(galleryService, statisticsService)
 
 	gallerys := router.Group("/api/gallery")

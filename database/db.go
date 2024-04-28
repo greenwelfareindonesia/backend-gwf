@@ -8,10 +8,6 @@ import (
 	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/entity"
 	"greenwelfare/event"
-	"greenwelfare/feedback"
-	"greenwelfare/gallery"
-	"greenwelfare/veganguide"
-	"greenwelfare/workshop"
 	"log"
 	"os"
 
@@ -57,13 +53,13 @@ func InitDb() (*gorm.DB, error) {
 	db.AutoMigrate(&artikel.Artikel{})
 	db.AutoMigrate(&ecopedia.Ecopedia{})
 	db.AutoMigrate(&contact.Contact{})
-	db.AutoMigrate(&workshop.Workshop{})
+	db.AutoMigrate(&entity.Workshop{})
 	db.AutoMigrate(&event.Event{})
-	db.AutoMigrate(&veganguide.Veganguide{})
-	db.AutoMigrate(&feedback.Feedback{})
+	db.AutoMigrate(&entity.Veganguide{})
+	db.AutoMigrate(&entity.Feedback{})
 	db.AutoMigrate(&endpointcount.Statistics{})
-	db.AutoMigrate(&gallery.Gallery{})
-	db.AutoMigrate(&gallery.GalleryImages{})
+	db.AutoMigrate(&entity.Gallery{})
+	db.AutoMigrate(&entity.GalleryImages{})
 	db.AutoMigrate(&ecopedia.EcopediaImage{})
 	db.AutoMigrate(&entity.User{})
 
