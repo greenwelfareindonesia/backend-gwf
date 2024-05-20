@@ -2,12 +2,8 @@ package database
 
 import (
 	"fmt"
-	"greenwelfare/artikel"
-	"greenwelfare/contact"
-	"greenwelfare/ecopedia"
 	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/entity"
-	"greenwelfare/event"
 	"log"
 	"os"
 
@@ -50,17 +46,17 @@ func InitDb() (*gorm.DB, error) {
 
 	// Auto Migration
 
-	db.AutoMigrate(&artikel.Artikel{})
-	db.AutoMigrate(&ecopedia.Ecopedia{})
-	db.AutoMigrate(&contact.Contact{})
+	db.AutoMigrate(&entity.Artikel{})
+	db.AutoMigrate(&entity.Ecopedia{})
+	db.AutoMigrate(&entity.Contact{})
 	db.AutoMigrate(&entity.Workshop{})
-	db.AutoMigrate(&event.Event{})
+	db.AutoMigrate(&entity.Event{})
 	db.AutoMigrate(&entity.Veganguide{})
 	db.AutoMigrate(&entity.Feedback{})
 	db.AutoMigrate(&endpointcount.Statistics{})
 	db.AutoMigrate(&entity.Gallery{})
 	db.AutoMigrate(&entity.GalleryImages{})
-	db.AutoMigrate(&ecopedia.EcopediaImage{})
+	db.AutoMigrate(&entity.EcopediaImage{})
 	db.AutoMigrate(&entity.User{})
 
 	return db, nil

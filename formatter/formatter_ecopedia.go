@@ -1,6 +1,9 @@
-package ecopedia
+package formatter
 
-import "time"
+import (
+	"greenwelfare/entity"
+	"time"
+)
 
 type EcopediaFormatter struct {
 	ID int `json:"ID"`
@@ -17,7 +20,7 @@ type EcopediaFormatter struct {
 	// Like []string `json:"like"`
 }
 
-func GetOneEcopediaFormat(ecopedia_submit Ecopedia) EcopediaFormatter {
+func GetOneEcopediaFormat(ecopedia_submit *entity.Ecopedia) EcopediaFormatter {
 	formatter := EcopediaFormatter{
 		ID:  ecopedia_submit.ID,
 		Title:     ecopedia_submit.Title,
@@ -54,7 +57,7 @@ func GetOneEcopediaFormat(ecopedia_submit Ecopedia) EcopediaFormatter {
 // }
 
 // Fungsi untuk mengonversi slice Ecopedia menjadi slice EcopediaFormatter
-func FormatterGetAllEcopedia(ecopedias []Ecopedia) []EcopediaFormatter {
+func FormatterGetAllEcopedia(ecopedias []*entity.Ecopedia) []EcopediaFormatter {
     var ecopediaFormatters []EcopediaFormatter
 
     for _, ecopedia := range ecopedias {

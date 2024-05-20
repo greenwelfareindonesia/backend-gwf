@@ -5,7 +5,7 @@ import (
 
 	"greenwelfare/external"
 	"greenwelfare/product"
-	"greenwelfare/user"
+	"greenwelfare/repository"
 )
 
 type ServiceOrder interface {
@@ -25,11 +25,11 @@ type PaymentResponse struct {
 type serviceOrder struct {
 	repository        RepositoryOrder
 	repositoryProduct product.RepositoryProduct
-	repositoryUser    user.Repository
+	repositoryUser    repository.RepositoryUser
 	paymentGateway    external.PaymentGateway
 }
 
-func NewServiceOrder(repository RepositoryOrder, repositoryProduct product.RepositoryProduct, repositoryUser user.Repository, paymentGateway external.PaymentGateway) *serviceOrder {
+func NewServiceOrder(repository RepositoryOrder, repositoryProduct product.RepositoryProduct, repositoryUser repository.RepositoryUser, paymentGateway external.PaymentGateway) *serviceOrder {
 	return &serviceOrder{repository, repositoryProduct, repositoryUser, paymentGateway}
 }
 

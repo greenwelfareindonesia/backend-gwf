@@ -1,6 +1,9 @@
-package contact
+package formatter
 
-import "time"
+import (
+	"greenwelfare/entity"
+	"time"
+)
 
 type ContactFormatter struct {
 	ID int `json:"ID"`
@@ -12,7 +15,7 @@ type ContactFormatter struct {
 	CreatedAt time.Time `json:"createdAt"`
 }
 
-func FormatterContact(contact_submission Contact) ContactFormatter {
+func FormatterContact(contact_submission *entity.Contact) ContactFormatter {
 	formatter := ContactFormatter{
 		ID:      contact_submission.ID,
 		Name:    contact_submission.Name,

@@ -1,8 +1,8 @@
 package transactions
 
 import (
+	"greenwelfare/entity"
 	"greenwelfare/product"
-	"greenwelfare/user"
 
 	"gorm.io/gorm"
 )
@@ -48,7 +48,7 @@ func (r *repositoryOrder) Save(order Order) (Order, error) {
 func (r *repositoryOrder) FindByUserId(productID int, userID int) ([]Order, error) {
 	var order []Order
 
-	err := r.db.Joins("Product", r.db.Where(&product.Products{ID: productID})).Joins("User", r.db.Where(&user.User{ID: userID})).Find(&order).Error
+	err := r.db.Joins("Product", r.db.Where(&product.Products{ID: productID})).Joins("User", r.db.Where(&entity.User{ID: userID})).Find(&order).Error
 
 	if err != nil {
 		return order, err

@@ -1,7 +1,10 @@
-package contact
+package service
 
 import (
 	"fmt"
+	"greenwelfare/dto"
+	"greenwelfare/entity"
+	"greenwelfare/repository"
 	"math/rand"
 	"strings"
 	"time"
@@ -9,23 +12,23 @@ import (
 	"github.com/gosimple/slug"
 )
 
-type Service interface {
-	SubmitContactSubmission(input ContactSubmissionInput) (Contact, error)
-	GetAllContactSubmission() ([]Contact, error)
-	GetContactSubmissionById(slug string) (Contact, error)
-	DeleteContactSubmission(slug string) (Contact, error)
+type ServiceContact interface {
+	SubmitContactSubmission(input dto.ContactSubmissionInput) (*entity.Contact, error)
+	GetAllContactSubmission() ([]*entity.Contact, error)
+	GetContactSubmissionById(slug string) (*entity.Contact, error)
+	DeleteContactSubmission(slug string) (*entity.Contact, error)
 }
 
-type service struct {
-	repository Repository
+type service_contact struct {
+	repository repository.RepositoryContact
 }
 
-func NewService(repository Repository) *service {
-	return &service{repository}
+func NewServiceContact(repository repository.RepositoryContact) *service_contact {
+	return &service_contact{repository}
 }
 
-func (s *service) SubmitContactSubmission(input ContactSubmissionInput) (Contact, error) {
-	contact_submission := Contact{}
+func (s *service_contact) SubmitContactSubmission(input dto.ContactSubmissionInput) (*entity.Contact, error) {
+	contact_submission := &entity.Contact{}
 
 	contact_submission.Name = input.Name
 	contact_submission.Email = input.Email
@@ -50,7 +53,7 @@ func (s *service) SubmitContactSubmission(input ContactSubmissionInput) (Contact
 	return newContactSubmission, nil
 }
 
-func (s *service) GetAllContactSubmission() ([]Contact, error) {
+func (s *service_contact) GetAllContactSubmission() ([]*entity.Contact, error) {
 	contact_submissions, err := s.repository.FindAll()
 	if err != nil {
 		return contact_submissions, err
@@ -58,7 +61,7 @@ func (s *service) GetAllContactSubmission() ([]Contact, error) {
 	return contact_submissions, nil
 }
 
-func (s *service) GetContactSubmissionById(slug string) (Contact, error) {
+func (s *service_contact) GetContactSubmissionById(slug string) (*entity.Contact, error) {
 	contact_submission, err := s.repository.FindBySlug(slug)
 
 	if err != nil {
@@ -68,7 +71,7 @@ func (s *service) GetContactSubmissionById(slug string) (Contact, error) {
 	return contact_submission, nil
 }
 
-func (s *service) DeleteContactSubmission(slug string) (Contact, error) {
+func (s *service_contact) DeleteContactSubmission(slug string) (*entity.Contact, error) {
 	contact_submission, err := s.repository.FindBySlug(slug)
 	if err != nil {
 		return contact_submission, err

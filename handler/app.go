@@ -1,14 +1,10 @@
 package handler
 
 import (
-	"greenwelfare/artikel"
 	"greenwelfare/auth"
-	"greenwelfare/contact"
 	"greenwelfare/database"
 	_ "greenwelfare/docs"
-	"greenwelfare/ecopedia"
 	endpointcount "greenwelfare/endpointCount"
-	"greenwelfare/event"
 	"greenwelfare/middleware"
 	"greenwelfare/repository"
 	"greenwelfare/service"
@@ -55,8 +51,8 @@ func StartApp() {
 	user.PUT("/:slug", middleware.AuthMiddleware(authService, userService), userHandler.UpdateUser)
 
 	// contact
-	contactRepository := contact.NewRepository(db)
-	contactService := contact.NewService(contactRepository)
+	contactRepository := repository.NewRepositoryContact(db)
+	contactService := service.NewServiceContact(contactRepository)
 	contactHandler := NewContactHandler(contactService)
 	//--//
 	con := router.Group("/api/contact")
@@ -78,8 +74,8 @@ func StartApp() {
 	work.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.DeleteWorkshop)
 
 	// ecopedia
-	ecopediaRepository := ecopedia.NewRepository(db)
-	ecopediaService := ecopedia.NewService(ecopediaRepository)
+	ecopediaRepository := repository.NewRepositoryEcopedia(db)
+	ecopediaService := service.NewServiceEcopedia(ecopediaRepository)
 	ecopediaHandler := NewEcopediaHandler(ecopediaService, statisticsService)
 
 	eco := router.Group("/api/ecopedia")
@@ -90,8 +86,8 @@ func StartApp() {
 	eco.DELETE("/:ID", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), ecopediaHandler.DeleteEcopedia)
 
 	// artikel
-	artikelRepository := artikel.NewRepository(db)
-	artikelService := artikel.NewService(artikelRepository)
+	artikelRepository := repository.NewRepositoryArtikel(db)
+	artikelService := service.NewServiceArtikel(artikelRepository)
 	artikelHandler := NewArtikelHandler(artikelService, statisticsService)
 	//--//
 	art := router.Group("/api/article")
@@ -102,8 +98,8 @@ func StartApp() {
 	art.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.DeleteArtikel)
 
 	// event
-	eventRepository := event.NewRepository(db)
-	eventService := event.NewService(eventRepository)
+	eventRepository := repository.NewRepositoryEvent(db)
+	eventService := service.NewServiceEvent(eventRepository)
 	eventHandler := NewEventHandler(eventService, statisticsService)
 	//--//
 	eve := router.Group("/api/event")

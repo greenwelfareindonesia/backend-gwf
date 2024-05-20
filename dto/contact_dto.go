@@ -1,4 +1,4 @@
-package contact
+package dto
 
 type ContactSubmissionInput struct {
 	Name    string `json:"name" binding:"required"`

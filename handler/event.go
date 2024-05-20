@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"greenwelfare/dto"
 	endpointcount "greenwelfare/endpointCount"
-	"greenwelfare/event"
+	"greenwelfare/formatter"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
+	"greenwelfare/service"
 	"io"
 	"net/http"
 	"strconv"
@@ -16,11 +18,11 @@ import (
 )
 
 type eventHandler struct {
-	eventService event.Service
+	eventService service.ServiceEvent
 	endpointService endpointcount.StatisticsService
 }
 
-func NewEventHandler(eventService event.Service, endpointService endpointcount.StatisticsService) *eventHandler {
+func NewEventHandler(eventService service.ServiceEvent, endpointService endpointcount.StatisticsService) *eventHandler {
 	return &eventHandler{eventService, endpointService}
 }
 
@@ -132,7 +134,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 
 	param := c.Param("slug")
 
-	var input event.CreateEvents
+	var input dto.CreateEvents
 	err = c.ShouldBind(&input)
 	if err != nil {
 		// errors := helper.FormatValidationError(err)
@@ -151,7 +153,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 	}
 
 
-	response := helper.SuccessfulResponse1(event.UpdatedFormatterEvent(events))
+	response := helper.SuccessfulResponse1(formatter.UpdatedFormatterEvent(events))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -199,7 +201,7 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 		return
 	}
 
-	var input event.CreateEvents
+	var input dto.CreateEvents
 
 	err = c.ShouldBind(&input)
 
@@ -226,7 +228,7 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	response := helper.SuccessfulResponse1(event.PostFormatterEvent(data))
+	response := helper.SuccessfulResponse1(formatter.PostFormatterEvent(data))
 	c.JSON(http.StatusOK, response)
 }
 
