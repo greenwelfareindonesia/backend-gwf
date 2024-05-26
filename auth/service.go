@@ -40,7 +40,7 @@ type Claims struct {
 // }
 
 func (s *jwtService) GenerateToken(userID int, role int) (string, error) {
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(2 * time.Hour)
 	claim := &Claims{
 		UserID: userID,
 		Role:   role,

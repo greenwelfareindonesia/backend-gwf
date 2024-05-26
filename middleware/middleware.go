@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"greenwelfare/auth"
 	"greenwelfare/helper"
-	"greenwelfare/user"
+	"greenwelfare/service"
 	"net/http"
 	"strings"
 
@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AuthMiddleware(authService auth.Service, userService user.Service) gin.HandlerFunc {
+func AuthMiddleware(authService auth.Service, userService service.ServiceUser) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		fmt.Println(authHeader)
@@ -54,7 +54,7 @@ func AuthMiddleware(authService auth.Service, userService user.Service) gin.Hand
 	}
 }
 
-func AuthRole(authService auth.Service, userService user.Service) gin.HandlerFunc {
+func AuthRole(authService auth.Service, userService service.ServiceUser) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		// fmt.Println(authHeader)

@@ -1,20 +1,20 @@
 package handler
 
 import (
-	"greenwelfare/contact"
 	"greenwelfare/email"
 	"greenwelfare/helper"
-
+	"greenwelfare/dto"
+	"greenwelfare/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type contactHandler struct {
-	contactService contact.Service
+	contactService service.ServiceContact
 }
 
-func NewContactHandler(contactService contact.Service) *contactHandler {
+func NewContactHandler(contactService service.ServiceContact) *contactHandler {
 	return &contactHandler{contactService}
 }
 
@@ -28,7 +28,7 @@ func NewContactHandler(contactService contact.Service) *contactHandler {
 // @Failure 400 {object} map[string]interface{}
 // @Router /api/contact [post]
 func (h *contactHandler) SubmitContactForm(c *gin.Context) {
-	var input contact.ContactSubmissionInput
+	var input dto.ContactSubmissionInput
 
 	err := c.ShouldBindJSON(&input)
 	// fmt.Println(err)

@@ -2,16 +2,8 @@ package database
 
 import (
 	"fmt"
-	"greenwelfare/artikel"
-	"greenwelfare/contact"
-	"greenwelfare/ecopedia"
 	endpointcount "greenwelfare/endpointCount"
-	"greenwelfare/event"
-	"greenwelfare/feedback"
-	"greenwelfare/gallery"
-	"greenwelfare/user"
-	"greenwelfare/veganguide"
-	"greenwelfare/workshop"
+	"greenwelfare/entity"
 	"log"
 	"os"
 
@@ -43,7 +35,7 @@ func InitDb() (*gorm.DB, error) {
 	fmt.Println("Nilai dbHost:", dbHost)
 	fmt.Println("Nilai dbPort:", dbPort)
 	fmt.Println("Nilai dbName:", dbName)
-	fmt.Println("String Koneksi (DSN):", dsn)
+	// fmt.Println("String Koneksi (DSN):", dsn)
 
 	// dsn := "root:@tcp(127.0.0.1:3306)/mencoba?charset=utf8mb4&parseTime=True&loc=Local"
 	// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -54,18 +46,18 @@ func InitDb() (*gorm.DB, error) {
 
 	// Auto Migration
 
-	db.AutoMigrate(&artikel.Artikel{})
-	db.AutoMigrate(&ecopedia.Ecopedia{})
-	db.AutoMigrate(&contact.Contact{})
-	db.AutoMigrate(&workshop.Workshop{})
-	db.AutoMigrate(&event.Event{})
-	db.AutoMigrate(&veganguide.Veganguide{})
-	db.AutoMigrate(&feedback.Feedback{})
+	db.AutoMigrate(&entity.Artikel{})
+	db.AutoMigrate(&entity.Ecopedia{})
+	db.AutoMigrate(&entity.Contact{})
+	db.AutoMigrate(&entity.Workshop{})
+	db.AutoMigrate(&entity.Event{})
+	db.AutoMigrate(&entity.Veganguide{})
+	db.AutoMigrate(&entity.Feedback{})
 	db.AutoMigrate(&endpointcount.Statistics{})
-	db.AutoMigrate(&gallery.Gallery{})
-	db.AutoMigrate(&gallery.GalleryImages{})
-	db.AutoMigrate(&ecopedia.EcopediaImage{})
-	db.AutoMigrate(&user.User{})
+	db.AutoMigrate(&entity.Gallery{})
+	db.AutoMigrate(&entity.GalleryImages{})
+	db.AutoMigrate(&entity.EcopediaImage{})
+	db.AutoMigrate(&entity.User{})
 
 	return db, nil
 

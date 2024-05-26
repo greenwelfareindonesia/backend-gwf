@@ -1,20 +1,13 @@
 package handler
 
 import (
-	"greenwelfare/artikel"
 	"greenwelfare/auth"
-	"greenwelfare/contact"
 	"greenwelfare/database"
 	_ "greenwelfare/docs"
-	"greenwelfare/ecopedia"
 	endpointcount "greenwelfare/endpointCount"
-	"greenwelfare/event"
-	"greenwelfare/feedback"
-	"greenwelfare/gallery"
 	"greenwelfare/middleware"
-	"greenwelfare/user"
-	"greenwelfare/veganguide"
-	"greenwelfare/workshop"
+	"greenwelfare/repository"
+	"greenwelfare/service"
 	"log"
 
 	"github.com/gin-contrib/cors"
@@ -40,8 +33,8 @@ func StartApp() {
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// user
-	userRepository := user.NewRepository(db)
-	userService := user.NewService(userRepository)
+	userRepository := repository.NewRepositoryUser(db)
+	userService := service.NewServiceUser(userRepository)
 	authService := auth.NewService()
 	userHandler := NewUserHandler(userService, authService)
 
@@ -58,8 +51,8 @@ func StartApp() {
 	user.PUT("/:slug", middleware.AuthMiddleware(authService, userService), userHandler.UpdateUser)
 
 	// contact
-	contactRepository := contact.NewRepository(db)
-	contactService := contact.NewService(contactRepository)
+	contactRepository := repository.NewRepositoryContact(db)
+	contactService := service.NewServiceContact(contactRepository)
 	contactHandler := NewContactHandler(contactService)
 	//--//
 	con := router.Group("/api/contact")
@@ -69,8 +62,8 @@ func StartApp() {
 	con.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), contactHandler.DeleteContactSubmissionHandler)
 
 	// workshop
-	workshopRepository := workshop.NewRepository(db)
-	workshopService := workshop.NewService(workshopRepository)
+	workshopRepository := repository.NewRepositoryWorkshop(db)
+	workshopService := service.NewServiceWorkshop(workshopRepository)
 	workshopHandler := NewWorkshopHandler(workshopService, statisticsService)
 	//--//
 	work := router.Group("/api/workshop")
@@ -81,8 +74,8 @@ func StartApp() {
 	work.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), workshopHandler.DeleteWorkshop)
 
 	// ecopedia
-	ecopediaRepository := ecopedia.NewRepository(db)
-	ecopediaService := ecopedia.NewService(ecopediaRepository)
+	ecopediaRepository := repository.NewRepositoryEcopedia(db)
+	ecopediaService := service.NewServiceEcopedia(ecopediaRepository)
 	ecopediaHandler := NewEcopediaHandler(ecopediaService, statisticsService)
 
 	eco := router.Group("/api/ecopedia")
@@ -93,8 +86,8 @@ func StartApp() {
 	eco.DELETE("/:ID", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), ecopediaHandler.DeleteEcopedia)
 
 	// artikel
-	artikelRepository := artikel.NewRepository(db)
-	artikelService := artikel.NewService(artikelRepository)
+	artikelRepository := repository.NewRepositoryArtikel(db)
+	artikelService := service.NewServiceArtikel(artikelRepository)
 	artikelHandler := NewArtikelHandler(artikelService, statisticsService)
 	//--//
 	art := router.Group("/api/article")
@@ -105,8 +98,8 @@ func StartApp() {
 	art.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.DeleteArtikel)
 
 	// event
-	eventRepository := event.NewRepository(db)
-	eventService := event.NewService(eventRepository)
+	eventRepository := repository.NewRepositoryEvent(db)
+	eventService := service.NewServiceEvent(eventRepository)
 	eventHandler := NewEventHandler(eventService, statisticsService)
 	//--//
 	eve := router.Group("/api/event")
@@ -117,8 +110,8 @@ func StartApp() {
 	eve.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.DeleteEvent)
 
 	// veganguide
-	veganguideRepository := veganguide.NewRepository(db)
-	veganguideService := veganguide.NewService(veganguideRepository)
+	veganguideRepository := repository.NewRepositoryVeganguide(db)
+	veganguideService := service.NewServiceVeganguide(veganguideRepository)
 	veganguideHandler := NewVeganguideHandler(veganguideService, statisticsService)
 	//--//
 	veg := router.Group("/api/veganguide")
@@ -129,8 +122,8 @@ func StartApp() {
 	veg.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), veganguideHandler.DeleteVeganguide)
 
 	// feedback
-	feedbackRepository := feedback.NewRepository(db)
-	feedbackService := feedback.NewService(feedbackRepository)
+	feedbackRepository := repository.NewRepositoryFeedback(db)
+	feedbackService := service.NewServiceFeedback(feedbackRepository)
 	feedbackHandler := NewFeedbackHandler(feedbackService)
 	//--//
 	fee := router.Group("/api/feedback")
@@ -140,8 +133,8 @@ func StartApp() {
 	// fee.PUT("/:id", middleware.AuthMiddleware(authService, userService),  middleware.AuthRole(authService, userService), feedbackHandler.UpdateFeedback)
 	fee.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), feedbackHandler.DeleteFeedback)
 
-	galleryRepository := gallery.NewRepository(db)
-	galleryService := gallery.NewService(galleryRepository)
+	galleryRepository := repository.NewRepositoryGallery(db)
+	galleryService := service.NewServiceGallery(galleryRepository)
 	galleryHandler := NewGalleryHandler(galleryService, statisticsService)
 
 	gallerys := router.Group("/api/gallery")

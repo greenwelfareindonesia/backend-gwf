@@ -1,8 +1,10 @@
 package handler
 
 import (
-	"greenwelfare/artikel"
 	endpointcount "greenwelfare/endpointCount"
+	"greenwelfare/dto"
+	"greenwelfare/formatter"
+	"greenwelfare/service"
 	"greenwelfare/helper"
 	"net/http"
 	"strconv"
@@ -11,11 +13,11 @@ import (
 )
 
 type artikelHandler struct {
-	artikelService  artikel.Service
+	artikelService  service.ServiceArtikel
 	endpointService endpointcount.StatisticsService
 }
 
-func NewArtikelHandler(artikelService artikel.Service, endpointService endpointcount.StatisticsService) *artikelHandler {
+func NewArtikelHandler(artikelService service.ServiceArtikel, endpointService endpointcount.StatisticsService) *artikelHandler {
 	return &artikelHandler{artikelService, endpointService}
 }
 
@@ -101,7 +103,7 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Router /api/article/{slug} [put]
 func (h *artikelHandler) UpdateArtikel(c *gin.Context) {
 
-	var input artikel.CreateArtikel
+	var input dto.CreateArtikel
 
 	param := c.Param("slug")
 
@@ -122,7 +124,7 @@ func (h *artikelHandler) UpdateArtikel(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1(artikel.UpdatedArticleFormat(artikels))
+	response := helper.SuccessfulResponse1(formatter.UpdatedArticleFormat(artikels))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -141,7 +143,7 @@ func (h *artikelHandler) UpdateArtikel(c *gin.Context) {
 // @Success 500 {object} map[string]interface{}
 // @Router /api/article [post]
 func (h *artikelHandler) CreateArtikel(c *gin.Context) {
-	var input artikel.CreateArtikel
+	var input dto.CreateArtikel
 
 	err := c.ShouldBind(&input)
 
@@ -166,7 +168,7 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 		return
 	}
 	// data := gin.H{"is_uploaded": true}
-	response := helper.SuccessfulResponse1(artikel.PostArticleFormat(data))
+	response := helper.SuccessfulResponse1(formatter.PostArticleFormat(data))
 	c.JSON(http.StatusOK, response)
 }
 

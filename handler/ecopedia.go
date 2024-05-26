@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"greenwelfare/ecopedia"
+	"greenwelfare/dto"
 	endpointcount "greenwelfare/endpointCount"
+	"greenwelfare/formatter"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
+	"greenwelfare/service"
 	"io"
 	"net/http"
 	"strconv"
@@ -16,11 +18,11 @@ import (
 )
 
 type ecopediaHandler struct {
-	ecopediaService ecopedia.Service
+	ecopediaService service.ServiceEcopedia
 	endpointService endpointcount.StatisticsService
 }
 
-func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpointcount.StatisticsService) *ecopediaHandler {
+func NewEcopediaHandler(ecopediaService service.ServiceEcopedia, endpointService endpointcount.StatisticsService) *ecopediaHandler {
 	return &ecopediaHandler{ecopediaService, endpointService}
 }
 
@@ -37,7 +39,7 @@ func NewEcopediaHandler(ecopediaService ecopedia.Service, endpointService endpoi
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/ecopedia/{id} [delete]
 func (h *ecopediaHandler) DeleteEcopedia(c *gin.Context) {
-	var inputID ecopedia.EcopediaID
+	var inputID dto.EcopediaID
 
 	err := c.ShouldBindUri(&inputID)
 	if err != nil {
@@ -88,7 +90,7 @@ func (h *ecopediaHandler) GetEcopediaByID(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1(ecopedia.GetOneEcopediaFormat(data))
+	response := helper.SuccessfulResponse1(formatter.GetOneEcopediaFormat(data))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -122,7 +124,7 @@ func (h *ecopediaHandler) GetAllEcopedia(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1(ecopedia.FormatterGetAllEcopedia(data))
+	response := helper.SuccessfulResponse1(formatter.FormatterGetAllEcopedia(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -144,7 +146,7 @@ func (h *ecopediaHandler) GetAllEcopedia(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/ecopedia/{slug} [put]
 func (h *ecopediaHandler) UpdateEcopedia(c *gin.Context) {
-	var input ecopedia.EcopediaInput
+	var input dto.EcopediaInput
 
 	param := c.Param("slug")
 
@@ -235,7 +237,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 		imagesKitURLs = append(imagesKitURLs, imageKitURL)
 	}
 
-	var ecopediaInput ecopedia.EcopediaInput
+	var ecopediaInput dto.EcopediaInput
 
 	err := c.ShouldBind(&ecopediaInput)
 

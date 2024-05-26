@@ -5,7 +5,9 @@ import (
 	"context"
 	"fmt"
 	endpointcount "greenwelfare/endpointCount"
-	"greenwelfare/gallery"
+	"greenwelfare/dto"
+	"greenwelfare/formatter"
+	"greenwelfare/service"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
 	"io"
@@ -16,11 +18,11 @@ import (
 )
 
 type galleryHandler struct {
-	galleryService  gallery.Service
+	galleryService  service.ServiceGallery
 	endpointService endpointcount.StatisticsService
 }
 
-func NewGalleryHandler(galleryService gallery.Service, endpointService endpointcount.StatisticsService) *galleryHandler {
+func NewGalleryHandler(galleryService service.ServiceGallery, endpointService endpointcount.StatisticsService) *galleryHandler {
 	return &galleryHandler{galleryService, endpointService}
 }
 
@@ -84,7 +86,7 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
         imagesKitURLs = append(imagesKitURLs, imageKitURL)
 		}
 
-		var ecopediaInput gallery.InputGallery
+		var ecopediaInput dto.InputGallery
 
 		err := c.ShouldBind(&ecopediaInput)
 
@@ -152,7 +154,7 @@ func (h *galleryHandler) GetOneGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1(gallery.PostFormatterGallery(newDel))
+	response := helper.SuccessfulResponse1(formatter.PostFormatterGallery(newDel))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -184,7 +186,7 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1(gallery.FormatterGetAllGallery(newGalleryImage))
+	response := helper.SuccessfulResponse1(formatter.FormatterGetAllGallery(newGalleryImage))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -204,7 +206,7 @@ func (h *galleryHandler) UpdateGallery(c *gin.Context) {
 
 	param := c.Param("slug")
 
-	var input gallery.InputGallery
+	var input dto.InputGallery
 	err := c.ShouldBind(&input)
 	if err != nil {
 		// errors := helper.FormatValidationError(err)

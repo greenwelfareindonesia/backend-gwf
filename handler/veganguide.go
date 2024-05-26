@@ -5,9 +5,11 @@ import (
 	"context"
 	"fmt"
 	endpointcount "greenwelfare/endpointCount"
+	"greenwelfare/formatter"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
-	"greenwelfare/veganguide"
+	"greenwelfare/service"
+	"greenwelfare/dto"
 	"io"
 	"net/http"
 	"strconv"
@@ -16,11 +18,11 @@ import (
 )
 
 type veganguideHandler struct {
-	veganguideService veganguide.Service
+	veganguideService service.ServiceVeganguide
 	endpointService   endpointcount.StatisticsService
 }
 
-func NewVeganguideHandler(veganguideService veganguide.Service, endpointService endpointcount.StatisticsService) *veganguideHandler {
+func NewVeganguideHandler(veganguideService service.ServiceVeganguide, endpointService endpointcount.StatisticsService) *veganguideHandler {
 	return &veganguideHandler{veganguideService, endpointService}
 }
 
@@ -172,7 +174,7 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 		return
 	}
 
-	var input veganguide.VeganguideInput
+	var input dto.VeganguideInput
 
 	err = c.ShouldBind(&input)
 	if err != nil {
@@ -198,7 +200,7 @@ func (h *veganguideHandler) PostVeganguideHandler(c *gin.Context) {
 	}
 
 	
-	response := helper.SuccessfulResponse1(veganguide.PostFormatterWorkshop(data))
+	response := helper.SuccessfulResponse1(formatter.PostFormatterVeganguide(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -249,7 +251,7 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 
 	param := c.Param("slug")
 
-	var input veganguide.VeganguideInput
+	var input dto.VeganguideInput
 	err = c.ShouldBind(&input)
 	if err != nil {
 		// errors := helper.FormatValidationError(err)
@@ -267,6 +269,6 @@ func (h *veganguideHandler) UpdateVeganguide(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1(veganguide.UpdatedFormatterWorkshop(veganguides))
+	response := helper.SuccessfulResponse1(formatter.UpdatedFormatterVeganguide(veganguides))
 	c.JSON(http.StatusOK, response)
 }

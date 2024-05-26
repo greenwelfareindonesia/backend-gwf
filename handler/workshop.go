@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"greenwelfare/dto"
 	endpointcount "greenwelfare/endpointCount"
+	"greenwelfare/formatter"
 	"greenwelfare/helper"
 	"greenwelfare/imagekits"
-	"greenwelfare/workshop"
+	"greenwelfare/service"
 	"io"
 	"net/http"
 	"strconv"
@@ -16,11 +18,11 @@ import (
 )
 
 type workshopHandler struct {
-	workshopService workshop.Service
+	workshopService service.ServiceWorkshop
 	endpointService endpointcount.StatisticsService
 }
 
-func NewWorkshopHandler(workshopService workshop.Service, endpointService endpointcount.StatisticsService) *workshopHandler {
+func NewWorkshopHandler(workshopService service.ServiceWorkshop, endpointService endpointcount.StatisticsService) *workshopHandler {
 	return &workshopHandler{workshopService, endpointService}
 }
 
@@ -70,7 +72,7 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 		return
 	}
 
-	var input workshop.CreateWorkshop
+	var input dto.CreateWorkshop
 
 	err = c.ShouldBind(&input)
 
@@ -97,7 +99,7 @@ func (h *workshopHandler) CreateWorkshop(c *gin.Context) {
 		return
 	}
 	// data := gin.H{"is_uploaded": true}
-	response := helper.SuccessfulResponse1(workshop.PostFormatterWorkshop(data))
+	response := helper.SuccessfulResponse1(formatter.PostFormatterWorkshop(data))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -234,7 +236,7 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 		return
 	}
 
-	var input workshop.CreateWorkshop
+	var input dto.CreateWorkshop
 	err = c.ShouldBind(&input)
 	if err != nil {
 		// errors := helper.FormatValidationError(err)
@@ -253,7 +255,7 @@ func (h *workshopHandler) UpdateWorkshop(c *gin.Context) {
 	}
 
 	// data := gin.H{"is_updated": true}
-	response := helper.SuccessfulResponse1(workshop.UpdateFormatterWorkshop(data))
+	response := helper.SuccessfulResponse1(formatter.UpdateFormatterWorkshop(data))
 	c.JSON(http.StatusOK, response)
 }
 

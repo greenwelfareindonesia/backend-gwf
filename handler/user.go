@@ -2,19 +2,21 @@ package handler
 
 import (
 	"greenwelfare/auth"
+	"greenwelfare/dto"
+	"greenwelfare/formatter"
 	"greenwelfare/helper"
-	"greenwelfare/user"
+	"greenwelfare/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type userHandler struct {
-	userService user.Service
+	userService service.ServiceUser
 	authService auth.Service
 }
 
-func NewUserHandler(userService user.Service, authService auth.Service) *userHandler {
+func NewUserHandler(userService service.ServiceUser, authService auth.Service) *userHandler {
 	return &userHandler{userService, authService}
 }
 
@@ -31,7 +33,7 @@ func NewUserHandler(userService user.Service, authService auth.Service) *userHan
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/user/register [post]
 func (h *userHandler) RegisterUser(c *gin.Context) {
-	var input user.RegisterUserInput
+	var input dto.RegisterUserInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -82,7 +84,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/user/login [post]
 func (h *userHandler) Login(c *gin.Context) {
-	var input user.LoginInput
+	var input dto.LoginInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -105,7 +107,7 @@ func (h *userHandler) Login(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	formatter := user.PostFormatterUser(loggedinUser, token)
+	formatter := formatter.PostFormatterUser(loggedinUser, token)
 	response := helper.SuccessfulResponse1(formatter)
 	c.JSON(http.StatusOK, response)
 }
@@ -150,7 +152,7 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/user/{slug} [put]
 func (h *userHandler) UpdateUser(c *gin.Context) {
-	var input user.UpdateUserInput
+	var input dto.UpdateUserInput
 
 	param := c.Param("slug")
 
