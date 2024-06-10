@@ -10,6 +10,7 @@ import (
 
 type ServiceShoppingCart interface {
 	CreateShoppingCart(ctx context.Context, shoppingCart dto.CreateShoppingCartDTO) (dto.ShoppingCartResponseDTO, error)
+	GetShoppingCarts(ctx context.Context, userId uint64) ([]dto.ShoppingCartResponseDTO, error)
 }
 
 type service_shopping_cart struct {
@@ -51,6 +52,21 @@ func (s *service_shopping_cart) CreateShoppingCart(ctx context.Context, shopping
 	return parsingShoppingCartResponseDTO(res), nil
 }
 
+func (s *service_shopping_cart) GetShoppingCarts(ctx context.Context, userId uint64) ([]dto.ShoppingCartResponseDTO, error) {
+	res, errRepo := s.repoShoppingCart.GetShoppingCarts(ctx, userId)
+	if errRepo != nil {
+		return []dto.ShoppingCartResponseDTO{}, errRepo
+	}
+
+	resposeDTO := []dto.ShoppingCartResponseDTO{}
+	for _, v := range res {
+		parsingRes := parsingShoppingCartResponseDTO(v)
+		resposeDTO = append(resposeDTO, parsingRes)
+	}
+
+	return resposeDTO, nil
+}
+
 func parsingShoppingCartResponseDTO(shoppingCart entity.ShoppingCart) dto.ShoppingCartResponseDTO {
 	response := dto.ShoppingCartResponseDTO{
 		ID:            shoppingCart.ID,
@@ -59,5 +75,25 @@ func parsingShoppingCartResponseDTO(shoppingCart entity.ShoppingCart) dto.Shoppi
 		TotalPrice:    shoppingCart.TotalPrice,
 		DefaultColumn: shoppingCart.DefaultColumn,
 	}
+
+	if shoppingCart.User.ID != 0 {
+		userResponse := dto.UserShoppingCartResponse{
+			ID:       uint64(shoppingCart.User.ID),
+			Username: shoppingCart.User.Username,
+		}
+		response.User = &userResponse
+	}
+
+	if shoppingCart.Product.ID != 0 {
+		productResponse := dto.ProductShoppingCartResponse{
+			ID:          shoppingCart.Product.ID,
+			Name:        shoppingCart.Product.Name,
+			Price:       shoppingCart.Product.Price,
+			ImageUrl:    shoppingCart.Product.ImageUrl,
+			Description: shoppingCart.Product.Description,
+		}
+		response.Product = &productResponse
+	}
+
 	return response
 }

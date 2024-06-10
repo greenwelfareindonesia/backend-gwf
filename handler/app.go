@@ -160,6 +160,7 @@ func StartApp() {
 	shoppingCarts := router.Group("/api/shopping-cart")
 	shoppingCarts.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
 	shoppingCarts.POST("/", shoppingCartHandler.CreateShoppingCart)
+	shoppingCarts.GET("/", shoppingCartHandler.GetShoppingCarts)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
