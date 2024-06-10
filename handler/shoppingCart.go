@@ -22,6 +22,7 @@ func NewShoppingCartHandler(svc service.ServiceShoppingCart) *shoppingCartHandle
 func (h *shoppingCartHandler) CreateShoppingCart(ctx *gin.Context) {
 	newShoppingCartRequest := dto.CreateShoppingCartDTO{}
 
+	// BINDING
 	if err := ctx.Bind(&newShoppingCartRequest); err != nil {
 		errBindJson := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newShoppingCartRequest)
 		ctx.AbortWithStatusJSON(errBindJson.Error.Code, errBindJson)
@@ -103,17 +104,17 @@ func (h *shoppingCartHandler) GetShoppingCarts(ctx *gin.Context) {
 func (h *shoppingCartHandler) GetShoppingCartById(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if id == 0 || err != nil {
-		response := helper.FailedResponse1(http.StatusBadRequest, "invalid query param", nil)
+		response := helper.FailedResponse1(http.StatusBadRequest, "invalid path param id", nil)
 		ctx.AbortWithStatusJSON(response.Error.Code, response)
 		return
 	}
 
 	userID := uint64(0)
 
-	// JIKA LOGIN SBG USER . WABIT MEMBERIKAN PARAMETR USER_ID AGAR HANYA DATANYA SENDIRI YG BISA DILIHAT
+	// JIKA LOGIN SBG USER . WAJIT MEMBERIKAN PARAMETR USER_ID AGAR HANYA DATANYA SENDIRI YG BISA DILIHAT
 	currentUser, exists := ctx.Get("currentUser")
 	if !exists {
-		response := helper.FailedResponse1(http.StatusInternalServerError, "User Session not found", nil)
+		response := helper.FailedResponse1(http.StatusInternalServerError, "user Session not found", nil)
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, response)
 		return
 	}
@@ -125,6 +126,61 @@ func (h *shoppingCartHandler) GetShoppingCartById(ctx *gin.Context) {
 	}
 
 	shoppingCart, errSvc := h.shoppingCartService.GetShoppingCartById(ctx, userID, uint64(id))
+	if errSvc != nil {
+		errGetShoppingCarts := helper.FailedResponse1(http.StatusInternalServerError, errSvc.Error(), errSvc)
+		ctx.AbortWithStatusJSON(errGetShoppingCarts.Error.Code, errGetShoppingCarts)
+		return
+	}
+	response := helper.SuccessfulResponse1(shoppingCart)
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (h *shoppingCartHandler) UpdateShoppingCartById(ctx *gin.Context) {
+	updateShoppingCart := dto.UpdateShoppingCartDTO{}
+
+	// GET PARAMS ID
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if id == 0 || err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, "invalid path param id", nil)
+		ctx.AbortWithStatusJSON(response.Error.Code, response)
+		return
+	}
+
+	// BINDING
+	if err := ctx.Bind(&updateShoppingCart); err != nil {
+		errBindJson := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), updateShoppingCart)
+		ctx.AbortWithStatusJSON(errBindJson.Error.Code, errBindJson)
+		return
+	}
+
+	// VALIDATE INPUT
+	if err := updateShoppingCart.Validate(); err != nil {
+		errValidate := helper.FailedResponse1(http.StatusBadRequest, err.Error(), updateShoppingCart)
+		ctx.AbortWithStatusJSON(errValidate.Error.Code, errValidate)
+		return
+	}
+
+	userID := uint64(0)
+
+	// JIKA LOGIN SBG USER . WAJIT MEMBERIKAN PARAMETR USER_ID AGAR HANYA DATANYA SENDIRI YG BISA DILIHAT
+	currentUser, exists := ctx.Get("currentUser")
+	if !exists {
+		response := helper.FailedResponse1(http.StatusInternalServerError, "user Session not found", nil)
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	// SET USER_ID
+	roleId := uint64(currentUser.(*entity.User).Role)
+	if roleId == 0 {
+		userID = uint64(currentUser.(*entity.User).ID)
+	}
+
+	// UPDATE DTO
+	updateShoppingCart.ID = uint64(id)
+	updateShoppingCart.UserID = userID
+
+	shoppingCart, errSvc := h.shoppingCartService.UpdateShoppingCartById(ctx, updateShoppingCart)
 	if errSvc != nil {
 		errGetShoppingCarts := helper.FailedResponse1(http.StatusInternalServerError, errSvc.Error(), errSvc)
 		ctx.AbortWithStatusJSON(errGetShoppingCarts.Error.Code, errGetShoppingCarts)

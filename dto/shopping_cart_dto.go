@@ -11,6 +11,12 @@ type CreateShoppingCartDTO struct {
 	UserID    uint64 `json:"user_id" form:"user_id"`
 }
 
+type UpdateShoppingCartDTO struct {
+	ID     uint64 `json:"id"`
+	Status string `json:"status"`
+	UserID uint64 `json:"user_id"`
+}
+
 type ShoppingCartResponseDTO struct {
 	ID         uint64                       `json:"id"`
 	ProductID  uint64                       `json:"product_id"`
@@ -41,6 +47,18 @@ func (p *CreateShoppingCartDTO) Validate() error {
 
 	if p.ProductID == 0 {
 		return errors.New("field product_id is required")
+	}
+
+	return nil
+}
+
+func (p *UpdateShoppingCartDTO) Validate() error {
+	if p.Status == "" {
+		return errors.New("field status is required")
+	}
+
+	if p.Status != "" && (p.Status != "increment" && p.Status != "decrement") {
+		return errors.New("invalid value field status. status must be increment or decrement")
 	}
 
 	return nil

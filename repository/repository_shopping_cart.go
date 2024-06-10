@@ -12,6 +12,7 @@ type RepositoryShoppingCart interface {
 	CreateShoppingCart(ctx context.Context, shoppingCart entity.ShoppingCart) (entity.ShoppingCart, error)
 	GetShoppingCarts(ctx context.Context, userId uint64) ([]entity.ShoppingCart, error)
 	GetShoppingCartById(ctx context.Context, userId uint64, cartId uint64) (entity.ShoppingCart, error)
+	UpdateShoppingCartById(ctx context.Context, updatedShoppingCart entity.ShoppingCart) (entity.ShoppingCart, error) // update qty and total price
 }
 
 type repository_shopping_cart struct {
@@ -71,4 +72,12 @@ func (r *repository_shopping_cart) GetShoppingCartById(ctx context.Context, user
 	}
 
 	return shoppingCart, nil
+}
+
+func (r *repository_shopping_cart) UpdateShoppingCartById(ctx context.Context, updatedShoppingCart entity.ShoppingCart) (entity.ShoppingCart, error) {
+	if err := r.db.WithContext(ctx).Table("shopping_carts").Save(&updatedShoppingCart).Error; err != nil {
+		return entity.ShoppingCart{}, err
+	}
+
+	return updatedShoppingCart, nil
 }
