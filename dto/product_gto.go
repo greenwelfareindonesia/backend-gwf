@@ -6,14 +6,14 @@ import (
 )
 
 type CreateProductDTO struct {
-	Name        string `form:"name" binding:"required"`
-	Price       uint64 `form:"price" binding:"required"`
-	Stock       uint64 `form:"stock" binding:"required"`
-	Description string `form:"description" binding:"required"`
+	Name        string `form:"name"`
+	Price       uint64 `form:"price"`
+	Stock       uint64 `form:"stock"`
+	Description string `form:"description"`
 }
 
 type ProductResponseDTO struct {
-	ID          uint64   `json:"ID"`
+	ID          uint64 `json:"id"`
 	Name        string `json:"name"`
 	Slug        string `json:"slug"`
 	Price       uint64 `json:"price"`
@@ -23,8 +23,21 @@ type ProductResponseDTO struct {
 }
 
 func (p *CreateProductDTO) Validate() error {
-	if p.Stock < 1 {
-		return errors.New("Product Stock min 1")
+	if p.Name == "" {
+		return errors.New("field name is required")
 	}
+
+	if p.Price < 1 || p.Price == 0 {
+		return errors.New("field price min 1")
+	}
+
+	if p.Stock < 1 || p.Stock == 0 {
+		return errors.New("field stock min 1")
+	}
+
+	if p.Description == "" {
+		return errors.New("field description is requried")
+	}
+
 	return nil
 }

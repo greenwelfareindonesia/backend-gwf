@@ -47,11 +47,12 @@ func (s *service_product) CreateProduct(ctx context.Context, product dto.CreateP
 
 func parsingProductResponseDTO(product entity.Product) dto.ProductResponseDTO {
 	response := dto.ProductResponseDTO{
-		ID:          product.ID,
-		Name:        product.Name,
-		Slug:        product.Slug,
-		Stock:       product.Stock,
-		Description: product.Description,
+		ID:            product.ID,
+		Name:          product.Name,
+		Slug:          product.Slug,
+		Stock:         product.Stock,
+		Description:   product.Description,
+		DefaultColumn: product.DefaultColumn,
 	}
 	return response
 }

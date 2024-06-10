@@ -153,6 +153,14 @@ func StartApp() {
 	products.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
 	products.POST("/", productHandler.CreateProduct)
 
+	shoppingCartRepository := repository.NewRepositoryShoppingCart(db)
+	shoppingCartService := service.NewServiceShoppingCart(shoppingCartRepository, productsRepository)
+	shoppingCartHandler := NewShoppingCartHandler(shoppingCartService)
+
+	shoppingCarts := router.Group("/api/shopping-cart")
+	shoppingCarts.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
+	shoppingCarts.POST("/", shoppingCartHandler.CreateShoppingCart)
+
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
 
