@@ -146,7 +146,7 @@ func StartApp() {
 
 	productsRepository := repository.NewRepositoryProduct(db)
 	productsService := service.NewServiceProduct(productsRepository)
-	productHandler := NewProductHandler(productsService)
+	productHandler := NewProductHandler(productsService, statisticsService)
 
 	products := router.Group("/api/product")
 	//get all

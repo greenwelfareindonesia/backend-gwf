@@ -6,10 +6,10 @@ import (
 )
 
 type CreateProductDTO struct {
-	Name        string `json:"name" binding:"required"`
-	Price       uint64 `json:"price" binding:"required"`
-	Stock       uint64 `json:"stock" binding:"required"`
-	Description string `json:"description" binding:"required"`
+	Name        string `form:"name" binding:"required"`
+	Price       uint64 `form:"price" binding:"required"`
+	Stock       uint64 `form:"stock" binding:"required"`
+	Description string `form:"description" binding:"required"`
 }
 
 type ProductResponseDTO struct {

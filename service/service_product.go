@@ -25,6 +25,7 @@ func NewServiceProduct(repository repository.RepositoryProduct) *service_product
 
 func (s *service_product) CreateProduct(ctx context.Context, product dto.CreateProductDTO) (dto.ProductResponseDTO, error) {
 	slugName := strings.ToLower(product.Name)
+	slugName = strings.ReplaceAll(slugName, " ", "-")
 	var seededRand *rand.Rand = rand.New(
 		rand.NewSource(time.Now().UnixNano()))
 	randomNumber := seededRand.Intn(1000000)

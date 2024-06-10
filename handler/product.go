@@ -2,6 +2,7 @@ package handler
 
 import (
 	"greenwelfare/dto"
+	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/helper"
 	"greenwelfare/service"
 	"net/http"
@@ -11,10 +12,11 @@ import (
 
 type productHandler struct {
 	productService service.ServiceProduct
+	endpointService endpointcount.StatisticsService
 }
 
-func NewProductHandler(svc service.ServiceProduct) *productHandler {
-	return &productHandler{svc}
+func NewProductHandler(svc service.ServiceProduct, endpointService endpointcount.StatisticsService) *productHandler {
+	return &productHandler{svc, endpointService}
 }
 
 // @Summary Create new product
