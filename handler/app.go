@@ -161,6 +161,7 @@ func StartApp() {
 	shoppingCarts.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
 	shoppingCarts.POST("/", shoppingCartHandler.CreateShoppingCart)
 	shoppingCarts.GET("/", shoppingCartHandler.GetShoppingCarts)
+	shoppingCarts.GET("/:id", shoppingCartHandler.GetShoppingCartById)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)

@@ -11,6 +11,7 @@ import (
 type ServiceShoppingCart interface {
 	CreateShoppingCart(ctx context.Context, shoppingCart dto.CreateShoppingCartDTO) (dto.ShoppingCartResponseDTO, error)
 	GetShoppingCarts(ctx context.Context, userId uint64) ([]dto.ShoppingCartResponseDTO, error)
+	GetShoppingCartById(ctx context.Context, userId uint64, cardId uint64) (dto.ShoppingCartResponseDTO, error)
 }
 
 type service_shopping_cart struct {
@@ -65,6 +66,15 @@ func (s *service_shopping_cart) GetShoppingCarts(ctx context.Context, userId uin
 	}
 
 	return resposeDTO, nil
+}
+
+func (s *service_shopping_cart) GetShoppingCartById(ctx context.Context, userId uint64, cardId uint64) (dto.ShoppingCartResponseDTO, error) {
+	shoppingCart, errRepo := s.repoShoppingCart.GetShoppingCartById(ctx, userId, cardId)
+	if errRepo != nil {
+		return dto.ShoppingCartResponseDTO{}, errRepo
+	}
+
+	return parsingShoppingCartResponseDTO(shoppingCart), nil
 }
 
 func parsingShoppingCartResponseDTO(shoppingCart entity.ShoppingCart) dto.ShoppingCartResponseDTO {

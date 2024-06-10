@@ -11,7 +11,7 @@ import (
 )
 
 type productHandler struct {
-	productService service.ServiceProduct
+	productService  service.ServiceProduct
 	endpointService endpointcount.StatisticsService
 }
 
@@ -23,7 +23,7 @@ func NewProductHandler(svc service.ServiceProduct, endpointService endpointcount
 // @Description Create new product
 // @Accept multipart/form-data
 // @Produce json
-// @Tags Product 
+// @Tags Product
 // @Param Name formData string true "Name"
 // @Param Price formData string true "Price"
 // @Param Description formData string true "Description"
@@ -56,5 +56,6 @@ func (h *productHandler) CreateProduct(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, product)
+	response := helper.SuccessfulResponse1(product)
+	ctx.JSON(http.StatusOK, response)
 }

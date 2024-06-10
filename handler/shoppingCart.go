@@ -53,7 +53,8 @@ func (h *shoppingCartHandler) CreateShoppingCart(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, shoppingCart)
+	response := helper.SuccessfulResponse1(shoppingCart)
+	ctx.JSON(http.StatusOK, response)
 }
 
 func (h *shoppingCartHandler) GetShoppingCarts(ctx *gin.Context) {
@@ -66,7 +67,7 @@ func (h *shoppingCartHandler) GetShoppingCarts(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, response)
 		return
 	}
-	
+
 	roleId := uint64(currentUser.(*entity.User).Role)
 	if roleId == 0 {
 		userID = uint64(currentUser.(*entity.User).ID)
@@ -95,5 +96,40 @@ func (h *shoppingCartHandler) GetShoppingCarts(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, shoppingCarts)
+	response := helper.SuccessfulResponse1(shoppingCarts)
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (h *shoppingCartHandler) GetShoppingCartById(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if id == 0 || err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, "invalid query param", nil)
+		ctx.AbortWithStatusJSON(response.Error.Code, response)
+		return
+	}
+
+	userID := uint64(0)
+
+	// JIKA LOGIN SBG USER . WABIT MEMBERIKAN PARAMETR USER_ID AGAR HANYA DATANYA SENDIRI YG BISA DILIHAT
+	currentUser, exists := ctx.Get("currentUser")
+	if !exists {
+		response := helper.FailedResponse1(http.StatusInternalServerError, "User Session not found", nil)
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	// SET USER_ID
+	roleId := uint64(currentUser.(*entity.User).Role)
+	if roleId == 0 {
+		userID = uint64(currentUser.(*entity.User).ID)
+	}
+
+	shoppingCart, errSvc := h.shoppingCartService.GetShoppingCartById(ctx, userID, uint64(id))
+	if errSvc != nil {
+		errGetShoppingCarts := helper.FailedResponse1(http.StatusInternalServerError, errSvc.Error(), errSvc)
+		ctx.AbortWithStatusJSON(errGetShoppingCarts.Error.Code, errGetShoppingCarts)
+		return
+	}
+	response := helper.SuccessfulResponse1(shoppingCart)
+	ctx.JSON(http.StatusOK, response)
 }

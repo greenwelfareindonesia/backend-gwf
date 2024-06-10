@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"greenwelfare/entity"
 
 	"gorm.io/gorm"
@@ -10,6 +11,7 @@ import (
 type RepositoryShoppingCart interface {
 	CreateShoppingCart(ctx context.Context, shoppingCart entity.ShoppingCart) (entity.ShoppingCart, error)
 	GetShoppingCarts(ctx context.Context, userId uint64) ([]entity.ShoppingCart, error)
+	GetShoppingCartById(ctx context.Context, userId uint64, cartId uint64) (entity.ShoppingCart, error)
 }
 
 type repository_shopping_cart struct {
@@ -46,4 +48,27 @@ func (r *repository_shopping_cart) GetShoppingCarts(ctx context.Context, userId 
 	}
 
 	return shoppingCarts, nil
+}
+
+func (r *repository_shopping_cart) GetShoppingCartById(ctx context.Context, userId uint64, cartId uint64) (entity.ShoppingCart, error) {
+	shoppingCart := entity.ShoppingCart{}
+
+	query := r.db.WithContext(ctx).Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id", "username")
+	}).Preload("Product", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id", "name", "price", "image_url", "description")
+	}).Where("id = ?", cartId)
+
+	if userId != 0 {
+		query.Where("user_id = ?", userId)
+	}
+
+	if err := query.First(&shoppingCart).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return entity.ShoppingCart{}, errors.New("shopping cart not found")
+		}
+		return entity.ShoppingCart{}, err
+	}
+
+	return shoppingCart, nil
 }
