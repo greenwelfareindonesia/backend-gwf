@@ -13,6 +13,7 @@ type RepositoryShoppingCart interface {
 	GetShoppingCarts(ctx context.Context, userId uint64) ([]entity.ShoppingCart, error)
 	GetShoppingCartById(ctx context.Context, userId uint64, cartId uint64) (entity.ShoppingCart, error)
 	UpdateShoppingCartById(ctx context.Context, updatedShoppingCart entity.ShoppingCart) (entity.ShoppingCart, error) // update qty and total price
+	DeleteShoppingCartById(ctx context.Context, cartId uint64) error
 }
 
 type repository_shopping_cart struct {
@@ -80,4 +81,15 @@ func (r *repository_shopping_cart) UpdateShoppingCartById(ctx context.Context, u
 	}
 
 	return updatedShoppingCart, nil
+}
+
+func (r *repository_shopping_cart) DeleteShoppingCartById(ctx context.Context, cartId uint64) error {
+	if err := r.db.WithContext(ctx).Table("shopping_carts").Delete(&entity.ShoppingCart{ID: cartId}).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.New("shopping cart not found")
+		}
+		return err
+	}
+
+	return nil
 }

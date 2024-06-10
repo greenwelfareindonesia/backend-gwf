@@ -163,6 +163,7 @@ func StartApp() {
 	shoppingCarts.GET("/", shoppingCartHandler.GetShoppingCarts)
 	shoppingCarts.GET("/:id", shoppingCartHandler.GetShoppingCartById)
 	shoppingCarts.PUT("/:id", shoppingCartHandler.UpdateShoppingCartById) // update qty and total price
+	shoppingCarts.DELETE("/:id", shoppingCartHandler.DeleteShoppingCartById)
 
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
