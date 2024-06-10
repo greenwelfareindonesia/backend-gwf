@@ -144,6 +144,15 @@ func StartApp() {
 	gallerys.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.UpdateGallery)
 	gallerys.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.DeleteGallery)
 
+	productsRepository := repository.NewRepositoryProduct(db)
+	productsService := service.NewServiceProduct(productsRepository)
+	productHandler := NewProductHandler(productsService)
+
+	products := router.Group("/api/product")
+	//get all
+	products.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
+	products.POST("/", productHandler.CreateProduct)
+
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
 

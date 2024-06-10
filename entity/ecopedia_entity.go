@@ -1,27 +1,20 @@
 package entity
 
-import (
-	"time"
-)
-
 type Ecopedia struct {
-	ID        int 
-	Slug string
-	Title     string
-	SubTitle  string
+	ID          int
+	Slug        string
+	Title       string
+	SubTitle    string
 	Description string
-	SrcFile string
-	Reference string
-	FileName  []EcopediaImage `gorm:"foreignKey:EcopediaID"`
-	CreatedAt time.Time
-    UpdatedAt time.Time 
+	SrcFile     string
+	Reference   string
+	FileName    []EcopediaImage `gorm:"foreignKey:EcopediaID"`
+	DefaultColumn
 }
 
 type EcopediaImage struct {
-	ID        int      `gorm:"primaryKey"`
-    FileName  string    
-	EcopediaID int      
-	CreatedAt time.Time 
-    UpdatedAt time.Time 
+	ID         int `gorm:"primaryKey"`
+	FileName   string
+	EcopediaID int
+	DefaultColumn
 }
-
