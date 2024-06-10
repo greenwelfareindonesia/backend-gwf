@@ -13,6 +13,7 @@ import (
 
 type ServiceProduct interface {
 	CreateProduct(ctx context.Context, product dto.CreateProductDTO) (dto.ProductResponseDTO, error)
+	ReadProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error)
 }
 
 type service_product struct {
@@ -43,6 +44,16 @@ func (s *service_product) CreateProduct(ctx context.Context, product dto.CreateP
 		return dto.ProductResponseDTO{}, errRepo
 	}
 	return parsingProductResponseDTO(res), nil
+}
+
+func (s *service_product) ReadProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error) {
+	product, err := s.repository.ReadProductBySlug(ctx, slug)
+
+	if err != nil {
+		return dto.ProductResponseDTO{}, err
+	}
+
+	return parsingProductResponseDTO(product), nil
 }
 
 func parsingProductResponseDTO(product entity.Product) dto.ProductResponseDTO {

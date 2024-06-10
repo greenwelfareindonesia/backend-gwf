@@ -59,3 +59,17 @@ func (h *productHandler) CreateProduct(ctx *gin.Context) {
 	response := helper.SuccessfulResponse1(product)
 	ctx.JSON(http.StatusOK, response)
 }
+
+func (h *productHandler) ReadProductBySlug(ctx *gin.Context) {
+	slug := ctx.Param("slug")
+
+	product, err := h.productService.ReadProductBySlug(ctx, slug)
+
+	if err != nil {
+		err := helper.FailedResponse1(http.StatusNotFound, err.Error(), nil)
+		ctx.AbortWithStatusJSON(err.Error.Code, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, product)
+}

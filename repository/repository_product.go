@@ -11,6 +11,7 @@ import (
 type RepositoryProduct interface {
 	CreateProduct(ctx context.Context, product entity.Product) (entity.Product, error)
 	GetProductById(ctx context.Context, id uint64) (entity.Product, error)
+	ReadProductBySlug(ctx context.Context, slug string) (entity.Product, error)
 }
 
 type repository_product struct {
@@ -38,5 +39,16 @@ func (r *repository_product) GetProductById(ctx context.Context, id uint64) (ent
 
 		return entity.Product{}, err
 	}
+
+	return product, nil
+}
+
+func (r *repository_product) ReadProductBySlug(ctx context.Context, slug string) (entity.Product, error) {
+	var product entity.Product
+
+	if err := r.db.WithContext(ctx).Table("products").Where("slug = ?", slug).First(&product).Error; err != nil {
+		return entity.Product{}, err
+	}
+
 	return product, nil
 }

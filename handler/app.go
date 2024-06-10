@@ -152,6 +152,7 @@ func StartApp() {
 	//get all
 	products.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
 	products.POST("/", productHandler.CreateProduct)
+	products.GET("/:slug", productHandler.ReadProductBySlug)
 
 	shoppingCartRepository := repository.NewRepositoryShoppingCart(db)
 	shoppingCartService := service.NewServiceShoppingCart(shoppingCartRepository, productsRepository)
