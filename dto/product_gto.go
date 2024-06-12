@@ -12,6 +12,13 @@ type CreateProductDTO struct {
 	Description string `form:"description"`
 }
 
+type UpdateProductDTO struct {
+	Name        string `form:"name"`
+	Price       uint64 `form:"price"`
+	Stock       uint64 `form:"stock"`
+	Description string `form:"description"`
+}
+
 type ProductResponseDTO struct {
 	ID          uint64 `json:"id"`
 	Name        string `json:"name"`

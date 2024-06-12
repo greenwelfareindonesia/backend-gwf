@@ -12,6 +12,8 @@ type RepositoryProduct interface {
 	CreateProduct(ctx context.Context, product entity.Product) (entity.Product, error)
 	GetProductById(ctx context.Context, id uint64) (entity.Product, error)
 	ReadProductBySlug(ctx context.Context, slug string) (entity.Product, error)
+	UpdateProduct(ctx context.Context, product *entity.Product) (entity.Product, error)
+	DeleteProduct(ctx context.Context, product *entity.Product) (entity.Product, error)
 }
 
 type repository_product struct {
@@ -51,4 +53,20 @@ func (r *repository_product) ReadProductBySlug(ctx context.Context, slug string)
 	}
 
 	return product, nil
+}
+
+func (r *repository_product) UpdateProduct(ctx context.Context, product *entity.Product) (entity.Product, error) {
+	if err := r.db.Save(&product).Error; err != nil {
+		return entity.Product{}, err
+	}
+
+	return *product, nil
+}
+
+func (r *repository_product) DeleteProduct(ctx context.Context, product *entity.Product) (entity.Product, error) {
+	if err := r.db.WithContext(ctx).Delete(&product).Error; err != nil {
+		return entity.Product{}, err
+	}
+
+	return *product, nil
 }

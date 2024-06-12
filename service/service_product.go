@@ -14,6 +14,8 @@ import (
 type ServiceProduct interface {
 	CreateProduct(ctx context.Context, product dto.CreateProductDTO) (dto.ProductResponseDTO, error)
 	ReadProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error)
+	UpdateProductBySlug(ctx context.Context, slug string, product dto.UpdateProductDTO) (dto.ProductResponseDTO, error)
+	DeleteProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error)
 }
 
 type service_product struct {
@@ -27,8 +29,7 @@ func NewServiceProduct(repository repository.RepositoryProduct) *service_product
 func (s *service_product) CreateProduct(ctx context.Context, product dto.CreateProductDTO) (dto.ProductResponseDTO, error) {
 	slugName := strings.ToLower(product.Name)
 	slugName = strings.ReplaceAll(slugName, " ", "-")
-	var seededRand *rand.Rand = rand.New(
-		rand.NewSource(time.Now().UnixNano()))
+	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 	randomNumber := seededRand.Intn(1000000)
 
 	newProduct := entity.Product{
@@ -54,6 +55,49 @@ func (s *service_product) ReadProductBySlug(ctx context.Context, slug string) (d
 	}
 
 	return parsingProductResponseDTO(product), nil
+}
+
+func (s *service_product) UpdateProductBySlug(
+	ctx context.Context,
+	slug string,
+	newProduct dto.UpdateProductDTO,
+) (dto.ProductResponseDTO, error) {
+	product, err := s.repository.ReadProductBySlug(ctx, slug)
+	if err != nil {
+		return dto.ProductResponseDTO{}, err
+	}
+
+	slugName := strings.ToLower(product.Name)
+	slugName = strings.ReplaceAll(slugName, " ", "-")
+	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+	randomNumber := seededRand.Intn(1000000)
+
+	product.Slug = fmt.Sprintf("%s-%d", slugName, randomNumber)
+	product.Name = newProduct.Name
+	product.Price = newProduct.Price
+	product.Description = newProduct.Description
+	product.Stock = newProduct.Stock
+
+	updated, err := s.repository.UpdateProduct(ctx, &product)
+	if err != nil {
+		return dto.ProductResponseDTO{}, err
+	}
+
+	return parsingProductResponseDTO(updated), nil
+}
+
+func (s *service_product) DeleteProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error) {
+	product, err := s.repository.ReadProductBySlug(ctx, slug)
+	if err != nil {
+		return dto.ProductResponseDTO{}, err
+	}
+
+	newProduct, err := s.repository.DeleteProduct(ctx, &product)
+	if err != nil {
+		return dto.ProductResponseDTO{}, err
+	}
+
+	return parsingProductResponseDTO(newProduct), nil
 }
 
 func parsingProductResponseDTO(product entity.Product) dto.ProductResponseDTO {

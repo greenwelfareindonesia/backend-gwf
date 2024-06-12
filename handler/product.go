@@ -71,5 +71,40 @@ func (h *productHandler) ReadProductBySlug(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, product)
+	response := helper.SuccessfulResponse1(product)
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (h *productHandler) UpdateProductBySlug(ctx *gin.Context) {
+	slug := ctx.Param("slug")
+
+	var input dto.UpdateProductDTO
+	if err := ctx.ShouldBind(&input); err != nil {
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
+		ctx.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	product, err := h.productService.UpdateProductBySlug(ctx, slug, input)
+	if err != nil {
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), product)
+		ctx.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.SuccessfulResponse1(product)
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (h *productHandler) DeleteProductBySlug(ctx *gin.Context) {
+	slug := ctx.Param("slug")
+
+	if _, err := h.productService.DeleteProductBySlug(ctx, slug); err != nil {
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), slug)
+		ctx.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.SuccessfulResponse1("product has successfully deleted")
+	ctx.JSON(http.StatusOK, response)
 }
