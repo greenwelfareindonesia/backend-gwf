@@ -226,3 +226,46 @@ func (h *shoppingCartHandler) DeleteShoppingCartById(ctx *gin.Context) {
 	response := helper.SuccessfulResponse1("success delete shopping cart")
 	ctx.JSON(http.StatusOK, response)
 }
+
+func (h *shoppingCartHandler) GetStatisticCarts(ctx *gin.Context) {
+	userID := uint64(0)
+
+	// FILTER USER_ID BY SESSION USER
+	currentUser, exists := ctx.Get("currentUser")
+	if !exists {
+		response := helper.FailedResponse1(http.StatusInternalServerError, "User Session not found", nil)
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	roleId := uint64(currentUser.(*entity.User).Role)
+	if roleId == 0 {
+		userID = uint64(currentUser.(*entity.User).ID)
+	}
+
+	// FILTER USER_ID BY QUERY PARAM (ONLY ADMIN)
+	queryUserID := ctx.Query("user_id")
+	if queryUserID != "" {
+		id, err := strconv.Atoi(queryUserID)
+		if id == 0 || err != nil {
+			response := helper.FailedResponse1(http.StatusBadRequest, "invalid query param", nil)
+			ctx.AbortWithStatusJSON(response.Error.Code, response)
+			return
+		}
+
+		// JIKA ROLE ADMIN MAKA BOLEH MELAKUKAN FILTER BERDASARKAN USER_ID MELALUI QUERY PARAM
+		if roleId == 1 {
+			userID = uint64(id)
+		}
+	}
+
+	statisticData, errSvc := h.shoppingCartService.GetStatisticCarts(ctx, userID)
+	if errSvc != nil {
+		errGetStatisticCarts := helper.FailedResponse1(http.StatusInternalServerError, errSvc.Error(), errSvc)
+		ctx.AbortWithStatusJSON(errGetStatisticCarts.Error.Code, errGetStatisticCarts)
+		return
+	}
+
+	response := helper.SuccessfulResponse1(statisticData)
+	ctx.JSON(http.StatusOK, response)
+}

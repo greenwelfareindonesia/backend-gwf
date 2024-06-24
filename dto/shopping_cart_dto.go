@@ -27,6 +27,11 @@ type ShoppingCartResponseDTO struct {
 	entity.DefaultColumn
 }
 
+type ShoppingCartStatisticResponseDTO struct {
+	TotalProduct uint64 `json:"total_product"`
+	TotalItem    uint64 `json:"total_item"`
+}
+
 type UserShoppingCartResponse struct {
 	ID       uint64 `json:"id"`
 	Username string `json:"username"`

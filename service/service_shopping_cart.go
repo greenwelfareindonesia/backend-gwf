@@ -14,6 +14,7 @@ type ServiceShoppingCart interface {
 	GetShoppingCartById(ctx context.Context, userId uint64, cardId uint64) (dto.ShoppingCartResponseDTO, error)
 	UpdateShoppingCartById(ctx context.Context, updateShoppingCart dto.UpdateShoppingCartDTO) (dto.ShoppingCartResponseDTO, error) // update qty and total price
 	DeleteShoppingCartById(ctx context.Context, userId uint64, cardId uint64) error
+	GetStatisticCarts(ctx context.Context, userId uint64) (dto.ShoppingCartStatisticResponseDTO, error)
 }
 
 type service_shopping_cart struct {
@@ -128,6 +129,26 @@ func (s *service_shopping_cart) DeleteShoppingCartById(ctx context.Context, user
 	}
 
 	return nil
+}
+
+func (s *service_shopping_cart) GetStatisticCarts(ctx context.Context, userId uint64) (dto.ShoppingCartStatisticResponseDTO, error) {
+	res, errRepo := s.repoShoppingCart.GetShoppingCarts(ctx, userId)
+	if errRepo != nil {
+		return dto.ShoppingCartStatisticResponseDTO{}, errRepo
+	}
+
+	resposeDTO := dto.ShoppingCartStatisticResponseDTO{}
+	total_item := 0
+	total_product := len(res)
+
+	for _, v := range res {
+		total_item += int(v.Qty)
+	}
+	
+	resposeDTO.TotalItem = uint64(total_item)
+	resposeDTO.TotalProduct = uint64(total_product)
+
+	return resposeDTO, nil
 }
 
 func parsingShoppingCartResponseDTO(shoppingCart entity.ShoppingCart) dto.ShoppingCartResponseDTO {

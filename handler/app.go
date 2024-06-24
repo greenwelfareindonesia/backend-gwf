@@ -165,6 +165,7 @@ func StartApp() {
 	shoppingCarts.POST("/", shoppingCartHandler.CreateShoppingCart)
 	shoppingCarts.GET("/", shoppingCartHandler.GetShoppingCarts)
 	shoppingCarts.GET("/:id", shoppingCartHandler.GetShoppingCartById)
+	shoppingCarts.GET("/statistic", shoppingCartHandler.GetStatisticCarts)
 	shoppingCarts.PUT("/:id", shoppingCartHandler.UpdateShoppingCartById) // update qty and total price
 	shoppingCarts.DELETE("/:id", shoppingCartHandler.DeleteShoppingCartById)
 
