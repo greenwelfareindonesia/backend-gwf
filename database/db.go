@@ -58,7 +58,10 @@ func InitDb() (*gorm.DB, error) {
 	db.AutoMigrate(&entity.GalleryImages{})
 	db.AutoMigrate(&entity.EcopediaImage{})
 	db.AutoMigrate(&entity.User{})
+	db.AutoMigrate(&entity.ProductCategory{})
 	db.AutoMigrate(&entity.Product{})
+	db.AutoMigrate(&entity.ProductImage{})
+	db.AutoMigrate(&entity.ProductDetail{})
 	db.AutoMigrate(&entity.ShoppingCart{})
 	db.AutoMigrate(&entity.Banner{})
 
