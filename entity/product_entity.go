@@ -4,7 +4,7 @@ type Product struct {
 	ID             uint64          `json:"id" gorm:"primaryKey"`
 	Slug           string          `json:"slug" gorm:"not null"`
 	Name           string          `json:"name" gorm:"not null"`
-	CategoryID     string          `json:"category_id" gorm:"not null; foreignKey:ProductID"`
+	CategoryID     uint64          `json:"category_id" gorm:"foreignKey:ProductID"` //optional
 	Excerpt        string          `json:"excerpt" gorm:"not null"`
 	Description    string          `json:"description" gorm:"not null; type:text"`
 	Merk           string          `json:"merk" gorm:"not null"`
