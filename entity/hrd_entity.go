@@ -1,6 +1,6 @@
 package entity
 
-type HRD struct {
+type Hrd struct {
 	ID          int
 	Slug        string
 	Nama        string
