@@ -95,7 +95,7 @@ func (s *service_hrd) UpdateHrd(input dto.UpdateHrdDTO, slug string) (*entity.Hr
 	hrd.Role = input.Role
 	hrd.Status = input.Status
 
-	newHrd, err := s.repository.Save(hrd)
+	newHrd, err := s.repository.Update(hrd)
 	if err != nil {
 		return newHrd, err
 	}

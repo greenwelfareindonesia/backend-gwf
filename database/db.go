@@ -61,6 +61,7 @@ func InitDb() (*gorm.DB, error) {
 	db.AutoMigrate(&entity.Product{})
 	db.AutoMigrate(&entity.ShoppingCart{})
 	db.AutoMigrate(&entity.Banner{})
+	db.AutoMigrate(&entity.Hrd{})
 
 	return db, nil
 

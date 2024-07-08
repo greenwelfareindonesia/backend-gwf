@@ -168,6 +168,19 @@ func StartApp() {
 	shoppingCarts.PUT("/:id", shoppingCartHandler.UpdateShoppingCartById) // update qty and total price
 	shoppingCarts.DELETE("/:id", shoppingCartHandler.DeleteShoppingCartById)
 
+	{	// masukin dalem block biar rapih
+		hrd := router.Group("/api/hrd")
+		hrdRepository := repository.NewRepositoryHRD(db)
+		hrdService := service.NewServiceHrd(hrdRepository)
+		hrdHandler := NewHrdHandler(hrdService)
+
+		hrd.POST("/", hrdHandler.CreateHrd)
+		hrd.GET("/", hrdHandler.GetAllHrd)
+		hrd.GET("/:slug", hrdHandler.GetOneHrd)
+		hrd.PUT("/:slug", hrdHandler.UpdateHrd)
+		hrd.DELETE("/:slug", hrdHandler.DeleteHrd)
+	}
+
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
 

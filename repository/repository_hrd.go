@@ -31,7 +31,7 @@ func (r *repository_hrd) Save(hrd *entity.Hrd) (*entity.Hrd, error) {
 	return hrd, nil
 }
 
-func (r *repository_hrd) FindById(ID int) (*entity.Hrd, error) {
+func (r *repository_hrd) FindByID(ID int) (*entity.Hrd, error) {
 	var hrd *entity.Hrd
 
 	if err := r.db.Where("id = ?", ID).Find(&hrd).Error; err != nil {
