@@ -197,6 +197,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "update article",
                 "consumes": [
                     "application/json"
@@ -1500,6 +1505,11 @@ const docTemplate = `{
         },
         "/api/hrd": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get all Hrd",
                 "consumes": [
                     "application/json"
@@ -1543,6 +1553,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Register a new Hrd staff with the provided information",
                 "consumes": [
                     "application/json"
@@ -1606,6 +1621,11 @@ const docTemplate = `{
         },
         "/api/hrd/:slug": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get one Hrd by slug",
                 "consumes": [
                     "application/json"
@@ -1658,6 +1678,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete hrd by slug",
                 "consumes": [
                     "application/json"
@@ -1712,6 +1737,11 @@ const docTemplate = `{
         },
         "/api/hrd/departement/:departement": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get all Hrd by departement",
                 "consumes": [
                     "application/json"
@@ -1766,6 +1796,11 @@ const docTemplate = `{
         },
         "/api/hrd/status/:status": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get all Hrd by status",
                 "consumes": [
                     "application/json"

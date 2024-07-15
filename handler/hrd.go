@@ -21,6 +21,7 @@ func NewHrdHandler(hrdService service.ServiceHrd) *hrdHandler {
 // @Description Register a new Hrd staff with the provided information
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Tags Hrd
 // @Param body body dto.CreateHrdDTO true "Hrd details"
 // @Success 200 {object} map[string]interface{}
@@ -52,6 +53,7 @@ func (h *hrdHandler) CreateHrd(c *gin.Context) {
 // @Description Get one Hrd by slug
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Tags Hrd
 // @Param slug path string true "slug"
 // @Success 200 {object} map[string]interface{}
@@ -77,6 +79,7 @@ func (h *hrdHandler) GetOneHrd(c *gin.Context) {
 // @Description Get all Hrd
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Tags Hrd
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
@@ -99,6 +102,7 @@ func (h *hrdHandler) GetAllHrd(c *gin.Context) {
 // @Description Get all Hrd by departement
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Tags Hrd
 // @Param departement path string true "departement"
 // @Success 200 {object} map[string]interface{}
@@ -124,6 +128,7 @@ func (h *hrdHandler) GetAllByDepartement(c *gin.Context) {
 // @Description Get all Hrd by status 
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Tags Hrd
 // @Param status path string true "status"
 // @Success 200 {object} map[string]interface{}
@@ -149,6 +154,7 @@ func (h *hrdHandler) GetAllByStatus(c *gin.Context) {
 // @Description update article
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Tags Article
 // @Param body body dto.UpdateHrdDTO true "Hrd details"
 // @Success 200 {object} map[string]interface{}
@@ -181,6 +187,7 @@ func (h *hrdHandler) UpdateHrd(c *gin.Context) {
 // @Description Delete hrd by slug
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Tags Hrd
 // @Param slug path string true "slug"
 // @Success 200 {object} map[string]interface{}

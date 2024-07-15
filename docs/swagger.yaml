@@ -280,6 +280,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: update article
       tags:
       - Article
@@ -1110,6 +1112,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get all Hrd
       tags:
       - Hrd
@@ -1152,6 +1156,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create a new Hrd staff member
       tags:
       - Hrd
@@ -1189,6 +1195,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete Hrd
       tags:
       - Hrd
@@ -1225,6 +1233,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get one Hrd
       tags:
       - Hrd
@@ -1262,6 +1272,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get all Hrd by departement
       tags:
       - Hrd
@@ -1299,6 +1311,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Get all Hrd by status
       tags:
       - Hrd
