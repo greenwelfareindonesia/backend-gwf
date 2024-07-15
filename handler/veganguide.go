@@ -77,7 +77,6 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 	}
 
 	if err != nil {
-
 		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
@@ -92,7 +91,7 @@ func (h *veganguideHandler) GetVeganguideByID(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1((data))
+	response := helper.SuccessfulResponse1(formatter.UpdatedFormatterVeganguide(data))
 	c.JSON(http.StatusOK, response)
 
 }
@@ -126,7 +125,13 @@ func (h *veganguideHandler) GetAllVeganguide(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1((data))
+	var formatted []formatter.VeganguideFormatter
+	for _, veganguide := range data {
+		formatted = append(formatted, formatter.PostFormatterVeganguide(veganguide))
+	}
+
+	response := helper.SuccessfulResponse1(formatted)
+
 	c.JSON(http.StatusOK, response)
 }
 
