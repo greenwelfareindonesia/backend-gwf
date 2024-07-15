@@ -86,10 +86,12 @@ func (s *service_hrd) UpdateHrd(input dto.UpdateHrdDTO, slug string) (*entity.Hr
 		return hrd, err
 	}
 
-	slugName := strings.ReplaceAll(strings.ToLower(input.Nama), " ", "-")
-	randomNumber := rand.New(rand.NewSource(time.Now().UnixNano())).Intn(1000000)
+	// NOTE: no new slug
+	// slugName := strings.ReplaceAll(strings.ToLower(input.Nama), " ", "-")
+	// randomNumber := rand.New(rand.NewSource(time.Now().UnixNano())).Intn(1000000)
+	//
+	// hrd.Slug = fmt.Sprintf("%s-%d", slugName, randomNumber)
 
-	hrd.Slug = fmt.Sprintf("%s-%d", slugName, randomNumber)
 	hrd.Nama = input.Nama
 	hrd.Departement = input.Departement
 	hrd.Role = input.Role
