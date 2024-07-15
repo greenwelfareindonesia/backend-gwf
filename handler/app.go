@@ -168,11 +168,16 @@ func StartApp() {
 	shoppingCarts.PUT("/:id", shoppingCartHandler.UpdateShoppingCartById) // update qty and total price
 	shoppingCarts.DELETE("/:id", shoppingCartHandler.DeleteShoppingCartById)
 
-	{	// masukin dalem block biar rapih
+	{ // masukin dalem block biar rapih
 		hrd := router.Group("/api/hrd")
 		hrdRepository := repository.NewRepositoryHRD(db)
 		hrdService := service.NewServiceHrd(hrdRepository)
 		hrdHandler := NewHrdHandler(hrdService)
+
+		hrd.Use(
+			middleware.AuthMiddleware(authService, userService),
+			middleware.AuthRole(authService, userService),
+		)
 
 		hrd.POST("/", hrdHandler.CreateHrd)
 		hrd.GET("/", hrdHandler.GetAllHrd)
