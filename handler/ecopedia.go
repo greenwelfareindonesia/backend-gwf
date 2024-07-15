@@ -135,11 +135,11 @@ func (h *ecopediaHandler) GetAllEcopedia(c *gin.Context) {
 // @Produce json
 // @Tags Ecopedia
 // @Param slug path string true "Ecopedia Slug"
-// @Param Title formData string true "Title"
-// @Param SubTitle formData string true "SubTitle"
-// @Param Description formData string true "Description"
-// @Param SrcFile formData string true "SrcFile"
-// @Param Reference formData string true "Reference"
+// @Param title formData string true "Title"
+// @Param subTitle formData string true "SubTitle"
+// @Param description formData string true "Description"
+// @Param srcFile formData string true "SrcFile"
+// @Param reference formData string true "Reference"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -178,13 +178,13 @@ func (h *ecopediaHandler) UpdateEcopedia(c *gin.Context) {
 // @Security BearerAuth
 // @Produce json
 // @Tags Ecopedia
-// @Param File1 formData file true "File gambar 1"
-// @Param File2 formData file true "File gambar 2"
-// @Param Title formData string true "Title"
-// @Param SubTitle formData string true "SubTitle"
-// @Param Description formData string true "Description"
-// @Param SrcFile formData string true "SrcFile"
-// @Param Reference formData string true "Reference"
+// @Param file1 formData file true "File gambar 1"
+// @Param file2 formData file true "File gambar 2"
+// @Param title formData string true "Title"
+// @Param subTitle formData string true "SubTitle"
+// @Param description formData string true "Description"
+// @Param srcFile formData string true "SrcFile"
+// @Param reference formData string true "Reference"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -194,7 +194,7 @@ func (h *ecopediaHandler) PostEcopediaHandler(c *gin.Context) {
 	var imagesKitURLs []string
 
 	for i := 1; ; i++ {
-		fileKey := fmt.Sprintf("File%d", i)
+		fileKey := fmt.Sprintf("file%d", i)
 		file, err := c.FormFile(fileKey)
 
 		// If there are no more files to upload, break the loop

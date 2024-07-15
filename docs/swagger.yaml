@@ -434,37 +434,37 @@ paths:
       parameters:
       - description: File gambar 1
         in: formData
-        name: File1
+        name: file1
         required: true
         type: file
       - description: File gambar 2
         in: formData
-        name: File2
+        name: file2
         required: true
         type: file
       - description: Title
         in: formData
-        name: Title
+        name: title
         required: true
         type: string
       - description: SubTitle
         in: formData
-        name: SubTitle
+        name: subTitle
         required: true
         type: string
       - description: Description
         in: formData
-        name: Description
+        name: description
         required: true
         type: string
       - description: SrcFile
         in: formData
-        name: SrcFile
+        name: srcFile
         required: true
         type: string
       - description: Reference
         in: formData
-        name: Reference
+        name: reference
         required: true
         type: string
       produces:
@@ -583,27 +583,27 @@ paths:
         type: string
       - description: Title
         in: formData
-        name: Title
+        name: title
         required: true
         type: string
       - description: SubTitle
         in: formData
-        name: SubTitle
+        name: subTitle
         required: true
         type: string
       - description: Description
         in: formData
-        name: Description
+        name: description
         required: true
         type: string
       - description: SrcFile
         in: formData
-        name: SrcFile
+        name: srcFile
         required: true
         type: string
       - description: Reference
         in: formData
-        name: Reference
+        name: reference
         required: true
         type: string
       produces:

@@ -572,49 +572,49 @@
                     {
                         "type": "file",
                         "description": "File gambar 1",
-                        "name": "File1",
+                        "name": "file1",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "file",
                         "description": "File gambar 2",
-                        "name": "File2",
+                        "name": "file2",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Title",
-                        "name": "Title",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "SubTitle",
-                        "name": "SubTitle",
+                        "name": "subTitle",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Description",
-                        "name": "Description",
+                        "name": "description",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "SrcFile",
-                        "name": "SrcFile",
+                        "name": "srcFile",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Reference",
-                        "name": "Reference",
+                        "name": "reference",
                         "in": "formData",
                         "required": true
                     }
@@ -791,35 +791,35 @@
                     {
                         "type": "string",
                         "description": "Title",
-                        "name": "Title",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "SubTitle",
-                        "name": "SubTitle",
+                        "name": "subTitle",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Description",
-                        "name": "Description",
+                        "name": "description",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "SrcFile",
-                        "name": "SrcFile",
+                        "name": "srcFile",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Reference",
-                        "name": "Reference",
+                        "name": "reference",
                         "in": "formData",
                         "required": true
                     }
