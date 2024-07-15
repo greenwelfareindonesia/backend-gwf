@@ -1323,22 +1323,22 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "File1",
+                        "description": "File gambar 1",
+                        "name": "file1",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "File2",
+                        "description": "File gambar 2",
+                        "name": "file2",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Alt",
-                        "name": "Alt",
+                        "name": "alt",
                         "in": "formData",
                         "required": true
                     }
@@ -1485,7 +1485,7 @@ const docTemplate = `{
                 "summary": "Update Gallery by Slug",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Slug Gallery",
                         "name": "slug",
                         "in": "path",
@@ -1494,7 +1494,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Alt",
-                        "name": "Alt",
+                        "name": "alt",
                         "in": "formData",
                         "required": true
                     }

@@ -937,19 +937,19 @@ paths:
       - application/json
       description: Create New Gallery
       parameters:
-      - description: File gambar
+      - description: File gambar 1
         in: formData
-        name: File1
+        name: file1
         required: true
         type: file
-      - description: File gambar
+      - description: File gambar 2
         in: formData
-        name: File2
+        name: file2
         required: true
         type: file
       - description: Alt
         in: formData
-        name: Alt
+        name: alt
         required: true
         type: string
       produces:
@@ -1050,10 +1050,10 @@ paths:
         in: path
         name: slug
         required: true
-        type: integer
+        type: string
       - description: Alt
         in: formData
-        name: Alt
+        name: alt
         required: true
         type: string
       produces:
