@@ -91,8 +91,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: get all article
       tags:
       - Article
@@ -221,8 +219,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: Get one article by slug
       tags:
       - Article
@@ -665,19 +661,19 @@ paths:
       - application/json
       description: Create New Event
       parameters:
-      - description: File gambar
+      - description: File Image
         in: formData
-        name: File
+        name: file
         required: true
         type: file
-      - description: Judul
+      - description: Title Event
         in: formData
-        name: Judul
+        name: title
         required: true
         type: string
-      - description: Pesan Event
+      - description: Event Message
         in: formData
-        name: Message
+        name: eventMessage
         required: true
         type: string
       produces:
@@ -778,19 +774,19 @@ paths:
         name: slug
         required: true
         type: string
-      - description: File gambar
+      - description: File Image
         in: formData
-        name: File
+        name: file
         required: true
         type: file
-      - description: Judul
+      - description: Title Event
         in: formData
-        name: Judul
+        name: title
         required: true
         type: string
-      - description: Pesan Event
+      - description: Event Message
         in: formData
-        name: Message
+        name: eventMessage
         required: true
         type: string
       produces:

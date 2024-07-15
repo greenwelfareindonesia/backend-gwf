@@ -53,7 +53,6 @@ func (h *artikelHandler) DeleteArtikel(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Article
-// @Security BearerAuth
 // @Param slug path string true "Article by slug"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
@@ -178,7 +177,6 @@ func (h *artikelHandler) CreateArtikel(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Article
-// @Security BearerAuth
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}

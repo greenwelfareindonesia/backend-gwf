@@ -17,11 +17,6 @@ const docTemplate = `{
     "paths": {
         "/api/article": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "get all article",
                 "consumes": [
                     "application/json"
@@ -145,11 +140,6 @@ const docTemplate = `{
         },
         "/api/article/{slug}": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "get one article by slug",
                 "consumes": [
                     "application/json"
@@ -921,22 +911,22 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "File",
+                        "description": "File Image",
+                        "name": "file",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Judul",
-                        "name": "Judul",
+                        "description": "Title Event",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Pesan Event",
-                        "name": "Message",
+                        "description": "Event Message",
+                        "name": "eventMessage",
                         "in": "formData",
                         "required": true
                     }
@@ -1039,22 +1029,22 @@ const docTemplate = `{
                     },
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "File",
+                        "description": "File Image",
+                        "name": "file",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Judul",
-                        "name": "Judul",
+                        "description": "Title Event",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Pesan Event",
-                        "name": "Message",
+                        "description": "Event Message",
+                        "name": "eventMessage",
                         "in": "formData",
                         "required": true
                     }
