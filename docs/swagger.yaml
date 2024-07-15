@@ -1,59 +1,60 @@
 definitions:
-  contact.ContactSubmissionInput:
+  dto.ContactSubmissionInput:
     properties:
-      Email:
+      email:
         type: string
-      Message:
+      message:
         type: string
-      Name:
+      name:
         type: string
-      Subject:
+      subject:
         type: string
     required:
-    - Email
-    - Message
-    - Subject
+    - email
+    - message
+    - name
+    - subject
     type: object
-  feedback.FeedbackInput:
+  dto.FeedbackInput:
     properties:
-      Email:
+      email:
         type: string
-      Text:
+      text:
         type: string
     required:
-    - Email
-    - Text
+    - email
+    - text
     type: object
-  user.LoginInput:
+  dto.LoginInput:
     properties:
-      Email:
+      email:
         type: string
-      Password:
+      password:
         type: string
     required:
-    - Email
-    - Password
+    - email
+    - password
     type: object
-  user.RegisterUserInput:
+  dto.RegisterUserInput:
     properties:
-      Email:
+      email:
         type: string
-      Password:
+      password:
         type: string
-      Username:
+      username:
         type: string
     required:
-    - Email
-    - Password
-    - Username
+    - email
+    - password
+    - username
     type: object
-  user.UpdateUserInput:
+  dto.UpdateUserInput:
     properties:
-      Email:
+      email:
         type: string
-      Password:
+      password:
         type: string
-      Username:
+      username:
         type: string
     type: object
 host: localhost:8080/
@@ -100,24 +101,24 @@ paths:
       - multipart/form-data
       description: Create new article
       parameters:
-      - description: FullName
+      - description: Full Name
         in: formData
-        name: FullName
+        name: fullName
         required: true
         type: string
       - description: Email
         in: formData
-        name: Email
+        name: email
         required: true
         type: string
       - description: Topic
         in: formData
-        name: Topic
+        name: topic
         required: true
         type: string
-      - description: ArticleMessage
+      - description: Article Message
         in: formData
-        name: ArticleMessage
+        name: articleMessage
         required: true
         type: string
       produces:
@@ -143,6 +144,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create new article
       tags:
       - Article
@@ -228,29 +231,29 @@ paths:
       - multipart/form-data
       description: update article
       parameters:
-      - description: Article by Slug
+      - description: Article by slug
         in: path
         name: slug
         required: true
         type: string
-      - description: FullName
+      - description: Full Name
         in: formData
-        name: FullName
+        name: fullName
         required: true
         type: string
       - description: Email
         in: formData
-        name: Email
+        name: email
         required: true
         type: string
       - description: Topic
         in: formData
-        name: Topic
+        name: topic
         required: true
         type: string
-      - description: ArticleMessage
+      - description: Article Message
         in: formData
-        name: ArticleMessage
+        name: articleMessage
         required: true
         type: string
       produces:
@@ -314,7 +317,7 @@ paths:
         name: requestBody
         required: true
         schema:
-          $ref: '#/definitions/contact.ContactSubmissionInput'
+          $ref: '#/definitions/dto.ContactSubmissionInput'
       produces:
       - application/json
       responses:
@@ -851,7 +854,7 @@ paths:
         name: Input
         required: true
         schema:
-          $ref: '#/definitions/feedback.FeedbackInput'
+          $ref: '#/definitions/dto.FeedbackInput'
       produces:
       - application/json
       responses:
@@ -1132,7 +1135,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.UpdateUserInput'
+          $ref: '#/definitions/dto.UpdateUserInput'
       produces:
       - application/json
       responses:
@@ -1172,7 +1175,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.LoginInput'
+          $ref: '#/definitions/dto.LoginInput'
       produces:
       - application/json
       responses:
@@ -1210,7 +1213,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.RegisterUserInput'
+          $ref: '#/definitions/dto.RegisterUserInput'
       produces:
       - application/json
       responses:

@@ -91,11 +91,11 @@ func (h *artikelHandler) GetOneArtikel(c *gin.Context) {
 // @Produce json
 // @Tags Article
 // @Security BearerAuth
-// @Param slug path string true "Article by Slug"
-// @Param FullName formData string true "FullName"
-// @Param Email formData string true "Email"
-// @Param Topic formData string true "Topic"
-// @Param ArticleMessage formData string true "ArticleMessage"
+// @Param slug path string true "Article by slug"
+// @Param fullName formData string true "Full Name"
+// @Param email formData string true "Email"
+// @Param topic formData string true "Topic"
+// @Param articleMessage formData string true "Article Message"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}
@@ -133,10 +133,11 @@ func (h *artikelHandler) UpdateArtikel(c *gin.Context) {
 // @Accept multipart/form-data
 // @Produce json
 // @Tags Article
-// @Param FullName formData string true "FullName"
-// @Param Email formData string true "Email"
-// @Param Topic formData string true "Topic"
-// @Param ArticleMessage formData string true "ArticleMessage"
+// @Security BearerAuth
+// @Param fullName formData string true "Full Name"
+// @Param email formData string true "Email"
+// @Param topic formData string true "Topic"
+// @Param articleMessage formData string true "Article Message"
 // @Success 200 {object} map[string]interface{}
 // @Success 400 {object} map[string]interface{}
 // @Success 422 {object} map[string]interface{}

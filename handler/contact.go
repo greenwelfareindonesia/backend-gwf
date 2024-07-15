@@ -23,7 +23,7 @@ func NewContactHandler(contactService service.ServiceContact) *contactHandler {
 // @Accept json
 // @Produce json
 // @Tags Contact
-// @Param requestBody body contact.ContactSubmissionInput true "Contact form input"
+// @Param requestBody body dto.ContactSubmissionInput true "Contact form input"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Router /api/contact [post]

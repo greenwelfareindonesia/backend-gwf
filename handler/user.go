@@ -25,7 +25,7 @@ func NewUserHandler(userService service.ServiceUser, authService auth.Service) *
 // @Accept json
 // @Produce json
 // @Tags Users
-// @Param body body user.RegisterUserInput true "User registration details"
+// @Param body body dto.RegisterUserInput true "User registration details"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 409 {object} map[string]interface{}
@@ -77,7 +77,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Users
-// @Param body body user.LoginInput true "User login credentials"
+// @Param body body dto.LoginInput true "User login credentials"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -145,7 +145,7 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 // @Produce json
 // @Tags Users
 // @Param slug path string true "User Slug"
-// @Param body body user.UpdateUserInput true "User information for update"
+// @Param body body dto.UpdateUserInput true "User information for update"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
