@@ -102,7 +102,7 @@ func (h *feedbackHandler) GetAllFeedback(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Feedback
-// @Param Input body feedback.FeedbackInput true "Data for Create Feedback"
+// @Param Input body dto.FeedbackInput true "Data for Create Feedback"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

@@ -1,59 +1,82 @@
 definitions:
-  contact.ContactSubmissionInput:
+  dto.ContactSubmissionInput:
     properties:
-      Email:
+      email:
         type: string
-      Message:
+      message:
         type: string
-      Name:
+      name:
         type: string
-      Subject:
+      subject:
         type: string
     required:
-    - Email
-    - Message
-    - Subject
+    - email
+    - message
+    - name
+    - subject
     type: object
-  feedback.FeedbackInput:
+  dto.CreateHrdDTO:
     properties:
-      Email:
+      departement:
         type: string
-      Text:
+      nama:
+        type: string
+      role:
+        type: string
+      status:
+        type: string
+    type: object
+  dto.FeedbackInput:
+    properties:
+      email:
+        type: string
+      text:
         type: string
     required:
-    - Email
-    - Text
+    - email
+    - text
     type: object
-  user.LoginInput:
+  dto.LoginInput:
     properties:
-      Email:
+      email:
         type: string
-      Password:
+      password:
         type: string
     required:
-    - Email
-    - Password
+    - email
+    - password
     type: object
-  user.RegisterUserInput:
+  dto.RegisterUserInput:
     properties:
-      Email:
+      email:
         type: string
-      Password:
+      password:
         type: string
-      Username:
+      username:
         type: string
     required:
-    - Email
-    - Password
-    - Username
+    - email
+    - password
+    - username
     type: object
-  user.UpdateUserInput:
+  dto.UpdateHrdDTO:
     properties:
-      Email:
+      departement:
         type: string
-      Password:
+      nama:
         type: string
-      Username:
+      role:
+        type: string
+      status:
+        type: string
+    type: object
+  dto.UpdateUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
         type: string
     type: object
 host: localhost:8080/
@@ -225,34 +248,15 @@ paths:
       - Article
     put:
       consumes:
-      - multipart/form-data
+      - application/json
       description: update article
       parameters:
-      - description: Article by Slug
-        in: path
-        name: slug
+      - description: Hrd details
+        in: body
+        name: body
         required: true
-        type: string
-      - description: FullName
-        in: formData
-        name: FullName
-        required: true
-        type: string
-      - description: Email
-        in: formData
-        name: Email
-        required: true
-        type: string
-      - description: Topic
-        in: formData
-        name: Topic
-        required: true
-        type: string
-      - description: ArticleMessage
-        in: formData
-        name: ArticleMessage
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/dto.UpdateHrdDTO'
       produces:
       - application/json
       responses:
@@ -276,8 +280,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: update article
       tags:
       - Article
@@ -314,7 +316,7 @@ paths:
         name: requestBody
         required: true
         schema:
-          $ref: '#/definitions/contact.ContactSubmissionInput'
+          $ref: '#/definitions/dto.ContactSubmissionInput'
       produces:
       - application/json
       responses:
@@ -851,7 +853,7 @@ paths:
         name: Input
         required: true
         schema:
-          $ref: '#/definitions/feedback.FeedbackInput'
+          $ref: '#/definitions/dto.FeedbackInput'
       produces:
       - application/json
       responses:
@@ -1080,6 +1082,278 @@ paths:
       summary: Update Gallery by Slug
       tags:
       - Gallery
+  /api/hrd:
+    get:
+      consumes:
+      - application/json
+      description: Get all Hrd
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all Hrd
+      tags:
+      - Hrd
+    post:
+      consumes:
+      - application/json
+      description: Register a new Hrd staff with the provided information
+      parameters:
+      - description: Hrd details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateHrdDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Hrd staff member
+      tags:
+      - Hrd
+  /api/hrd/:slug:
+    delete:
+      consumes:
+      - application/json
+      description: Delete hrd by slug
+      parameters:
+      - description: slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Hrd
+      tags:
+      - Hrd
+    get:
+      consumes:
+      - application/json
+      description: Get one Hrd by slug
+      parameters:
+      - description: slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get one Hrd
+      tags:
+      - Hrd
+  /api/hrd/departement/:departement:
+    get:
+      consumes:
+      - application/json
+      description: Get all Hrd by departement
+      parameters:
+      - description: departement
+        in: path
+        name: departement
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all Hrd by departement
+      tags:
+      - Hrd
+  /api/hrd/status/:status:
+    get:
+      consumes:
+      - application/json
+      description: Get all Hrd by status
+      parameters:
+      - description: status
+        in: path
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all Hrd by status
+      tags:
+      - Hrd
+  /api/product:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create new product
+      parameters:
+      - description: Name
+        in: formData
+        name: Name
+        required: true
+        type: string
+      - description: Price
+        in: formData
+        name: Price
+        required: true
+        type: string
+      - description: Description
+        in: formData
+        name: Description
+        required: true
+        type: string
+      - description: File gambar product
+        in: formData
+        name: ImageUrl
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new product
+      tags:
+      - Product
   /api/user/{slug}:
     delete:
       description: Delete a user
@@ -1132,7 +1406,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.UpdateUserInput'
+          $ref: '#/definitions/dto.UpdateUserInput'
       produces:
       - application/json
       responses:
@@ -1172,7 +1446,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.LoginInput'
+          $ref: '#/definitions/dto.LoginInput'
       produces:
       - application/json
       responses:
@@ -1210,7 +1484,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.RegisterUserInput'
+          $ref: '#/definitions/dto.RegisterUserInput'
       produces:
       - application/json
       responses:
