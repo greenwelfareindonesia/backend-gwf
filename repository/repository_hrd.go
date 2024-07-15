@@ -10,7 +10,7 @@ type RepositoryHrd interface {
 	Save(hrd *entity.Hrd) (*entity.Hrd, error)
 	FindByID(ID int) (*entity.Hrd, error)
 	FindBySlug(slug string) (*entity.Hrd, error)
-	FindAll() ([]*entity.Hrd, error)
+	FindAll(hrd *entity.Hrd) ([]*entity.Hrd, error)
 	Update(hrd *entity.Hrd) (*entity.Hrd, error)
 	Delete(hrd *entity.Hrd) (*entity.Hrd, error)
 }
@@ -51,10 +51,10 @@ func (r *repository_hrd) FindBySlug(slug string) (*entity.Hrd, error) {
 	return hrd, nil
 }
 
-func(r *repository_hrd) FindAll() ([]*entity.Hrd, error) {
+func(r *repository_hrd) FindAll(hrd *entity.Hrd) ([]*entity.Hrd, error) {
 	var hrds []*entity.Hrd
 
-	if err := r.db.Order("id DESC").Find(&hrds).Error; err != nil {
+	if err := r.db.Order("id DESC").Where(hrd).Find(&hrds).Error; err != nil {
 		return nil, err
 	}
 	

@@ -13,6 +13,8 @@ import (
 type ServiceHrd interface {
 	CreateHrd(input dto.CreateHrdDTO) (*entity.Hrd, error)
 	GetAllHrd() ([]*entity.Hrd, error)
+	GetAllHrdByDepartement(departement string) ([]*entity.Hrd, error)
+	GetAllHrdByStatus(status string) ([]*entity.Hrd, error)
 	DeleteHrd(slug string) (*entity.Hrd, error)
 	GetOneHrd(slug string) (*entity.Hrd, error)
 	UpdateHrd(input dto.UpdateHrdDTO, slug string) (*entity.Hrd, error)
@@ -31,11 +33,11 @@ func (s *service_hrd) CreateHrd(input dto.CreateHrdDTO) (*entity.Hrd, error) {
 	randomNumber := rand.New(rand.NewSource(time.Now().UnixNano())).Intn(1000000)
 
 	newHrd := entity.Hrd{
-		Nama: input.Nama,
+		Nama:        input.Nama,
 		Departement: input.Departement,
-		Role: input.Role,
-		Status: input.Status,
-		Slug: fmt.Sprintf("%s-%d", slugName, randomNumber),
+		Role:        input.Role,
+		Status:      input.Status,
+		Slug:        fmt.Sprintf("%s-%d", slugName, randomNumber),
 	}
 
 	hrd, err := s.repository.Save(&newHrd)
@@ -48,7 +50,27 @@ func (s *service_hrd) CreateHrd(input dto.CreateHrdDTO) (*entity.Hrd, error) {
 }
 
 func (s *service_hrd) GetAllHrd() ([]*entity.Hrd, error) {
-	hrds, err := s.repository.FindAll()
+	hrds, err := s.repository.FindAll(nil)
+
+	if err != nil {
+		return hrds, err
+	}
+
+	return hrds, nil
+}
+
+func (s *service_hrd) GetAllHrdByDepartement(departement string) ([]*entity.Hrd, error) {
+	hrds, err := s.repository.FindAll(&entity.Hrd{Departement: departement})
+
+	if err != nil {
+		return hrds, err
+	}
+
+	return hrds, nil
+}
+
+func (s *service_hrd) GetAllHrdByStatus(status string) ([]*entity.Hrd, error) {
+	hrds, err := s.repository.FindAll(&entity.Hrd{Status: status})
 
 	if err != nil {
 		return hrds, err

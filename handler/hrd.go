@@ -62,6 +62,34 @@ func (h *hrdHandler) GetAllHrd(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+func (h *hrdHandler) GetAllByDepartement(c *gin.Context) {
+	departement := c.Param("departement")
+
+	data, err := h.hrdService.GetAllHrdByDepartement(departement)
+	if err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, err.Error(), err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.SuccessfulResponse1(data)
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *hrdHandler) GetAllByStatus(c *gin.Context) {
+	status := c.Param("status")
+
+	data, err := h.hrdService.GetAllHrdByStatus(status)
+	if err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, err.Error(), err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.SuccessfulResponse1(data)
+	c.JSON(http.StatusOK, response)
+}
+
 func (h *hrdHandler) UpdateHrd(c *gin.Context) {
 	slug := c.Param("slug")
 

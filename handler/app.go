@@ -176,6 +176,8 @@ func StartApp() {
 
 		hrd.POST("/", hrdHandler.CreateHrd)
 		hrd.GET("/", hrdHandler.GetAllHrd)
+		hrd.GET("/status/:status", hrdHandler.GetAllByStatus)
+		hrd.GET("/departement/:departement", hrdHandler.GetAllByDepartement)
 		hrd.GET("/:slug", hrdHandler.GetOneHrd)
 		hrd.PUT("/:slug", hrdHandler.UpdateHrd)
 		hrd.DELETE("/:slug", hrdHandler.DeleteHrd)
