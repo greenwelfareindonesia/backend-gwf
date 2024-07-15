@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"errors"
+	// "errors"
 	"greenwelfare/dto"
 	"greenwelfare/entity"
 	"greenwelfare/repository"
@@ -34,19 +34,19 @@ func (s *service_shopping_cart) CreateShoppingCart(ctx context.Context, shopping
 	}
 
 	// GET DATA PRODUCT
-	existingProduct, errRepoProduct := s.repoProduct.GetProductById(ctx, newShoppingCart.ProductID)
-	if errRepoProduct != nil {
-		return dto.ShoppingCartResponseDTO{}, errRepoProduct
-	}
+	// existingProduct, errRepoProduct := s.repoProduct.GetProductById(ctx, newShoppingCart.ProductID)
+	// if errRepoProduct != nil {
+	// 	return dto.ShoppingCartResponseDTO{}, errRepoProduct
+	// }
 
 	// VALIDATE QTY PRODUCT WITH QTY SHOPPING CART
-	if existingProduct.Stock < shoppingCart.Qty {
-		return dto.ShoppingCartResponseDTO{}, errors.New("out of stock")
-	}
+	// if existingProduct.Stock < shoppingCart.Qty {
+	// 	return dto.ShoppingCartResponseDTO{}, errors.New("out of stock")
+	// }
 
 	// TOTAL PRODUCT PRICE WITH QTY SHOPPING CART
-	totalPrice := existingProduct.Price * shoppingCart.Qty
-	newShoppingCart.TotalPrice = totalPrice
+	// totalPrice := existingProduct.Price * shoppingCart.Qty
+	// newShoppingCart.TotalPrice = totalPrice
 
 	// SAVE DATA TO DB
 	res, errRepoShoppingCart := s.repoShoppingCart.CreateShoppingCart(ctx, newShoppingCart)
@@ -88,15 +88,15 @@ func (s *service_shopping_cart) UpdateShoppingCartById(ctx context.Context, upda
 	}
 
 	// GET DATA NEW PRODUCT FROM UPDATED SHOPPING CART
-	product, errRepoProduct := s.repoProduct.GetProductById(ctx, shoppingCart.ProductID)
-	if errRepoProduct != nil {
-		return dto.ShoppingCartResponseDTO{}, errRepoProduct
-	}
+	// product, errRepoProduct := s.repoProduct.GetProductById(ctx, shoppingCart.ProductID)
+	// if errRepoProduct != nil {
+	// 	return dto.ShoppingCartResponseDTO{}, errRepoProduct
+	// }
 
 	// VALIDATE QTY PRODUCT WITH QTY SHOPPING CART
-	if product.Stock < shoppingCart.Qty {
-		return dto.ShoppingCartResponseDTO{}, errors.New("out of stock")
-	}
+	// if product.Stock < shoppingCart.Qty {
+	// 	return dto.ShoppingCartResponseDTO{}, errors.New("out of stock")
+	// }
 
 	// UPDATE SHOPPING CART
 	if updateShoppingCart.Status == "increment" {
@@ -107,7 +107,7 @@ func (s *service_shopping_cart) UpdateShoppingCartById(ctx context.Context, upda
 		shoppingCart.Qty = shoppingCart.Qty - 1
 	}
 
-	shoppingCart.TotalPrice = (shoppingCart.Qty * product.Price)
+	// shoppingCart.TotalPrice = (shoppingCart.Qty * product.Price)
 
 	updatedData, errRepo := s.repoShoppingCart.UpdateShoppingCartById(ctx, shoppingCart)
 	if errRepo != nil {
@@ -172,8 +172,8 @@ func parsingShoppingCartResponseDTO(shoppingCart entity.ShoppingCart) dto.Shoppi
 		productResponse := dto.ProductShoppingCartResponse{
 			ID:          shoppingCart.Product.ID,
 			Name:        shoppingCart.Product.Name,
-			Price:       shoppingCart.Product.Price,
-			ImageUrl:    shoppingCart.Product.ImageUrl,
+			// Price:       shoppingCart.Product.Price,
+			// ImageUrl:    shoppingCart.Product.ImageUrl,
 			Description: shoppingCart.Product.Description,
 		}
 		response.Product = &productResponse

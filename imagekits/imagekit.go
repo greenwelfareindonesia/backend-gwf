@@ -24,13 +24,15 @@ func Base64toEncode(bytes []byte) (string,error){
 		base64Encoding += "data:image/jpeg;base64,"
 	case "image/png":
 		base64Encoding += "data:image/png;base64,"
+	case "image/jpg":
+		base64Encoding += "data:image/jpg;base64,"
 	}
 
 	// Append the base64 encoded output
 	base64Encoding += ToBase64(bytes)
 
 	// Print the full base64 representation of the image
-	fmt.Println(base64Encoding)
+	// fmt.Println(base64Encoding)
 	return base64Encoding,nil
 }
 
