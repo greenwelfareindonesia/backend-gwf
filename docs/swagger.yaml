@@ -1,59 +1,60 @@
 definitions:
-  contact.ContactSubmissionInput:
+  dto.ContactSubmissionInput:
     properties:
-      Email:
+      email:
         type: string
-      Message:
+      message:
         type: string
-      Name:
+      name:
         type: string
-      Subject:
+      subject:
         type: string
     required:
-    - Email
-    - Message
-    - Subject
+    - email
+    - message
+    - name
+    - subject
     type: object
-  feedback.FeedbackInput:
+  dto.FeedbackInput:
     properties:
-      Email:
+      email:
         type: string
-      Text:
+      text:
         type: string
     required:
-    - Email
-    - Text
+    - email
+    - text
     type: object
-  user.LoginInput:
+  dto.LoginInput:
     properties:
-      Email:
+      email:
         type: string
-      Password:
+      password:
         type: string
     required:
-    - Email
-    - Password
+    - email
+    - password
     type: object
-  user.RegisterUserInput:
+  dto.RegisterUserInput:
     properties:
-      Email:
+      email:
         type: string
-      Password:
+      password:
         type: string
-      Username:
+      username:
         type: string
     required:
-    - Email
-    - Password
-    - Username
+    - email
+    - password
+    - username
     type: object
-  user.UpdateUserInput:
+  dto.UpdateUserInput:
     properties:
-      Email:
+      email:
         type: string
-      Password:
+      password:
         type: string
-      Username:
+      username:
         type: string
     type: object
 host: localhost:8080/
@@ -90,8 +91,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: get all article
       tags:
       - Article
@@ -100,24 +99,24 @@ paths:
       - multipart/form-data
       description: Create new article
       parameters:
-      - description: FullName
+      - description: Full Name
         in: formData
-        name: FullName
+        name: fullName
         required: true
         type: string
       - description: Email
         in: formData
-        name: Email
+        name: email
         required: true
         type: string
       - description: Topic
         in: formData
-        name: Topic
+        name: topic
         required: true
         type: string
-      - description: ArticleMessage
+      - description: Article Message
         in: formData
-        name: ArticleMessage
+        name: articleMessage
         required: true
         type: string
       produces:
@@ -143,6 +142,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Create new article
       tags:
       - Article
@@ -218,8 +219,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: Get one article by slug
       tags:
       - Article
@@ -228,29 +227,29 @@ paths:
       - multipart/form-data
       description: update article
       parameters:
-      - description: Article by Slug
+      - description: Article by slug
         in: path
         name: slug
         required: true
         type: string
-      - description: FullName
+      - description: Full Name
         in: formData
-        name: FullName
+        name: fullName
         required: true
         type: string
       - description: Email
         in: formData
-        name: Email
+        name: email
         required: true
         type: string
       - description: Topic
         in: formData
-        name: Topic
+        name: topic
         required: true
         type: string
-      - description: ArticleMessage
+      - description: Article Message
         in: formData
-        name: ArticleMessage
+        name: articleMessage
         required: true
         type: string
       produces:
@@ -314,7 +313,7 @@ paths:
         name: requestBody
         required: true
         schema:
-          $ref: '#/definitions/contact.ContactSubmissionInput'
+          $ref: '#/definitions/dto.ContactSubmissionInput'
       produces:
       - application/json
       responses:
@@ -431,37 +430,37 @@ paths:
       parameters:
       - description: File gambar 1
         in: formData
-        name: File1
+        name: file1
         required: true
         type: file
       - description: File gambar 2
         in: formData
-        name: File2
+        name: file2
         required: true
         type: file
       - description: Title
         in: formData
-        name: Title
+        name: title
         required: true
         type: string
       - description: SubTitle
         in: formData
-        name: SubTitle
+        name: subTitle
         required: true
         type: string
       - description: Description
         in: formData
-        name: Description
+        name: description
         required: true
         type: string
       - description: SrcFile
         in: formData
-        name: SrcFile
+        name: srcFile
         required: true
         type: string
       - description: Reference
         in: formData
-        name: Reference
+        name: reference
         required: true
         type: string
       produces:
@@ -580,27 +579,27 @@ paths:
         type: string
       - description: Title
         in: formData
-        name: Title
+        name: title
         required: true
         type: string
       - description: SubTitle
         in: formData
-        name: SubTitle
+        name: subTitle
         required: true
         type: string
       - description: Description
         in: formData
-        name: Description
+        name: description
         required: true
         type: string
       - description: SrcFile
         in: formData
-        name: SrcFile
+        name: srcFile
         required: true
         type: string
       - description: Reference
         in: formData
-        name: Reference
+        name: reference
         required: true
         type: string
       produces:
@@ -662,19 +661,19 @@ paths:
       - application/json
       description: Create New Event
       parameters:
-      - description: File gambar
+      - description: File Image
         in: formData
-        name: File
+        name: file
         required: true
         type: file
-      - description: Judul
+      - description: Title Event
         in: formData
-        name: Judul
+        name: title
         required: true
         type: string
-      - description: Pesan Event
+      - description: Event Message
         in: formData
-        name: Message
+        name: eventMessage
         required: true
         type: string
       produces:
@@ -775,19 +774,19 @@ paths:
         name: slug
         required: true
         type: string
-      - description: File gambar
+      - description: File Image
         in: formData
-        name: File
+        name: file
         required: true
         type: file
-      - description: Judul
+      - description: Title Event
         in: formData
-        name: Judul
+        name: title
         required: true
         type: string
-      - description: Pesan Event
+      - description: Event Message
         in: formData
-        name: Message
+        name: eventMessage
         required: true
         type: string
       produces:
@@ -851,7 +850,7 @@ paths:
         name: Input
         required: true
         schema:
-          $ref: '#/definitions/feedback.FeedbackInput'
+          $ref: '#/definitions/dto.FeedbackInput'
       produces:
       - application/json
       responses:
@@ -938,19 +937,19 @@ paths:
       - application/json
       description: Create New Gallery
       parameters:
-      - description: File gambar
+      - description: File gambar 1
         in: formData
-        name: File1
+        name: file1
         required: true
         type: file
-      - description: File gambar
+      - description: File gambar 2
         in: formData
-        name: File2
+        name: file2
         required: true
         type: file
       - description: Alt
         in: formData
-        name: Alt
+        name: alt
         required: true
         type: string
       produces:
@@ -1051,10 +1050,10 @@ paths:
         in: path
         name: slug
         required: true
-        type: integer
+        type: string
       - description: Alt
         in: formData
-        name: Alt
+        name: alt
         required: true
         type: string
       produces:
@@ -1132,7 +1131,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.UpdateUserInput'
+          $ref: '#/definitions/dto.UpdateUserInput'
       produces:
       - application/json
       responses:
@@ -1172,7 +1171,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.LoginInput'
+          $ref: '#/definitions/dto.LoginInput'
       produces:
       - application/json
       responses:
@@ -1210,7 +1209,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/user.RegisterUserInput'
+          $ref: '#/definitions/dto.RegisterUserInput'
       produces:
       - application/json
       responses:

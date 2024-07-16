@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 	"greenwelfare/entity"
 
 	"gorm.io/gorm"
@@ -105,6 +106,10 @@ func (r *repository_ecopedia) FindById(id int) (*entity.Ecopedia, error) {
 	err := r.db.Preload("FileName").Find(&ecopedia, id).Error
 	if err != nil {
 		return ecopedia, err
+	}
+
+	if ecopedia.ID == 0 {
+		return ecopedia, errors.New(fmt.Sprintf("ecopedia with id %d not found", id))
 	}
 	return ecopedia, nil
 }

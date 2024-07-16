@@ -17,11 +17,6 @@ const docTemplate = `{
     "paths": {
         "/api/article": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "get all article",
                 "consumes": [
                     "application/json"
@@ -65,6 +60,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create new article",
                 "consumes": [
                     "multipart/form-data"
@@ -79,29 +79,29 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "FullName",
-                        "name": "FullName",
+                        "description": "Full Name",
+                        "name": "fullName",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Email",
-                        "name": "Email",
+                        "name": "email",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Topic",
-                        "name": "Topic",
+                        "name": "topic",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "ArticleMessage",
-                        "name": "ArticleMessage",
+                        "description": "Article Message",
+                        "name": "articleMessage",
                         "in": "formData",
                         "required": true
                     }
@@ -140,11 +140,6 @@ const docTemplate = `{
         },
         "/api/article/{slug}": {
             "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "get one article by slug",
                 "consumes": [
                     "application/json"
@@ -216,36 +211,36 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Article by Slug",
+                        "description": "Article by slug",
                         "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "FullName",
-                        "name": "FullName",
+                        "description": "Full Name",
+                        "name": "fullName",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Email",
-                        "name": "Email",
+                        "name": "email",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Topic",
-                        "name": "Topic",
+                        "name": "topic",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "ArticleMessage",
-                        "name": "ArticleMessage",
+                        "description": "Article Message",
+                        "name": "articleMessage",
                         "in": "formData",
                         "required": true
                     }
@@ -393,7 +388,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/contact.ContactSubmissionInput"
+                            "$ref": "#/definitions/dto.ContactSubmissionInput"
                         }
                     }
                 ],
@@ -575,49 +570,49 @@ const docTemplate = `{
                     {
                         "type": "file",
                         "description": "File gambar 1",
-                        "name": "File1",
+                        "name": "file1",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "file",
                         "description": "File gambar 2",
-                        "name": "File2",
+                        "name": "file2",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Title",
-                        "name": "Title",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "SubTitle",
-                        "name": "SubTitle",
+                        "name": "subTitle",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Description",
-                        "name": "Description",
+                        "name": "description",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "SrcFile",
-                        "name": "SrcFile",
+                        "name": "srcFile",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Reference",
-                        "name": "Reference",
+                        "name": "reference",
                         "in": "formData",
                         "required": true
                     }
@@ -794,35 +789,35 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Title",
-                        "name": "Title",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "SubTitle",
-                        "name": "SubTitle",
+                        "name": "subTitle",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Description",
-                        "name": "Description",
+                        "name": "description",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "SrcFile",
-                        "name": "SrcFile",
+                        "name": "srcFile",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Reference",
-                        "name": "Reference",
+                        "name": "reference",
                         "in": "formData",
                         "required": true
                     }
@@ -916,22 +911,22 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "File",
+                        "description": "File Image",
+                        "name": "file",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Judul",
-                        "name": "Judul",
+                        "description": "Title Event",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Pesan Event",
-                        "name": "Message",
+                        "description": "Event Message",
+                        "name": "eventMessage",
                         "in": "formData",
                         "required": true
                     }
@@ -1034,22 +1029,22 @@ const docTemplate = `{
                     },
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "File",
+                        "description": "File Image",
+                        "name": "file",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Judul",
-                        "name": "Judul",
+                        "description": "Title Event",
+                        "name": "title",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Pesan Event",
-                        "name": "Message",
+                        "description": "Event Message",
+                        "name": "eventMessage",
                         "in": "formData",
                         "required": true
                     }
@@ -1190,7 +1185,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/feedback.FeedbackInput"
+                            "$ref": "#/definitions/dto.FeedbackInput"
                         }
                     }
                 ],
@@ -1328,22 +1323,22 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "File1",
+                        "description": "File gambar 1",
+                        "name": "file1",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "file",
-                        "description": "File gambar",
-                        "name": "File2",
+                        "description": "File gambar 2",
+                        "name": "file2",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Alt",
-                        "name": "Alt",
+                        "name": "alt",
                         "in": "formData",
                         "required": true
                     }
@@ -1490,7 +1485,7 @@ const docTemplate = `{
                 "summary": "Update Gallery by Slug",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Slug Gallery",
                         "name": "slug",
                         "in": "path",
@@ -1499,7 +1494,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Alt",
-                        "name": "Alt",
+                        "name": "alt",
                         "in": "formData",
                         "required": true
                     }
@@ -1549,7 +1544,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.LoginInput"
+                            "$ref": "#/definitions/dto.LoginInput"
                         }
                     }
                 ],
@@ -1605,7 +1600,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.RegisterUserInput"
+                            "$ref": "#/definitions/dto.RegisterUserInput"
                         }
                     }
                 ],
@@ -1680,7 +1675,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.UpdateUserInput"
+                            "$ref": "#/definitions/dto.UpdateUserInput"
                         }
                     }
                 ],
@@ -2366,87 +2361,88 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "contact.ContactSubmissionInput": {
+        "dto.ContactSubmissionInput": {
             "type": "object",
             "required": [
-                "Email",
-                "Message",
-                "Subject"
+                "email",
+                "message",
+                "name",
+                "subject"
             ],
             "properties": {
-                "Email": {
+                "email": {
                     "type": "string"
                 },
-                "Message": {
+                "message": {
                     "type": "string"
                 },
-                "Name": {
+                "name": {
                     "type": "string"
                 },
-                "Subject": {
+                "subject": {
                     "type": "string"
                 }
             }
         },
-        "feedback.FeedbackInput": {
+        "dto.FeedbackInput": {
             "type": "object",
             "required": [
-                "Email",
-                "Text"
+                "email",
+                "text"
             ],
             "properties": {
-                "Email": {
+                "email": {
                     "type": "string"
                 },
-                "Text": {
+                "text": {
                     "type": "string"
                 }
             }
         },
-        "user.LoginInput": {
+        "dto.LoginInput": {
             "type": "object",
             "required": [
-                "Email",
-                "Password"
+                "email",
+                "password"
             ],
             "properties": {
-                "Email": {
+                "email": {
                     "type": "string"
                 },
-                "Password": {
+                "password": {
                     "type": "string"
                 }
             }
         },
-        "user.RegisterUserInput": {
+        "dto.RegisterUserInput": {
             "type": "object",
             "required": [
-                "Email",
-                "Password",
-                "Username"
+                "email",
+                "password",
+                "username"
             ],
             "properties": {
-                "Email": {
+                "email": {
                     "type": "string"
                 },
-                "Password": {
+                "password": {
                     "type": "string"
                 },
-                "Username": {
+                "username": {
                     "type": "string"
                 }
             }
         },
-        "user.UpdateUserInput": {
+        "dto.UpdateUserInput": {
             "type": "object",
             "properties": {
-                "Email": {
+                "email": {
                     "type": "string"
                 },
-                "Password": {
+                "password": {
                     "type": "string"
                 },
-                "Username": {
+                "username": {
                     "type": "string"
                 }
             }

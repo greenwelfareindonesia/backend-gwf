@@ -1,8 +1,8 @@
 package dto
 
 type CreateEvents struct {
-	Title        string `form:"Title" binding:"required"`
-	EventMessage string `form:"EventMessage" binding:"required"`
+	Title        string `form:"title" binding:"required"`
+	EventMessage string `form:"eventMessage" binding:"required"`
 }
 
 type GetEvent struct {
