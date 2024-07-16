@@ -144,6 +144,50 @@ func StartApp() {
 	gallerys.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.UpdateGallery)
 	gallerys.DELETE("/:id", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), galleryHandler.DeleteGallery)
 
+	productsRepository := repository.NewRepositoryProduct(db)
+	productsService := service.NewServiceProduct(productsRepository)
+	productHandler := NewProductHandler(productsService, statisticsService)
+
+	products := router.Group("/api/product")
+	//get all
+	products.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
+	products.POST("/", productHandler.CreateProduct)
+	products.GET("/:slug", productHandler.ReadProductBySlug)
+	products.PUT("/:slug", productHandler.UpdateProductBySlug)
+	products.DELETE("/:slug", productHandler.DeleteProductBySlug)
+
+	shoppingCartRepository := repository.NewRepositoryShoppingCart(db)
+	shoppingCartService := service.NewServiceShoppingCart(shoppingCartRepository, productsRepository)
+	shoppingCartHandler := NewShoppingCartHandler(shoppingCartService)
+
+	shoppingCarts := router.Group("/api/shopping-cart")
+	shoppingCarts.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
+	shoppingCarts.POST("/", shoppingCartHandler.CreateShoppingCart)
+	shoppingCarts.GET("/", shoppingCartHandler.GetShoppingCarts)
+	shoppingCarts.GET("/:id", shoppingCartHandler.GetShoppingCartById)
+	shoppingCarts.PUT("/:id", shoppingCartHandler.UpdateShoppingCartById) // update qty and total price
+	shoppingCarts.DELETE("/:id", shoppingCartHandler.DeleteShoppingCartById)
+
+	{ // masukin dalem block biar rapih
+		hrd := router.Group("/api/hrd")
+		hrdRepository := repository.NewRepositoryHRD(db)
+		hrdService := service.NewServiceHrd(hrdRepository)
+		hrdHandler := NewHrdHandler(hrdService)
+
+		hrd.Use(
+			middleware.AuthMiddleware(authService, userService),
+			middleware.AuthRole(authService, userService),
+		)
+
+		hrd.POST("/", hrdHandler.CreateHrd)
+		hrd.GET("/", hrdHandler.GetAllHrd)
+		hrd.GET("/status/:status", hrdHandler.GetAllByStatus)
+		hrd.GET("/departement/:departement", hrdHandler.GetAllByDepartement)
+		hrd.GET("/:slug", hrdHandler.GetOneHrd)
+		hrd.PUT("/:slug", hrdHandler.UpdateHrd)
+		hrd.DELETE("/:slug", hrdHandler.DeleteHrd)
+	}
+
 	// statistics
 	router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
 
