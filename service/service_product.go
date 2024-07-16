@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"greenwelfare/dto"
 	"greenwelfare/entity"
+	"greenwelfare/formatter"
 	"greenwelfare/repository"
 	"math/rand"
 	"strconv"
@@ -21,11 +22,12 @@ type ServiceProduct interface {
 }
 
 type service_product struct {
-	repository repository.RepositoryProduct
+	repoProduct         repository.RepositoryProduct
+	repoProductCategory repository.RepositoryProductCategory
 }
 
-func NewServiceProduct(repository repository.RepositoryProduct) *service_product {
-	return &service_product{repository: repository}
+func NewServiceProduct(repoProduct repository.RepositoryProduct, repoProductCategory repository.RepositoryProductCategory) *service_product {
+	return &service_product{repoProduct: repoProduct, repoProductCategory: repoProductCategory}
 }
 
 func (s *service_product) CreateProduct(ctx context.Context, product dto.CreateProductDTO) (dto.ProductResponseDTO, error) {
@@ -44,10 +46,14 @@ func (s *service_product) CreateProduct(ctx context.Context, product dto.CreateP
 	if product.CategoryID != "" {
 		categoryID, err := strconv.Atoi(product.CategoryID)
 		if err != nil {
-			return dto.ProductResponseDTO{}, errors.New("invalid category_id")
+			return dto.ProductResponseDTO{}, errors.New("invalid categoryId")
 		}
-		_ = categoryID
-		// find category
+		productCategory, err := s.repoProductCategory.GetProductCategoryById(ctx, uint64(categoryID))
+		if err != nil {
+			return dto.ProductResponseDTO{}, err
+		}
+		categoryID = int(productCategory.ID)
+		isCategoryExist = true
 	}
 
 	newProduct := entity.Product{
@@ -65,32 +71,39 @@ func (s *service_product) CreateProduct(ctx context.Context, product dto.CreateP
 		newProduct.CategoryID = uint64(categoryID)
 	}
 
-	// USING DB TRANSACTIONAL
-	// CREATE PRODUCT
+	newProductImages := []entity.ProductImage{}
+	for _, v := range product.ProductImages {
+		productImage := entity.ProductImage{
+			ImageUrl: v.ImageUrl,
+		}
+		newProductImages = append(newProductImages, productImage)
+	}
 
+	newProductDetails := []entity.ProductDetail{}
+	for _, v := range product.ProductDetails {
+		productDetail := entity.ProductDetail{
+			Size:  v.Size,
+			Price: v.Price,
+			Stock: v.Stock,
+		}
+		newProductDetails = append(newProductDetails, productDetail)
+	}
 
-	// CREATE PRODUCT IMAGE
-
-
-	// CREATE PRODUCT DETAIL
-
-	// ROLLBACK ERROR WITH DELETE IMAGEKIT
-
-	res, errRepo := s.repository.CreateProduct(ctx, newProduct)
+	res, errRepo := s.repoProduct.CreateProduct(ctx, newProduct, newProductImages, newProductDetails)
 	if errRepo != nil {
 		return dto.ProductResponseDTO{}, errRepo
 	}
-	return parsingProductResponseDTO(res), nil
+	return formatter.ParsingProductResponseDTO(res), nil
 }
 
 func (s *service_product) ReadProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error) {
-	product, err := s.repository.ReadProductBySlug(ctx, slug)
+	product, err := s.repoProduct.ReadProductBySlug(ctx, slug)
 
 	if err != nil {
 		return dto.ProductResponseDTO{}, err
 	}
 
-	return parsingProductResponseDTO(product), nil
+	return formatter.ParsingProductResponseDTO(product), nil
 }
 
 func (s *service_product) UpdateProductBySlug(
@@ -98,7 +111,7 @@ func (s *service_product) UpdateProductBySlug(
 	slug string,
 	newProduct dto.UpdateProductDTO,
 ) (dto.ProductResponseDTO, error) {
-	product, err := s.repository.ReadProductBySlug(ctx, slug)
+	product, err := s.repoProduct.ReadProductBySlug(ctx, slug)
 	if err != nil {
 		return dto.ProductResponseDTO{}, err
 	}
@@ -114,36 +127,24 @@ func (s *service_product) UpdateProductBySlug(
 	// product.Description = newProduct.Description
 	// product.Stock = newProduct.Stock
 
-	updated, err := s.repository.UpdateProduct(ctx, &product)
+	updated, err := s.repoProduct.UpdateProduct(ctx, &product)
 	if err != nil {
 		return dto.ProductResponseDTO{}, err
 	}
 
-	return parsingProductResponseDTO(updated), nil
+	return formatter.ParsingProductResponseDTO(updated), nil
 }
 
 func (s *service_product) DeleteProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error) {
-	product, err := s.repository.ReadProductBySlug(ctx, slug)
+	product, err := s.repoProduct.ReadProductBySlug(ctx, slug)
 	if err != nil {
 		return dto.ProductResponseDTO{}, err
 	}
 
-	newProduct, err := s.repository.DeleteProduct(ctx, &product)
+	newProduct, err := s.repoProduct.DeleteProduct(ctx, &product)
 	if err != nil {
 		return dto.ProductResponseDTO{}, err
 	}
 
-	return parsingProductResponseDTO(newProduct), nil
-}
-
-func parsingProductResponseDTO(product entity.Product) dto.ProductResponseDTO {
-	response := dto.ProductResponseDTO{
-		ID:   product.ID,
-		Name: product.Name,
-		Slug: product.Slug,
-		// Stock:         product.Stock,
-		Description:   product.Description,
-		DefaultColumn: product.DefaultColumn,
-	}
-	return response
+	return formatter.ParsingProductResponseDTO(newProduct), nil
 }

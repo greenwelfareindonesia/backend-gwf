@@ -10,9 +10,9 @@ type CreateProductDTO struct {
 	Excerpt        string `form:"excerpt"`
 	Description    string `form:"description"`
 	Merk           string `form:"merk"`
-	ItemWeight     string `form:"item_weight"`
-	IsActive       string `form:"is_active"`
-	CategoryID     string `form:"category_id"`
+	ItemWeight     string `form:"itemWeight"`
+	IsActive       string `form:"isActive"`
+	CategoryID     string `form:"categoryId"`
 	TotalStock     uint64
 	ProductImages  []CreateProductImageDTO
 	ProductDetails []CreateProductDetailDTO
@@ -26,12 +26,19 @@ type UpdateProductDTO struct {
 }
 
 type ProductResponseDTO struct {
-	ID          uint64 `json:"id"`
-	Name        string `json:"name"`
-	Slug        string `json:"slug"`
-	Price       uint64 `json:"price"`
-	Description string `json:"description"`
-	Stock       uint64 `json:"stock"`
+	ID             uint64                      `json:"id"`
+	Slug           string                      `json:"slug" gorm:"not null"`
+	Name           string                      `json:"name" gorm:"not null"`
+	CategoryID     uint64                      `json:"category_id" gorm:"foreignKey:ProductID"` //optional
+	Excerpt        string                      `json:"excerpt" gorm:"not null"`
+	Description    string                      `json:"description" gorm:"not null; type:text"`
+	Merk           string                      `json:"merk" gorm:"not null"`
+	TotalStock     uint64                      `json:"total_stock" gorm:"not null"`
+	TotalSales     uint64                      `json:"total_sales" gorm:"default:0"`
+	ItemWeight     float64                     `json:"item_weight" gorm:"not null"`
+	IsActive       bool                        `json:"is_active" gorm:"default:true"`
+	ProductImages  []*ProductImageResponseDTO  `json:"product_images"`
+	ProductDetails []*ProductDetailResponseDTO `json:"product_details"`
 	entity.DefaultColumn
 }
 
@@ -53,11 +60,11 @@ func (p *CreateProductDTO) Validate() error {
 	}
 
 	if p.ItemWeight == "" {
-		return errors.New("field item_weight is requried")
+		return errors.New("field itemWeight is requried")
 	}
 
 	if p.IsActive == "" {
-		return errors.New("field is_active is requried")
+		return errors.New("field isActive is requried")
 	}
 	return nil
 }

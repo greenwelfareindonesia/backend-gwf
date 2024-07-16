@@ -1,6 +1,9 @@
 package dto
 
-import "errors"
+import (
+	"errors"
+	"greenwelfare/entity"
+)
 
 type CreateProductDetailDTO struct {
 	Size  string `form:"size"`
@@ -22,4 +25,13 @@ func (pd *CreateProductDetailDTO) Validate() error {
 	}
 
 	return nil
+}
+
+type ProductDetailResponseDTO struct {
+	ID      uint64         `json:"id"`
+	Size    string         `json:"size"`
+	Price   uint64         `json:"price"`
+	Stock   uint64         `json:"stock"`
+	Product *entity.Product `json:"product,omitempty"`
+	entity.DefaultColumn
 }

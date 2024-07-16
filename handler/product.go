@@ -63,9 +63,9 @@ func (h *productHandler) CreateProduct(ctx *gin.Context) {
 	for i := 0; ; i++ {
 		var newProductDetail dto.CreateProductDetailDTO
 
-		size := ctx.PostForm(fmt.Sprintf("product_details[%d][size]", i))
-		price := ctx.PostForm(fmt.Sprintf("product_details[%d][price]", i))
-		stock := ctx.PostForm(fmt.Sprintf("product_details[%d][stock]", i))
+		size := ctx.PostForm(fmt.Sprintf("productDetails[%d][size]", i))
+		price := ctx.PostForm(fmt.Sprintf("productDetails[%d][price]", i))
+		stock := ctx.PostForm(fmt.Sprintf("productDetails[%d][stock]", i))
 
 		if size == "" && price == "" && stock == "" {
 			break
@@ -73,12 +73,12 @@ func (h *productHandler) CreateProduct(ctx *gin.Context) {
 
 		priceToInt, errPrice := strconv.Atoi(price)
 		if errPrice != nil {
-			errBinding = append(errBinding, fmt.Sprintf("invalid input price on product_details[%d][size]", i))
+			errBinding = append(errBinding, fmt.Sprintf("invalid input price on productDetails[%d][size]", i))
 			continue
 		}
 		stockToInt, errStock := strconv.Atoi(stock)
 		if errStock != nil {
-			errBinding = append(errBinding, fmt.Sprintf("invalid stock price on product_details[%d][stock]", i))
+			errBinding = append(errBinding, fmt.Sprintf("invalid stock price on productDetails[%d][stock]", i))
 			continue
 		}
 
@@ -107,7 +107,7 @@ func (h *productHandler) CreateProduct(ctx *gin.Context) {
 
 	// CHECK PRODUCT DETAIL DATA
 	if len(productDetails) < 1 {
-		errProductDetails := helper.FailedResponse1(http.StatusUnprocessableEntity, "product_details is required", newProductRequest)
+		errProductDetails := helper.FailedResponse1(http.StatusUnprocessableEntity, "productDetails is required", newProductRequest)
 		ctx.AbortWithStatusJSON(errProductDetails.Error.Code, errProductDetails)
 		return
 	}
@@ -116,7 +116,7 @@ func (h *productHandler) CreateProduct(ctx *gin.Context) {
 	var productImages []dto.CreateProductImageDTO
 	for i := 0; ; i++ {
 		var productImg dto.CreateProductImageDTO
-		fileKey := fmt.Sprintf("product_images[%d]", i)
+		fileKey := fmt.Sprintf("productImages[%d]", i)
 		imageHeader, err := ctx.FormFile(fileKey)
 		if err != nil {
 			break
@@ -181,7 +181,7 @@ func (h *productHandler) CreateProduct(ctx *gin.Context) {
 
 	// CHECK PRODUCT IMAGES DATA
 	if len(productImages) < 1 {
-		errProductImages := helper.FailedResponse1(http.StatusUnprocessableEntity, "product_images is required", newProductRequest)
+		errProductImages := helper.FailedResponse1(http.StatusUnprocessableEntity, "productImages is required", newProductRequest)
 		ctx.AbortWithStatusJSON(errProductImages.Error.Code, errProductImages)
 		return
 	}
