@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 	"greenwelfare/entity"
 
 	"gorm.io/gorm"
@@ -12,7 +13,7 @@ type RepositoryGallery interface {
 	FindAll() ([]*entity.Gallery, error)
 	FindById(ID int) (*entity.Gallery, error)
 	FindBySlug(slug string) (*entity.Gallery, error)
-	CreateImage(gallery *entity.GalleryImages) (error)
+	CreateImage(gallery *entity.GalleryImages) error
 	DeleteImages(galleryID int) error
 	Update(gallery *entity.Gallery) (*entity.Gallery, error)
 	Delete(gallery *entity.Gallery) (*entity.Gallery, error)
@@ -27,14 +28,13 @@ func NewRepositoryGallery(db *gorm.DB) *repository_galery {
 }
 
 func (r *repository_galery) DeleteImages(galleryID int) error {
-    err := r.db.Where("gallery_id = ?", galleryID).Delete(&entity.GalleryImages{}).Error
-    if err != nil {
-        return err
-    }
+	err := r.db.Where("gallery_id = ?", galleryID).Delete(&entity.GalleryImages{}).Error
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }
-
 
 func (r *repository_galery) FindBySlug(slug string) (*entity.Gallery, error) {
 	var gallery *entity.Gallery
@@ -45,9 +45,9 @@ func (r *repository_galery) FindBySlug(slug string) (*entity.Gallery, error) {
 		return gallery, err
 	}
 	if gallery.Slug == "" {
-        return gallery, errors.New("slug not found")
-    }
-	
+		return gallery, errors.New("slug not found")
+	}
+
 	return gallery, nil
 
 }
@@ -61,7 +61,7 @@ func (r *repository_galery) Create(gallery *entity.Gallery) (*entity.Gallery, er
 	return gallery, nil
 }
 
-func (r *repository_galery) CreateImage(gallery *entity.GalleryImages) (error) {
+func (r *repository_galery) CreateImage(gallery *entity.GalleryImages) error {
 	err := r.db.Create(&gallery).Error
 	if err != nil {
 		return err
@@ -87,6 +87,10 @@ func (r *repository_galery) FindById(ID int) (*entity.Gallery, error) {
 
 	if err != nil {
 		return gallery, err
+	}
+
+	if gallery.ID == 0 {
+		return gallery, errors.New(fmt.Sprintf("gallery with id %d not found", ID))
 	}
 	return gallery, nil
 }

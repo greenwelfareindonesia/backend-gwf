@@ -32,9 +32,9 @@ func NewGalleryHandler(galleryService service.ServiceGallery, endpointService en
 // @Produce json
 // @Tags Gallery
 // @Security BearerAuth
-// @Param File1 formData file true "File gambar"
-// @Param File2 formData file true "File gambar"
-// @Param Alt formData string true "Alt"
+// @Param file1 formData file true "File gambar 1"
+// @Param file2 formData file true "File gambar 2"
+// @Param alt formData string true "Alt"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -43,7 +43,7 @@ func (h *galleryHandler) CreateGallery(c *gin.Context) {
 	var imagesKitURLs []string
 
 	for i := 1; ; i++ {
-        fileKey := fmt.Sprintf("File%d", i)
+        fileKey := fmt.Sprintf("file%d", i)
         file, err := c.FormFile(fileKey)
         
         // If there are no more files to upload, break the loop
@@ -191,13 +191,13 @@ func (h *galleryHandler) GetAllGallery(c *gin.Context) {
 }
 
 // @Summary Update Gallery by Slug
-// @Description Update Gallery by Slug 
+// @Description Update Gallery by Slug
 // @Accept json
 // @Produce json
 // @Tags Gallery
 // @Security BearerAuth
-// @Param slug path int true "Slug Gallery"
-// @Param Alt formData string true "Alt"
+// @param slug path string true "Slug Gallery"
+// @Param alt formData string true "Alt"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}

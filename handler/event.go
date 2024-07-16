@@ -95,15 +95,15 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 // @Tags Event
 // @Security BearerAuth
 // @Param slug path string true "slug event"
-// @Param File formData file true "File gambar"
-// @Param Judul formData string true "Judul"
-// @Param Message formData string true "Pesan Event"
+// @Param file formData file true "File Image"
+// @Param title formData string true "Title Event"
+// @Param eventMessage formData string true "Event Message"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /api/event/{slug} [put]
 func (h *eventHandler) UpdateEvent(c *gin.Context) {
-	file, _ := c.FormFile("File")
+	file, _ := c.FormFile("file")
 	src, err := file.Open()
 	if err != nil {
 		fmt.Printf("error when open file %v", err)
@@ -164,15 +164,15 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 // @Produce json
 // @Tags Event
 // @Security BearerAuth
-// @Param File formData file true "File gambar"
-// @Param Judul formData string true "Judul"
-// @Param Message formData string true "Pesan Event"
+// @Param file formData file true "File Image"
+// @Param title formData string true "Title Event"
+// @Param eventMessage formData string true "Event Message"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Router /api/event [post]
 func (h *eventHandler) CreateEvent(c *gin.Context) {
-	file, _ := c.FormFile("File")
+	file, _ := c.FormFile("file")
 	src, err := file.Open()
 	if err != nil {
 		fmt.Printf("error when open file %v", err)

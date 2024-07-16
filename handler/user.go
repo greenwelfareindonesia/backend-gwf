@@ -3,6 +3,7 @@ package handler
 import (
 	"greenwelfare/auth"
 	"greenwelfare/dto"
+	"greenwelfare/entity"
 	"greenwelfare/formatter"
 	"greenwelfare/helper"
 	"greenwelfare/service"
@@ -156,8 +157,13 @@ func (h *userHandler) UpdateUser(c *gin.Context) {
 
 	param := c.Param("slug")
 
-	err := c.ShouldBind(&input)
-	if err != nil {
+	if currentUser, _ := c.Get("currentUser"); currentUser.(*entity.User).Slug != param {
+		response := helper.FailedResponse1(http.StatusForbidden, "you dont have access to this", false)
+		c.JSON(http.StatusForbidden, response)
+		return
+	}
+
+	if err := c.ShouldBind(&input); err != nil {
 		// errors := helper.FormatValidationError(err)
 		// errorMessage := gin.H{"errors": errors}
 		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), param)

@@ -138,6 +138,11 @@ func (s *service_user) UpdateUser(slugs string, input dto.UpdateUserInput) (*ent
 		return user, err
 	}
 
+	if user.ID == 0 {
+		err := fmt.Errorf("User with slug %s not found.", slugs)
+		return nil, err
+	}
+
 	oldSlug := user.Slug
 
 	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
