@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"fmt"
 	"greenwelfare/dto"
 	"greenwelfare/entity"
@@ -105,7 +106,11 @@ func (s *service_hrd) GetOneHrd(slug string) (*entity.Hrd, error) {
 func (s *service_hrd) UpdateHrd(input dto.UpdateHrdDTO, slug string) (*entity.Hrd, error) {
 	hrd, err := s.repository.FindBySlug(slug)
 	if err != nil {
-		return hrd, err
+		return nil, err
+	}
+
+	if hrd.ID == 0 {
+		return nil, errors.New("hrd not found")
 	}
 
 	// NOTE: no new slug
