@@ -60,7 +60,7 @@ func (h *hrdHandler) CreateHrd(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/hrd/:slug [get]
+// @Router /api/hrd/{slug} [get]
 func (h *hrdHandler) GetOneHrd(c *gin.Context) {
 	slug := c.Param("slug")
 
@@ -109,7 +109,7 @@ func (h *hrdHandler) GetAllHrd(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/hrd/departement/:departement [get]
+// @Router /api/hrd/departement/{departement} [get]
 func (h *hrdHandler) GetAllByDepartement(c *gin.Context) {
 	departement := c.Param("departement")
 
@@ -125,7 +125,7 @@ func (h *hrdHandler) GetAllByDepartement(c *gin.Context) {
 }
 
 // @Summary Get all Hrd by status
-// @Description Get all Hrd by status 
+// @Description Get all Hrd by status
 // @Accept json
 // @Produce json
 // @Security BearerAuth
@@ -135,7 +135,7 @@ func (h *hrdHandler) GetAllByDepartement(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/hrd/status/:status [get]
+// @Router /api/hrd/status/{status} [get]
 func (h *hrdHandler) GetAllByStatus(c *gin.Context) {
 	status := c.Param("status")
 
@@ -161,7 +161,7 @@ func (h *hrdHandler) GetAllByStatus(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/article/{slug} [put]
+// @Router /api/hrd/{slug} [put]
 func (h *hrdHandler) UpdateHrd(c *gin.Context) {
 	slug := c.Param("slug")
 
@@ -194,7 +194,7 @@ func (h *hrdHandler) UpdateHrd(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/hrd/:slug [delete]
+// @Router /api/hrd/{slug} [delete]
 func (h *hrdHandler) DeleteHrd(c *gin.Context) {
 	slug := c.Param("slug")
 

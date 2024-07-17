@@ -246,15 +246,34 @@ paths:
       - Article
     put:
       consumes:
-      - application/json
+      - multipart/form-data
       description: update article
       parameters:
-      - description: Hrd details
-        in: body
-        name: body
+      - description: Article by slug
+        in: path
+        name: slug
         required: true
-        schema:
-          $ref: '#/definitions/dto.UpdateHrdDTO'
+        type: string
+      - description: Full Name
+        in: formData
+        name: fullName
+        required: true
+        type: string
+      - description: Email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Topic
+        in: formData
+        name: topic
+        required: true
+        type: string
+      - description: Article Message
+        in: formData
+        name: articleMessage
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1159,7 +1178,7 @@ paths:
       summary: Create a new Hrd staff member
       tags:
       - Hrd
-  /api/hrd/:slug:
+  /api/hrd/{slug}:
     delete:
       consumes:
       - application/json
@@ -1236,7 +1255,46 @@ paths:
       summary: Get one Hrd
       tags:
       - Hrd
-  /api/hrd/departement/:departement:
+    put:
+      consumes:
+      - application/json
+      description: update article
+      parameters:
+      - description: Hrd details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateHrdDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: update article
+      tags:
+      - Article
+  /api/hrd/departement/{departement}:
     get:
       consumes:
       - application/json
@@ -1275,7 +1333,7 @@ paths:
       summary: Get all Hrd by departement
       tags:
       - Hrd
-  /api/hrd/status/:status:
+  /api/hrd/status/{status}:
     get:
       consumes:
       - application/json
