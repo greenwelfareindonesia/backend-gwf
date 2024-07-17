@@ -1822,9 +1822,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Article"
+                    "Hrd"
                 ],
-                "summary": "update article",
+                "summary": "update hrd",
                 "parameters": [
                     {
                         "description": "Hrd details",
