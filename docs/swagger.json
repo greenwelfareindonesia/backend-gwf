@@ -1823,8 +1823,9 @@
                 ],
                 "tags": [
                     "Hrd"
+                    "Hrd"
                 ],
-                "summary": "Update Hrd",
+                "summary": "update hrd",
                 "parameters": [
                     {
                         "description": "Hrd details",
