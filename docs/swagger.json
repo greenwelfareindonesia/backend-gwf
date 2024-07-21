@@ -1814,7 +1814,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "update article",
+                "description": "Update Hrd",
                 "consumes": [
                     "application/json"
                 ],
@@ -1822,6 +1822,7 @@
                     "application/json"
                 ],
                 "tags": [
+                    "Hrd"
                     "Hrd"
                 ],
                 "summary": "update hrd",

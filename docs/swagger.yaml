@@ -1258,7 +1258,7 @@ paths:
     put:
       consumes:
       - application/json
-      description: update article
+      description: Update Hrd
       parameters:
       - description: Hrd details
         in: body
@@ -1291,9 +1291,9 @@ paths:
             type: object
       security:
       - BearerAuth: []
-      summary: update article
+      summary: Update Hrd
       tags:
-      - Article
+      - Hrd
   /api/hrd/departement/{departement}:
     get:
       consumes:

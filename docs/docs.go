@@ -1822,7 +1822,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "update article",
+                "description": "Update Hrd",
                 "consumes": [
                     "application/json"
                 ],
@@ -1830,9 +1830,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Article"
+                    "Hrd"
                 ],
-                "summary": "update article",
+                "summary": "Update Hrd",
                 "parameters": [
                     {
                         "description": "Hrd details",
