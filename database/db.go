@@ -45,6 +45,27 @@ func InitDb() (*gorm.DB, error) {
 	// 	log.Fatal("DB Connection Error")
 	// }
 
+	// if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); !exists {
+	// 	if err := godotenv.Load(); err != nil {
+	// 		log.Fatal("Error loading .env file:", err)
+	// 	}
+	// }
+
+	// // Get DATABASE_URL from environment variables
+	// databaseURL := os.Getenv("DATABASE_URL")
+	// if databaseURL == "" {
+	// 	log.Fatal("DATABASE_URL is not set in environment variables")
+	// }
+
+	// fmt.Println("Database URL:", databaseURL)
+
+	// // Connect to the database using GORM
+	// db, err := gorm.Open(mysql.Open(databaseURL), &gorm.Config{})
+	// if err != nil {
+	// 	log.Fatal("DB Connection Error:", err)
+	// }
+
+	// Load environment variables if not in Railway environment
 	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); !exists {
 		if err := godotenv.Load(); err != nil {
 			log.Fatal("Error loading .env file:", err)
@@ -57,14 +78,18 @@ func InitDb() (*gorm.DB, error) {
 		log.Fatal("DATABASE_URL is not set in environment variables")
 	}
 
+	// Print the database URL for debugging purposes
 	fmt.Println("Database URL:", databaseURL)
 
 	// Connect to the database using GORM
 	db, err := gorm.Open(mysql.Open(databaseURL), &gorm.Config{})
 	if err != nil {
-		log.Fatal("DB Connection Error:", err)
+		log.Fatalf("DB Connection Error: %v", err)
 	}
 
+	// Further database operations
+	fmt.Println("Database connection successful")
+	
 	// Auto Migration
 
 	db.AutoMigrate(&entity.Artikel{})
