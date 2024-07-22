@@ -73,7 +73,7 @@ func InitDb() (*gorm.DB, error) {
 	}
 
 	// Get DATABASE_URL from environment variables
-	databaseURL := os.Getenv("DATABASE_URL")
+	databaseURL := "root:NyeiUNkCgnvPCOVYVnuEkGVwEeFoBPgY@roundhouse.proxy.rlwy.net:17131/railway?charset=utf8mb4&parseTime=True&loc=Local"
 	if databaseURL == "" {
 		log.Fatal("DATABASE_URL is not set in environment variables")
 	}
