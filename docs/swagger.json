@@ -5,7 +5,7 @@
         "title": "Sweager Service API",
         "contact": {}
     },
-    "host": "localhost:8080/",
+    "host": "https://backend-gwf-production.up.railway.app/",
     "paths": {
         "/api/article": {
             "get": {
@@ -1824,7 +1824,7 @@
                 "tags": [
                     "Hrd"
                 ],
-                "summary": "update hrd",
+                "summary": "Update Hrd",
                 "parameters": [
                     {
                         "description": "Hrd details",
