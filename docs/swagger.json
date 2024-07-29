@@ -5,7 +5,7 @@
         "title": "Sweager Service API",
         "contact": {}
     },
-    "host": "https://backend-gwf-production.up.railway.app/",
+    "host": "backend-gwf-production.up.railway.app/",
     "paths": {
         "/api/article": {
             "get": {

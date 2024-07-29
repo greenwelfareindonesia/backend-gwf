@@ -2978,7 +2978,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
-	Host:             "https://backend-gwf-production.up.railway.app/",
+	Host:             "backend-gwf-production.up.railway.app/",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Sweager Service API",
