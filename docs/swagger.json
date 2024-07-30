@@ -1816,7 +1816,7 @@
                 ],
                 "description": "Update Hrd",
                 "consumes": [
-                    "multipart/form-data"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"
@@ -1826,6 +1826,13 @@
                 ],
                 "summary": "Update Hrd",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "Hrd details",
                         "name": "body",
