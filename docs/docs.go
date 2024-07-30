@@ -1835,6 +1835,13 @@ const docTemplate = `{
                 "summary": "Update Hrd",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "slug hrd",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Hrd details",
                         "name": "body",
                         "in": "body",

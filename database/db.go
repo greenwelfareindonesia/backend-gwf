@@ -35,7 +35,7 @@ func InitDb() (*gorm.DB, error) {
 
 	// Further database operations
 	fmt.Println("Database connection successful")
-
+	
 	// Auto Migration
 
 	db.AutoMigrate(&entity.Artikel{})

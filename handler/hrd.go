@@ -155,7 +155,8 @@ func (h *hrdHandler) GetAllByStatus(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
-// @Tags Hrd 
+// @Tags Hrd
+// @Param slug path string true "slug hrd"
 // @Param body body dto.UpdateHrdDTO true "Hrd details"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
