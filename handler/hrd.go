@@ -150,6 +150,7 @@ func (h *hrdHandler) GetAllByStatus(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// UpdateHrd godoc
 // @Summary Update Hrd
 // @Description Update Hrd
 // @Accept json
