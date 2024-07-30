@@ -1260,6 +1260,11 @@ paths:
       - application/json
       description: Update Hrd
       parameters:
+      - description: slug
+        in: path
+        name: slug
+        required: true
+        type: string
       - description: Hrd details
         in: body
         name: body
