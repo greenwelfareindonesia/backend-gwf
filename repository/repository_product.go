@@ -98,6 +98,9 @@ func (r *repository_product) ReadProductBySlug(ctx context.Context, slug string)
 	var product entity.Product
 
 	if err := r.db.WithContext(ctx).Preload("ProductImages").Preload("ProductDetails").Table("products").Where("slug = ?", slug).First(&product).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return entity.Product{}, errors.New("product not found")
+		}
 		return entity.Product{}, err
 	}
 
