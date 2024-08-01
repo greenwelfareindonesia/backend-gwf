@@ -12,7 +12,7 @@ type Product struct {
 	TotalSales     uint64          `json:"total_sales" gorm:"default:0"`
 	ItemWeight     float64         `json:"item_weight" gorm:"not null"`
 	IsActive       bool            `json:"is_active" gorm:"default:true"`
-	ProductImages  []ProductImage  `json:"product_images"`
-	ProductDetails []ProductDetail `json:"product_details"`
+	ProductImages  []ProductImage  `json:"product_images" gorm:"foreignKey:ProductID"`
+	ProductDetails []ProductDetail `json:"product_details" gorm:"foreignKey:ProductID"`
 	DefaultColumn
 }

@@ -10,6 +10,7 @@ import (
 
 type RepositoryProduct interface {
 	CreateProduct(ctx context.Context, product entity.Product, productImages []entity.ProductImage, productDetails []entity.ProductDetail) (entity.Product, error)
+	GetProducts(ctx context.Context, limit int, offset int) ([]entity.Product, error)
 	GetProductById(ctx context.Context, id uint64) (entity.Product, error)
 	ReadProductBySlug(ctx context.Context, slug string) (entity.Product, error)
 	UpdateProduct(ctx context.Context, product *entity.Product) (entity.Product, error)
@@ -65,6 +66,18 @@ func (r *repository_product) CreateProduct(ctx context.Context, product entity.P
 	}
 
 	return savedProduct, nil
+}
+
+func (r *repository_product) GetProducts(ctx context.Context, limit int, offset int) ([]entity.Product, error) {
+	products := []entity.Product{}
+
+	query := r.db.WithContext(ctx).Preload("ProductImages").Preload("ProductDetails").Limit(limit).Offset(offset)
+
+	if err := query.Find(&products).Error; err != nil {
+		return []entity.Product{}, err
+	}
+
+	return products, nil
 }
 
 func (r *repository_product) GetProductById(ctx context.Context, id uint64) (entity.Product, error) {

@@ -154,6 +154,7 @@ func StartApp() {
 	//get all
 	products.Use(middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService))
 	products.POST("/", productHandler.CreateProduct)
+	products.GET("/", productHandler.GetProducts)
 	products.GET("/:slug", productHandler.ReadProductBySlug)
 	products.PUT("/:slug", productHandler.UpdateProductBySlug)
 	products.DELETE("/:slug", productHandler.DeleteProductBySlug)

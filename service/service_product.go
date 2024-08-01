@@ -16,6 +16,7 @@ import (
 
 type ServiceProduct interface {
 	CreateProduct(ctx context.Context, product dto.CreateProductDTO) (dto.ProductResponseDTO, error)
+	GetProducts(ctx context.Context, limit int, offset int) ([]dto.ProductResponseDTO, error)
 	ReadProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error)
 	UpdateProductBySlug(ctx context.Context, slug string, product dto.UpdateProductDTO) (dto.ProductResponseDTO, error)
 	DeleteProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error)
@@ -94,6 +95,20 @@ func (s *service_product) CreateProduct(ctx context.Context, product dto.CreateP
 		return dto.ProductResponseDTO{}, errRepo
 	}
 	return formatter.ParsingProductResponseDTO(res), nil
+}
+
+func (s *service_product) GetProducts(ctx context.Context, limit int, offset int) ([]dto.ProductResponseDTO, error) {
+	res, errRepo := s.repoProduct.GetProducts(ctx, limit, offset)
+	if errRepo != nil {
+		return []dto.ProductResponseDTO{}, errRepo
+	}
+
+	responseDTO := []dto.ProductResponseDTO{}
+	for _, v := range res {
+		parsingRes := formatter.ParsingProductResponseDTO(v)
+		responseDTO = append(responseDTO, parsingRes)
+	}
+	return responseDTO, nil
 }
 
 func (s *service_product) ReadProductBySlug(ctx context.Context, slug string) (dto.ProductResponseDTO, error) {

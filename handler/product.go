@@ -199,6 +199,31 @@ func (h *productHandler) CreateProduct(ctx *gin.Context) {
 
 }
 
+func (h *productHandler) GetProducts(ctx *gin.Context) {
+	limit, err := strconv.Atoi(ctx.Query("limit"))
+	if err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, "invalid query param limit", nil)
+		ctx.AbortWithStatusJSON(response.Error.Code, response)
+		return
+	}
+
+	offset, err := strconv.Atoi(ctx.Query("offset"))
+	if err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, "invalid query param offset", nil)
+		ctx.AbortWithStatusJSON(response.Error.Code, response)
+		return
+	}
+	products, errSvc := h.productService.GetProducts(ctx, limit, offset)
+	if errSvc != nil {
+		errGetProducts := helper.FailedResponse1(http.StatusInternalServerError, errSvc.Error(), errSvc)
+		ctx.AbortWithStatusJSON(errGetProducts.Error.Code, errGetProducts)
+		return
+	}
+
+	response := helper.SuccessfulResponse1(products)
+	ctx.JSON(http.StatusOK, response)
+}
+
 func (h *productHandler) ReadProductBySlug(ctx *gin.Context) {
 	slug := ctx.Param("slug")
 
