@@ -93,7 +93,7 @@ func StartApp() {
 	art := router.Group("/api/article")
 	art.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.CreateArtikel)
 	art.GET("/", artikelHandler.GetAllArtikel)
-	art.GET("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.GetOneArtikel)
+	art.GET("/:slug", artikelHandler.GetOneArtikel)
 	art.PUT("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.UpdateArtikel)
 	art.DELETE("/:slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), artikelHandler.DeleteArtikel)
 
