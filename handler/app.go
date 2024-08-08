@@ -103,7 +103,7 @@ func StartApp() {
 	eventHandler := NewEventHandler(eventService, statisticsService)
 	//--//
 	eve := router.Group("/api/event")
-	eve.POST("/", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.CreateEvent)
+	eve.POST("/", eventHandler.CreateEvent)
 	eve.GET("/", eventHandler.GetAllEvent)
 	eve.GET("/:slug", eventHandler.GetOneEvent)
 	eve.PUT(":slug", middleware.AuthMiddleware(authService, userService), middleware.AuthRole(authService, userService), eventHandler.UpdateEvent)
