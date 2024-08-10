@@ -1,11 +1,11 @@
 package handler
 
 import (
-	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/dto"
+	endpointcount "greenwelfare/endpointCount"
 	"greenwelfare/formatter"
-	"greenwelfare/service"
 	"greenwelfare/helper"
+	"greenwelfare/service"
 	"net/http"
 	"strconv"
 
@@ -132,7 +132,6 @@ func (h *artikelHandler) UpdateArtikel(c *gin.Context) {
 // @Accept multipart/form-data
 // @Produce json
 // @Tags Article
-// @Security BearerAuth
 // @Param fullName formData string true "Full Name"
 // @Param email formData string true "Email"
 // @Param topic formData string true "Topic"

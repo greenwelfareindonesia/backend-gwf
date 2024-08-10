@@ -164,8 +164,6 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      security:
-      - BearerAuth: []
       summary: Create new article
       tags:
       - Article

@@ -60,11 +60,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "Create new article",
                 "consumes": [
                     "multipart/form-data"
