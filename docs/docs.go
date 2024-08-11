@@ -924,6 +924,20 @@ const docTemplate = `{
                         "name": "eventMessage",
                         "in": "formData",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Location",
+                        "name": "location",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date",
+                        "name": "date",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1040,6 +1054,20 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Event Message",
                         "name": "eventMessage",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Location",
+                        "name": "location",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date",
+                        "name": "date",
                         "in": "formData",
                         "required": true
                     }

@@ -18,7 +18,7 @@ import (
 )
 
 type eventHandler struct {
-	eventService service.ServiceEvent
+	eventService    service.ServiceEvent
 	endpointService endpointcount.StatisticsService
 }
 
@@ -27,7 +27,7 @@ func NewEventHandler(eventService service.ServiceEvent, endpointService endpoint
 }
 
 // @Summary Delete event by slug
-// @Description Delete event by slug 
+// @Description Delete event by slug
 // @Accept json
 // @Produce json
 // @Tags Event
@@ -52,7 +52,7 @@ func (h *eventHandler) DeleteEvent(c *gin.Context) {
 
 }
 
-// @Summary Get One Event 
+// @Summary Get One Event
 // @Description Get One Event by slug
 // @Accept json
 // @Produce json
@@ -67,7 +67,7 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 
 	newDel, err := h.eventService.GetOneEvent(param)
 	if err != nil {
-		
+
 		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), newDel)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
@@ -77,11 +77,11 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 	userAgent := c.GetHeader("User-Agent")
 
 	err = h.endpointService.IncrementCount("GetByIDEvent /Event/GetByIDEvent", userAgent)
-    if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err)
+	if err != nil {
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
-    }
+	}
 
 	response := helper.SuccessfulResponse1(newDel)
 	c.JSON(http.StatusOK, response)
@@ -89,7 +89,7 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 }
 
 // @Summary Update event by slug
-// @Description Update event by slug 
+// @Description Update event by slug
 // @Accept json
 // @Produce json
 // @Tags Event
@@ -98,6 +98,8 @@ func (h *eventHandler) GetOneEvent(c *gin.Context) {
 // @Param file formData file true "File Image"
 // @Param title formData string true "Title Event"
 // @Param eventMessage formData string true "Event Message"
+// @Param location formData string true "Location"
+// @Param date formData string true "Date"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -144,14 +146,13 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 		return
 	}
 
-	events, err := h.eventService.UpdateEvent(param,input,imageKitURL)
+	events, err := h.eventService.UpdateEvent(param, input, imageKitURL)
 	if err != nil {
-		
+
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-
 
 	response := helper.SuccessfulResponse1(formatter.UpdatedFormatterEvent(events))
 	c.JSON(http.StatusOK, response)
@@ -159,7 +160,7 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 }
 
 // @Summary Create New Event
-// @Description Create New Event 
+// @Description Create New Event
 // @Accept json
 // @Produce json
 // @Tags Event
@@ -167,6 +168,8 @@ func (h *eventHandler) UpdateEvent(c *gin.Context) {
 // @Param file formData file true "File Image"
 // @Param title formData string true "Title Event"
 // @Param eventMessage formData string true "Event Message"
+// @Param location formData string true "Location"
+// @Param date formData string true "Date"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -215,7 +218,7 @@ func (h *eventHandler) CreateEvent(c *gin.Context) {
 
 	if err != nil {
 		//inisiasi data yang tujuan dalam return hasil ke postman
-		
+
 		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
@@ -254,11 +257,11 @@ func (h *eventHandler) GetAllEvent(c *gin.Context) {
 	userAgent := c.GetHeader("User-Agent")
 
 	err = h.endpointService.IncrementCount("GetAllEvent /Event/GetAllEvent", userAgent)
-    if err != nil {
-        response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
+	if err != nil {
+		response := helper.APIresponse(http.StatusUnprocessableEntity, err.Error())
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
-    }
+	}
 
 	response := helper.SuccessfulResponse1(newBerita)
 	c.JSON(http.StatusOK, response)

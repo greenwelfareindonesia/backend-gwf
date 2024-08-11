@@ -6,5 +6,7 @@ type Event struct {
 	Title        string
 	EventMessage string
 	FileName     string
+	Date         string
+	Location     string
 	DefaultColumn
 }

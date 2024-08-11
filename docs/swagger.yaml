@@ -696,6 +696,16 @@ paths:
         name: eventMessage
         required: true
         type: string
+      - description: Location
+        in: formData
+        name: location
+        required: true
+        type: string
+      - description: Date
+        in: formData
+        name: date
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -807,6 +817,16 @@ paths:
       - description: Event Message
         in: formData
         name: eventMessage
+        required: true
+        type: string
+      - description: Location
+        in: formData
+        name: location
+        required: true
+        type: string
+      - description: Date
+        in: formData
+        name: date
         required: true
         type: string
       produces:

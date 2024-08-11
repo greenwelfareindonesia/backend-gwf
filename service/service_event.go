@@ -66,6 +66,8 @@ func (s *service_event) CreateEvent(input dto.CreateEvents, fileLocation string)
 	createBerita.Title = input.Title
 	createBerita.EventMessage = input.EventMessage
 	createBerita.FileName = fileLocation
+	createBerita.Location = input.Location
+	createBerita.Date = input.Date
 
 	var seededRand *rand.Rand = rand.New(
 		rand.NewSource(time.Now().UnixNano()))
@@ -94,17 +96,18 @@ func (s *service_event) UpdateEvent(slugs string, input dto.CreateEvents, FileLo
 	event.Title = input.Title
 	event.EventMessage = input.EventMessage
 	event.FileName = FileLocation
+	event.Location = input.Location
+	event.Date = input.Date
 	oldSlug := event.Slug
 
-
 	var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
-    slugTitle := strings.ToLower(input.Title)
-    mySlug := slug.Make(slugTitle)
-    randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
-    event.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
+	slugTitle := strings.ToLower(input.Title)
+	mySlug := slug.Make(slugTitle)
+	randomNumber := seededRand.Intn(1000000) // Angka acak 0-999999
+	event.Slug = fmt.Sprintf("%s-%d", mySlug, randomNumber)
 
-    // Ubah nilai slug kembali ke nilai slug lama untuk mencegah perubahan slug dalam database
-    event.Slug = oldSlug
+	// Ubah nilai slug kembali ke nilai slug lama untuk mencegah perubahan slug dalam database
+	event.Slug = oldSlug
 
 	newEvent, err := s.repository.Update(event)
 	if err != nil {
