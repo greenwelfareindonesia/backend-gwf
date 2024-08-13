@@ -6,12 +6,14 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/imagekit-developer/imagekit-go"
 	"github.com/imagekit-developer/imagekit-go/api/uploader"
 )
-func Base64toEncode(bytes []byte) (string,error){
+
+func Base64toEncode(bytes []byte) (string, error) {
 	var base64Encoding string
 
 	// Determine the content type of the image file
@@ -31,33 +33,32 @@ func Base64toEncode(bytes []byte) (string,error){
 
 	// Print the full base64 representation of the image
 	fmt.Println(base64Encoding)
-	return base64Encoding,nil
+	return base64Encoding, nil
 }
 
 func ToBase64(b []byte) string {
 	return base64.StdEncoding.EncodeToString(b)
 }
 
-
 func ImageKit(ctx context.Context, base64Image string) (string, error) {
 
-	// privateKey := os.Getenv("IMAGEKIT_PRIVATE_KEY")
-    // publicKey := os.Getenv("IMAGEKIT_PUBLIC_KEY")
-    // urlEndpoint := os.Getenv("IMAGEKIT_URL_ENDPOINT")
+	privateKey := os.Getenv("IMAGEKIT_PRIVATE_KEY")
+	publicKey := os.Getenv("IMAGEKIT_PUBLIC_KEY")
+	urlEndpoint := os.Getenv("IMAGEKIT_URL_ENDPOINT")
 
 	fmt.Println("start uploading image ...")
-	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 25*time.Second)
 	defer cancel()
 	ik := imagekit.NewFromParams(imagekit.NewParams{
-		PrivateKey: "private_Nuo1v6cVLR3PE5Ac6EIO/YCEK7Q=",
-  		PublicKey: "public_wIKI9SBHrloRT5BKoqdkkqsC89A=",
-  		UrlEndpoint: "https://ik.imagekit.io/alfarizigilang",
+		PrivateKey:  privateKey,
+		PublicKey:   publicKey,
+		UrlEndpoint: urlEndpoint,
 	})
 
 	resp, err := ik.Uploader.Upload(ctx, base64Image, uploader.UploadParam{
-		FileName: "test_image.jpg",
-		Tags:     "barang",
-		Folder:   "unj",
+		FileName: "product.jpg",
+		Tags:     "product",
+		Folder:   "gwf",
 	})
 
 	if err != nil {
