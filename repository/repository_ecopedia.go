@@ -12,9 +12,9 @@ type RepositoryEcopedia interface {
 	FindAll() ([]*entity.Ecopedia, error)
 	FindById(id int) (*entity.Ecopedia, error)
 	FindBySlug(slug string) (*entity.Ecopedia, error)
-	CreateImage(ecopedia *entity.EcopediaImage) (error)
+	CreateImage(ecopedia *entity.EcopediaImage) error
 	Create(ecopedia *entity.Ecopedia) (*entity.Ecopedia, error)
-	DeleteEcopedia(ecopedia *entity.Ecopedia)  error
+	DeleteEcopedia(ecopedia *entity.Ecopedia) error
 	Update(ecopedia *entity.Ecopedia) (*entity.Ecopedia, error)
 	DeleteImages(ecopediaID int) error
 	// CreateIsLike(like IsLike) error
@@ -36,26 +36,22 @@ func NewRepositoryEcopedia(db *gorm.DB) *repository_ecopedia {
 //     return nil
 // }
 
-
-
-func (r *repository_ecopedia) CreateImage(ecopedia *entity.EcopediaImage) (error) {
+func (r *repository_ecopedia) CreateImage(ecopedia *entity.EcopediaImage) error {
 	err := r.db.Create(&ecopedia).Error
-	return  err
-	
+	return err
+
 }
 
 func (r *repository_ecopedia) DeleteImages(ecopediaID int) error {
-    err := r.db.Where("ecopedia_id = ?", ecopediaID).Delete(&entity.EcopediaImage{}).Error
-    if err != nil {
-        return err
-    }
+	err := r.db.Where("ecopedia_id = ?", ecopediaID).Delete(&entity.EcopediaImage{}).Error
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }
 
-
-
-func (r *repository_ecopedia) FindByUserId (userId int) (*entity.Ecopedia, error) {
+func (r *repository_ecopedia) FindByUserId(userId int) (*entity.Ecopedia, error) {
 	var eco *entity.Ecopedia
 
 	err := r.db.Preload("User").Where("id = ?", userId).Find(eco).Error
@@ -75,17 +71,17 @@ func (r *repository_ecopedia) Update(ecopedia *entity.Ecopedia) (*entity.Ecopedi
 
 }
 
-func (r *repository_ecopedia) DeleteEcopedia(ecopedia *entity.Ecopedia) error{
+func (r *repository_ecopedia) DeleteEcopedia(ecopedia *entity.Ecopedia) error {
 	err := r.db.Delete(&ecopedia).Error
 	if err != nil {
-		return  err
+		return err
 	}
 	return nil
 }
 
 func (r *repository_ecopedia) FindAll() ([]*entity.Ecopedia, error) {
 	var ecopedias []*entity.Ecopedia
-	err := r.db.Preload("FileName").Find(&ecopedias).Error
+	err := r.db.Order("id DESC").Preload("FileName").Find(&ecopedias).Error
 	if err != nil {
 		return ecopedias, err
 	}
@@ -114,7 +110,6 @@ func (r *repository_ecopedia) FindById(id int) (*entity.Ecopedia, error) {
 	return ecopedia, nil
 }
 
-
 func (r *repository_ecopedia) FindBySlug(slug string) (*entity.Ecopedia, error) {
 	var ecopedia *entity.Ecopedia
 
@@ -124,9 +119,9 @@ func (r *repository_ecopedia) FindBySlug(slug string) (*entity.Ecopedia, error) 
 		return ecopedia, err
 	}
 	if ecopedia.Slug == "" {
-        return ecopedia, errors.New("slug not found")
-    }
-	
+		return ecopedia, errors.New("slug not found")
+	}
+
 	return ecopedia, nil
 
 }
