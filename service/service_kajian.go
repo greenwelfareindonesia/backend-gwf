@@ -14,6 +14,8 @@ type ServiceKajian interface {
 	CreateImage(kajianID int, fileLocation string) error
 	GetAll() ([]*entity.Kajian, error)
 	GetOne(slug string) (*entity.Kajian, error)
+	UpdateOne(slug string, update dto.UpdateKajian) (*entity.Kajian, error)
+	DeleteOne(slug string) error
 }
 
 type service_kajian struct {
@@ -69,4 +71,38 @@ func (s *service_kajian) GetOne(slug string) (*entity.Kajian, error) {
 	}
 
 	return kajian, nil
+}
+
+func (s *service_kajian) UpdateOne(slug string, update dto.UpdateKajian) (*entity.Kajian, error) {
+	kajian, err := s.repository.FindBySlug(slug)
+	if err != nil {
+		return nil, err
+	}
+
+	if kajian.ID == 0 {
+		return nil, errors.New("hrd not found")
+	}
+
+	kajian.Title = update.Title
+	kajian.Description = update.Description
+
+	newHrd, err := s.repository.Update(kajian)
+	if err != nil {
+		return newHrd, err
+	}
+
+	return newHrd, nil
+}
+
+func (s *service_kajian) DeleteOne(slug string) error {
+	kajian, err := s.repository.FindBySlug(slug)
+	if err != nil {
+		return err
+	}
+
+	if err := s.repository.Delete(kajian); err != nil {
+		return err
+	}
+
+	return nil
 }

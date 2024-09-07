@@ -18,8 +18,8 @@ type kajianHandler struct {
 	kajianService service.ServiceKajian
 }
 
-func NewKajianHandler() *kajianHandler {
-	return &kajianHandler{}
+func NewKajianHandler(kajianService service.ServiceKajian) *kajianHandler {
+	return &kajianHandler{kajianService}
 }
 
 func (h *kajianHandler) CreateKajian(c *gin.Context) {
@@ -118,5 +118,39 @@ func (h *kajianHandler) GetAllKajian(c *gin.Context) {
 	}
 
 	response := helper.SuccessfulResponse1(kajians)
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *kajianHandler) UpdateKajian(c *gin.Context) {
+	slug := c.Param("slug")
+
+	var update dto.UpdateKajian
+	if err := c.ShouldBind(&update); err != nil {
+		response := helper.FailedResponse1(http.StatusUnprocessableEntity, err.Error(), err)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	kajian, err := h.kajianService.UpdateOne(slug, update)
+	if err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, err.Error(), err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.SuccessfulResponse1(kajian)
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *kajianHandler) DeleteKajian(c * gin.Context) {
+	slug := c.Param("slug")
+
+	if err := h.kajianService.DeleteOne(slug); err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, err.Error(), err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.SuccessfulResponse1("kajian successfully deleted")
 	c.JSON(http.StatusOK, response)
 }

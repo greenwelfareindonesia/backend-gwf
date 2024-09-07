@@ -12,6 +12,8 @@ type RepositoryKajian interface {
 	FindByID(id int) (*entity.Kajian, error)
 	FindBySlug(slug string) (*entity.Kajian, error)
 	FindAll() ([]*entity.Kajian, error)
+	Update(kajian *entity.Kajian) (*entity.Kajian, error)
+	Delete(kajian *entity.Kajian) error
 }
 
 type repository_kajian struct {
@@ -68,3 +70,18 @@ func (r *repository_kajian) FindAll() ([]*entity.Kajian, error) {
 	return kajians, nil
 }
 
+func (r *repository_kajian) Update(kajian *entity.Kajian) (*entity.Kajian, error) {
+	if err := r.db.Save(&kajian).Error; err != nil {
+		return nil, err
+	}
+
+	return kajian, nil
+}
+
+func (r *repository_kajian) Delete(kajian *entity.Kajian) error {
+	if err := r.db.Delete(&kajian).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
