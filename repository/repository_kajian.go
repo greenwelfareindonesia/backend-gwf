@@ -43,7 +43,7 @@ func (r *repository_kajian) SaveImage(kajianImage *entity.KajianImage) error {
 func (r *repository_kajian) FindByID(id int) (*entity.Kajian, error) {
 	var kajian *entity.Kajian
 
-	if err := r.db.Where("id = ?", id).Find(&kajian).Error; err != nil {
+	if err := r.db.Where("id = ?", id).Preload("Images").Where("kajian_id = kajians.id").Find(&kajian).Error; err != nil {
 		return nil, err
 	}
 
@@ -53,7 +53,7 @@ func (r *repository_kajian) FindByID(id int) (*entity.Kajian, error) {
 func (r *repository_kajian) FindBySlug(slug string) (*entity.Kajian, error) {
 	var kajian *entity.Kajian
 
-	if err := r.db.Where("slug = ?", slug).Find(&kajian).Error; err != nil {
+	if err := r.db.Where("slug = ?", slug).Preload("Images").Find(&kajian).Error; err != nil {
 		return nil, err
 	}
 
@@ -63,7 +63,7 @@ func (r *repository_kajian) FindBySlug(slug string) (*entity.Kajian, error) {
 func (r *repository_kajian) FindAll() ([]*entity.Kajian, error) {
 	var kajians []*entity.Kajian
 
-	if err := r.db.Find(&kajians).Error; err != nil {
+	if err := r.db.Preload("Images").Find(&kajians).Error; err != nil {
 		return nil, err
 	}
 
