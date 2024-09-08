@@ -209,6 +209,24 @@ func StartApp() {
 		hrd.DELETE("/:slug", hrdHandler.DeleteHrd)
 	}
 
+	{ // kajian
+		kajian := router.Group("/api/kajian")
+		kajianRepository := repository.NewRepositoryKajian(db)
+		kajianService := service.NewServiceKajian(kajianRepository)
+		kajianHandler := NewKajianHandler(kajianService)
+
+		kajian.Use(
+			middleware.AuthMiddleware(authService, userService),
+			middleware.AuthRole(authService, userService),
+		)
+		
+		kajian.POST("/", kajianHandler.CreateKajian)
+		kajian.GET("/", kajianHandler.GetAllKajian)
+		kajian.GET("/:slug", kajianHandler.GetOneKajian)
+		kajian.PUT("/:slug", kajianHandler.UpdateKajian)
+		kajian.DELETE("/:slug", kajianHandler.DeleteKajian)
+	}
+
 	// statistics
 	// router.GET("/statistics", statisticsHandler.GetStatisticsHandler)
 
