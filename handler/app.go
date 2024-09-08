@@ -214,15 +214,16 @@ func StartApp() {
 		kajianRepository := repository.NewRepositoryKajian(db)
 		kajianService := service.NewServiceKajian(kajianRepository)
 		kajianHandler := NewKajianHandler(kajianService)
+		
+		kajian.GET("/", kajianHandler.GetAllKajian)
+		kajian.GET("/:slug", kajianHandler.GetOneKajian)
 
 		kajian.Use(
 			middleware.AuthMiddleware(authService, userService),
 			middleware.AuthRole(authService, userService),
 		)
-		
+
 		kajian.POST("/", kajianHandler.CreateKajian)
-		kajian.GET("/", kajianHandler.GetAllKajian)
-		kajian.GET("/:slug", kajianHandler.GetOneKajian)
 		kajian.PUT("/:slug", kajianHandler.UpdateKajian)
 		kajian.DELETE("/:slug", kajianHandler.DeleteKajian)
 	}

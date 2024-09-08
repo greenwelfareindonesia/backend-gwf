@@ -55,6 +55,7 @@ func InitDb() (*gorm.DB, error) {
 	db.AutoMigrate(&entity.Banner{})
 	db.AutoMigrate(&entity.Hrd{})
 	db.AutoMigrate(&entity.Kajian{})
+	db.AutoMigrate(&entity.KajianImage{})
 
 	return db, nil
 
