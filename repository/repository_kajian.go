@@ -18,6 +18,7 @@ type RepositoryKajian interface {
 	FindAll() ([]*entity.Kajian, error)
 	Update(kajian *entity.Kajian) (*entity.Kajian, error)
 	Delete(kajian *entity.Kajian) error
+	DeleteImages(kajian *entity.Kajian) error
 }
 
 type repository_kajian struct {
@@ -88,6 +89,14 @@ func (r *repository_kajian) Update(kajian *entity.Kajian) (*entity.Kajian, error
 
 func (r *repository_kajian) Delete(kajian *entity.Kajian) error {
 	if err := r.db.Delete(&kajian).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *repository_kajian) DeleteImages(kajian *entity.Kajian) error {
+	if err := r.db.Where("kajian_id = ?", kajian.ID).Delete(&entity.KajianImage{}).Error; err != nil {
 		return err
 	}
 
