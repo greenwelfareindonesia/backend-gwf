@@ -1,7 +1,11 @@
 package repository
 
 import (
+	"fmt"
 	"greenwelfare/entity"
+	"math/rand"
+	"strings"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -25,6 +29,10 @@ func NewRepositoryKajian(db *gorm.DB) *repository_kajian {
 }
 
 func (r *repository_kajian) Save(kajian *entity.Kajian) (*entity.Kajian, error) {
+	slugName := strings.ReplaceAll(strings.ToLower(kajian.Title), " ", "-")
+	randomNumber := rand.New(rand.NewSource(time.Now().UnixNano())).Intn(1000000)
+	kajian.Slug = fmt.Sprintf("%s-%d", slugName, randomNumber)
+
 	if err := r.db.Create(&kajian).Error; err != nil {
 		return nil, err
 	}
