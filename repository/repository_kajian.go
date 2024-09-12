@@ -52,7 +52,7 @@ func (r *repository_kajian) SaveImage(kajianImage *entity.KajianImage) error {
 func (r *repository_kajian) FindByID(id int) (*entity.Kajian, error) {
 	var kajian *entity.Kajian
 
-	if err := r.db.Where("id = ?", id).Preload("Images").Where("kajian_id = kajians.id").Find(&kajian).Error; err != nil {
+	if err := r.db.Where("id = ?", id).Preload("Images").Find(&kajian).Error; err != nil {
 		return nil, err
 	}
 
