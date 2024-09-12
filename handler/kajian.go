@@ -243,7 +243,14 @@ func (h *kajianHandler) UpdateKajian(c *gin.Context) {
 		return
 	}
 
-	response := helper.SuccessfulResponse1(kajian)
+	updatedKajian, err := h.kajianService.GetOneByID(kajian.ID);
+	if err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, err.Error(), err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.SuccessfulResponse1(updatedKajian)
 	c.JSON(http.StatusOK, response)
 }
 
