@@ -14,6 +14,7 @@ type ServiceKajian interface {
 	CreateImage(kajianID int, fileLocation string) error
 	GetAll() ([]*entity.Kajian, error)
 	GetOne(slug string) (*entity.Kajian, error)
+	GetOneByID(id int) (*entity.Kajian, error)
 	UpdateOne(slug string, update dto.UpdateKajian, urls []string) (*entity.Kajian, error)
 	DeleteOne(slug string) error
 }
@@ -39,12 +40,7 @@ func (s *service_kajian) Create(input dto.InputKajian) (*entity.Kajian, error) {
 		return nil, err
 	}
 
-	getNewKajian, err := s.repository.FindByID(newKajian.ID)
-	if err != nil {
-		return nil, err
-	}
-
-	return getNewKajian, nil
+	return newKajian, nil
 }
 
 func (s *service_kajian) CreateImage(kajianID int, fileLocation string) error {
@@ -66,6 +62,20 @@ func (s *service_kajian) GetAll() ([]*entity.Kajian, error) {
 
 func (s *service_kajian) GetOne(slug string) (*entity.Kajian, error) {
 	kajian, err := s.repository.FindBySlug(slug)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if kajian.ID == 0 {
+		return nil, errors.New("kajian not found!")
+	}
+
+	return kajian, nil
+}
+
+func (s *service_kajian) GetOneByID(id int) (*entity.Kajian, error) {
+	kajian, err := s.repository.FindByID(id)
 
 	if err != nil {
 		return nil, err

@@ -106,7 +106,14 @@ func (h *kajianHandler) CreateKajian(c *gin.Context) {
 		}
 	}
 
-	response := helper.SuccessfulResponse1(kajian)
+	newKajian, err := h.kajianService.GetOneByID(kajian.ID);
+	if err != nil {
+		response := helper.FailedResponse1(http.StatusBadRequest, err.Error(), err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.SuccessfulResponse1(newKajian)
 	c.JSON(http.StatusCreated, response)
 }
 
