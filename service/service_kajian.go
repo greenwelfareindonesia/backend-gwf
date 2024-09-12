@@ -39,7 +39,12 @@ func (s *service_kajian) Create(input dto.InputKajian) (*entity.Kajian, error) {
 		return nil, err
 	}
 
-	return newKajian, nil
+	getNewKajian, err := s.repository.FindByID(newKajian.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return getNewKajian, nil
 }
 
 func (s *service_kajian) CreateImage(kajianID int, fileLocation string) error {
@@ -67,7 +72,7 @@ func (s *service_kajian) GetOne(slug string) (*entity.Kajian, error) {
 	}
 
 	if kajian.ID == 0 {
-		return nil,	errors.New("kajian not found!")
+		return nil, errors.New("kajian not found!")
 	}
 
 	return kajian, nil
@@ -86,7 +91,7 @@ func (s *service_kajian) UpdateOne(slug string, update dto.UpdateKajian, urls []
 	kajian.Title = update.Title
 	kajian.Description = update.Description
 
-	if (len(urls) > 0) {
+	if len(urls) > 0 {
 		if err := s.repository.DeleteImages(kajian); err != nil {
 			return nil, err
 		}
