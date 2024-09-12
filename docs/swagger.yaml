@@ -1558,6 +1558,14 @@ paths:
       - multipart/form-data
       description: Update Kajian by slug
       parameters:
+      - description: File gambar 1
+        in: formData
+        name: file1
+        type: file
+      - description: File gambar 2
+        in: formData
+        name: file2
+        type: file
       - description: Kajian Slug
         in: path
         name: slug

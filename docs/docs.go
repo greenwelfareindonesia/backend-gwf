@@ -2157,6 +2157,18 @@ const docTemplate = `{
                 "summary": "Update Kajian",
                 "parameters": [
                     {
+                        "type": "file",
+                        "description": "File gambar 1",
+                        "name": "file1",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "File gambar 2",
+                        "name": "file2",
+                        "in": "formData"
+                    },
+                    {
                         "type": "string",
                         "description": "Kajian Slug",
                         "name": "slug",

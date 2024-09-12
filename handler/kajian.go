@@ -170,6 +170,8 @@ func (h *kajianHandler) GetAllKajian(c *gin.Context) {
 // @Security BearerAuth
 // @Produce json
 // @Tags Kajian
+// @Param file1 formData file false "File gambar 1"
+// @Param file2 formData file false "File gambar 2"
 // @Param slug path string true "Kajian Slug"
 // @Param title formData string true "Title"
 // @Param description formData string true "Description"
