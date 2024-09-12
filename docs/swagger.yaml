@@ -1439,7 +1439,6 @@ paths:
       - description: File gambar 2
         in: formData
         name: file2
-        required: true
         type: file
       - description: Title
         in: formData

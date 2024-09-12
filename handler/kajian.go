@@ -29,7 +29,7 @@ func NewKajianHandler(kajianService service.ServiceKajian) *kajianHandler {
 // @Produce json
 // @Tags Kajian
 // @Param file1 formData file true "File gambar 1"
-// @Param file2 formData file true "File gambar 2"
+// @Param file2 formData file false "File gambar 2"
 // @Param title formData string true "Title"
 // @Param description formData string true "Description"
 // @Success 200 {object} map[string]interface{}
